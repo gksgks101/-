@@ -1,0 +1,230 @@
+{
+  "personality-match": {
+    "kindLabel": "Personalidad",
+    "title": "¿Qué ídolo de K-pop encaja con tu personalidad?",
+    "cardSummary": "Nueve preguntas que te emparejan con un personaje de escenario ficticio.",
+    "summary": "Responde nueve preguntas sobre cómo te mueves en una sala. Cada personaje es ficticio: un rol escrito para Kaleid, no un ídolo real.",
+    "meta": "9 preguntas · 4 min",
+    "rules": "Cada respuesta da 2 puntos a un personaje ficticio. Gana quien sume más puntos. Si varios empatan en el total más alto, gana el que aparece primero en la lista de abajo.",
+    "resultsTitle": "Resultados posibles",
+    "questions": {
+      "pace": {
+        "prompt": "Cuando empieza una canción, ¿qué haces primero?",
+        "options": {
+          "a": "Sales a la luz y tomas la primera línea.",
+          "b": "Encuentras la palabra más precisa y la dices limpia.",
+          "c": "Buscas la armonía y la sostienes.",
+          "d": "Observas la sala y anotas lo que falta."
+        }
+      },
+      "mistake": {
+        "prompt": "Fallas una entrada delante de la gente. Tú...",
+        "options": {
+          "a": "Sigues y haces más grande el momento siguiente.",
+          "b": "Lo nombras en una frase y avanzas.",
+          "c": "Te quedas en tu parte y devuelves al grupo.",
+          "d": "Anotas por qué pasó antes de hablar."
+        }
+      },
+      "edit": {
+        "prompt": "¿Qué pulas al final?",
+        "options": {
+          "a": "La entrada.",
+          "b": "La frase que tiene que caer.",
+          "c": "La mezcla con los demás.",
+          "d": "El detalle que los demás saltan."
+        }
+      },
+      "afternoon": {
+        "prompt": "Una tarde libre se parece a...",
+        "options": {
+          "a": "Un ensayo hasta que se sienta obvio.",
+          "b": "Un cuaderno y un beat.",
+          "c": "Una vocal larga, en voz baja.",
+          "d": "Un paseo sin playlist y luego una página de líneas."
+        }
+      },
+      "opinion": {
+        "prompt": "Alguien te pide tu opinión. Tú...",
+        "options": {
+          "a": "Dices lo principal primero.",
+          "b": "Dices lo exacto, aunque sea pequeño.",
+          "c": "Preguntas qué necesita el grupo antes de responder.",
+          "d": "Describes lo que notaste y después el punto."
+        }
+      },
+      "rehearsal": {
+        "prompt": "El ensayo en el que confías es...",
+        "options": {
+          "a": "Corto, brillante y frente a un espejo.",
+          "b": "Centrado en las palabras hasta que queden limpias.",
+          "c": "Lo bastante lento para que la armonía encaje.",
+          "d": "Lo bastante quieto para oír la línea que falta."
+        }
+      },
+      "praise": {
+        "prompt": "El elogio que te queda es...",
+        "options": {
+          "a": "Sostuviste la sala.",
+          "b": "Esa frase fue precisa.",
+          "c": "La canción se sentó mejor contigo dentro.",
+          "d": "Atrapaste lo que no dijimos."
+        }
+      },
+      "pressure": {
+        "prompt": "Bajo presión tú...",
+        "options": {
+          "a": "Tomas la siguiente entrada antes de que te la asignen.",
+          "b": "Acortas la frase y la entregas.",
+          "c": "Mantienes el tempo para quien está a tu lado.",
+          "d": "Te quedas más en silencio y buscas la línea verdadera."
+        }
+      },
+      "note": {
+        "prompt": "La nota en la que más confías es...",
+        "options": {
+          "a": "La que todo el mundo puede ver.",
+          "b": "La que no tiene palabras de más.",
+          "c": "La que sostiene a la voz principal.",
+          "d": "La que reescribiste dos veces."
+        }
+      }
+    },
+    "results": {
+      "lina-voss": {
+        "name": "Lina Voss",
+        "role": "Vocal principal",
+        "explanation": "Encajas con Lina, una vocal principal ficticia. Tomas la línea visible y confías en que la sala te siga."
+      },
+      "mira-noh": {
+        "name": "Mira Noh",
+        "role": "Rap principal",
+        "explanation": "Encajas con Mira, un rap principal ficticio. Vas a la palabra exacta y dejas fuera las demás."
+      },
+      "theo-park": {
+        "name": "Theo Park",
+        "role": "Subvocal",
+        "explanation": "Encajas con Theo, un subvocal ficticio. Estabilizas la canción para quienes están dentro."
+      },
+      "noa-bel": {
+        "name": "Noa Bel",
+        "role": "Letrista",
+        "explanation": "Encajas con Noa, un letrista ficticio. Notas la línea que falta y la escribes."
+      }
+    }
+  },
+  "ideal-match": {
+    "kindLabel": "Compatibilidad",
+    "title": "¿Qué ídolo de K-pop es tu match ideal?",
+    "cardSummary": "Nueve preguntas que nombran al personaje ficticio que sigues eligiendo.",
+    "summary": "Responde nueve preguntas sobre la persona que quieres a tu lado. El match es un personaje de escenario ficticio, no una afirmación sobre un ídolo real.",
+    "meta": "9 preguntas · 4 min",
+    "rules": "Cada respuesta da 2 puntos a un personaje ficticio. Gana quien sume más puntos. Si varios empatan en el total más alto, gana el que aparece primero en la lista de abajo.",
+    "resultsTitle": "Matches posibles",
+    "questions": {
+      "beside": {
+        "prompt": "En el escenario, quieres a alguien que...",
+        "options": {
+          "a": "Se quede en calma y aclare la imagen.",
+          "b": "Se mueva primero y suba la energía.",
+          "c": "Arme el arreglo antes de que suban las luces.",
+          "d": "Se entregue al show sin guardarse nada."
+        }
+      },
+      "after": {
+        "prompt": "Después del show, quieres que...",
+        "options": {
+          "a": "Se siente contigo hasta que la sala se quede quieta.",
+          "b": "Siga con la chispa, listo para una canción más.",
+          "c": "Repase qué funcionó y qué hay que corregir.",
+          "d": "Vuelva a la sensación, no a la lista."
+        }
+      },
+      "quality": {
+        "prompt": "La cualidad que sigues buscando es...",
+        "options": {
+          "a": "Compostura.",
+          "b": "Alegría en movimiento.",
+          "c": "Oficio.",
+          "d": "Valor."
+        }
+      },
+      "plans": {
+        "prompt": "Cuando el plan cambia, esa persona...",
+        "options": {
+          "a": "Se ajusta sin hacer una escena.",
+          "b": "Convierte el cambio en un paso nuevo.",
+          "c": "Rearma el set para que siga en pie.",
+          "d": "Dice que sí y resuelve el show en vivo."
+        }
+      },
+      "notice": {
+        "prompt": "La notas primero porque...",
+        "options": {
+          "a": "El encuadre se aclara cuando entra.",
+          "b": "El ritmo cambia cuando se mueve.",
+          "c": "La canción suena terminada a su lado.",
+          "d": "El show se vuelve más valiente a su lado."
+        }
+      },
+      "message": {
+        "prompt": "Un mensaje suyo suena a...",
+        "options": {
+          "a": "Estoy aquí. Tómate tu tiempo.",
+          "b": "Sal. Una canción.",
+          "c": "Cambié el puente. Escucha.",
+          "d": "Hazlo más grande. Yo te sigo."
+        }
+      },
+      "day-off": {
+        "prompt": "Su día libre se parece a...",
+        "options": {
+          "a": "Una sala limpia y una ventana larga.",
+          "b": "Una clase, una calle, un paso nuevo.",
+          "c": "Audífonos y un archivo de sesión.",
+          "d": "Un escenario para el que no tenía reserva."
+        }
+      },
+      "conflict": {
+        "prompt": "Una conversación difícil con esa persona...",
+        "options": {
+          "a": "Se queda baja y concreta.",
+          "b": "Se mueve y después se asienta.",
+          "c": "Termina con un plan que los dos pueden tocar.",
+          "d": "Se pone honesta rápido y después vuelve a ser cálida."
+        }
+      },
+      "choosing": {
+        "prompt": "La elección que repites es alguien que...",
+        "options": {
+          "a": "Hace que la quietud se vea deliberada.",
+          "b": "Hace que el movimiento se vea fácil.",
+          "c": "Hace que el trabajo suene inevitable.",
+          "d": "Hace que el riesgo se vea compartido."
+        }
+      }
+    },
+    "results": {
+      "sora-ell": {
+        "name": "Sora Ell",
+        "role": "Línea visual",
+        "explanation": "Tu match ideal es Sora, una visual ficticia. Sigues eligiendo compostura y un encuadre claro."
+      },
+      "jae-rim": {
+        "name": "Jae Rim",
+        "role": "Bailarín principal",
+        "explanation": "Tu match ideal es Jae, un bailarín principal ficticio. Sigues eligiendo movimiento y un tempo más brillante."
+      },
+      "hana-sol": {
+        "name": "Hana Sol",
+        "role": "Productor",
+        "explanation": "Tu match ideal es Hana, una productora ficticia. Sigues eligiendo oficio y una canción que se sostiene."
+      },
+      "ryn-cho": {
+        "name": "Ryn Cho",
+        "role": "Performance",
+        "explanation": "Tu match ideal es Ryn, un performer ficticio. Sigues eligiendo valor y un riesgo que se puede compartir."
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "world-cup": {
+    "kindLabel": "World Cup",
+    "title": "Ideal Type World Cup",
+    "summary": "Eight fictional personas. One champion.",
+    "participants": {
+      "lina-voss": {
+        "name": "Lina Voss",
+        "role": "Center vocal",
+        "explanation": "You kept Lina, a fictional center vocal. The bracket ended on the persona who takes the first line."
+      },
+      "mira-noh": {
+        "name": "Mira Noh",
+        "role": "Lead rap",
+        "explanation": "You kept Mira, a fictional lead rap. The bracket ended on the persona who lands the sharp line."
+      },
+      "sora-ell": {
+        "name": "Sora Ell",
+        "role": "Visual line",
+        "explanation": "You kept Sora, a fictional visual. The bracket ended on the persona who makes the picture clear."
+      },
+      "jae-rim": {
+        "name": "Jae Rim",
+        "role": "Main dancer",
+        "explanation": "You kept Jae, a fictional main dancer. The bracket ended on the persona who moves first."
+      },
+      "hana-sol": {
+        "name": "Hana Sol",
+        "role": "Producer",
+        "explanation": "You kept Hana, a fictional producer. The bracket ended on the persona who builds the song before the lights."
+      },
+      "theo-park": {
+        "name": "Theo Park",
+        "role": "Sub vocal",
+        "explanation": "You kept Theo, a fictional sub vocal. The bracket ended on the persona who holds the harmony steady."
+      },
+      "ryn-cho": {
+        "name": "Ryn Cho",
+        "role": "Performance",
+        "explanation": "You kept Ryn, a fictional performer. The bracket ended on the persona who commits with nothing held back."
+      },
+      "noa-bel": {
+        "name": "Noa Bel",
+        "role": "Lyricist",
+        "explanation": "You kept Noa, a fictional lyricist. The bracket ended on the persona who writes down what the room missed."
+      }
+    }
+  }
+}

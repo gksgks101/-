@@ -1,0 +1,230 @@
+{
+  "personality-match": {
+    "kindLabel": "Personality",
+    "title": "Which K-pop Idol Matches Your Personality?",
+    "cardSummary": "Nine questions that match you with a fictional stage persona.",
+    "summary": "Answer nine questions about how you move through a room. Every persona here is fictional: a role written for Kaleid, not a real idol.",
+    "meta": "9 questions · 4 min",
+    "rules": "Each answer gives 2 points to one fictional persona. The persona with the most points wins. If two or more share the highest total, the winner is the earliest persona in the list below.",
+    "resultsTitle": "Possible results",
+    "questions": {
+      "pace": {
+        "prompt": "When a song starts, what do you do first?",
+        "options": {
+          "a": "Step into the light and take the first line.",
+          "b": "Find the sharpest word and say it clean.",
+          "c": "Listen for the harmony and hold it steady.",
+          "d": "Watch the room and write down what it misses."
+        }
+      },
+      "mistake": {
+        "prompt": "You miss a cue in front of people. You...",
+        "options": {
+          "a": "Keep going and make the next moment louder.",
+          "b": "Name it in one sentence and move on.",
+          "c": "Stay on your part and bring the group back in.",
+          "d": "Note why it happened before you speak."
+        }
+      },
+      "edit": {
+        "prompt": "What do you polish last?",
+        "options": {
+          "a": "The entrance.",
+          "b": "The line that has to land.",
+          "c": "The blend with everyone else.",
+          "d": "The detail other people skip."
+        }
+      },
+      "afternoon": {
+        "prompt": "A free afternoon looks like...",
+        "options": {
+          "a": "A run-through until it feels obvious.",
+          "b": "A notebook and a beat.",
+          "c": "A long vocal, quietly.",
+          "d": "A walk with no playlist, then a page of lines."
+        }
+      },
+      "opinion": {
+        "prompt": "Someone asks what you think. You...",
+        "options": {
+          "a": "Say the main thing first.",
+          "b": "Say the exact thing, even if it is small.",
+          "c": "Ask what the group needs before you answer.",
+          "d": "Describe what you noticed, then the point."
+        }
+      },
+      "rehearsal": {
+        "prompt": "The rehearsal you trust is...",
+        "options": {
+          "a": "Short, bright, and in front of a mirror.",
+          "b": "Focused on the words until they are clean.",
+          "c": "Slow enough that the harmony locks.",
+          "d": "Quiet enough that you can hear the missing line."
+        }
+      },
+      "praise": {
+        "prompt": "Praise that fits you is...",
+        "options": {
+          "a": "You held the room.",
+          "b": "That line was precise.",
+          "c": "The song sat better with you in it.",
+          "d": "You caught what we did not say."
+        }
+      },
+      "pressure": {
+        "prompt": "Under pressure you...",
+        "options": {
+          "a": "Take the next cue before anyone assigns it.",
+          "b": "Cut the sentence down and deliver it.",
+          "c": "Keep the tempo for the people beside you.",
+          "d": "Get quieter and look for the true line."
+        }
+      },
+      "note": {
+        "prompt": "The note you trust most is...",
+        "options": {
+          "a": "The one everyone can see.",
+          "b": "The one with no extra words.",
+          "c": "The one that supports the lead.",
+          "d": "The one you rewrote twice."
+        }
+      }
+    },
+    "results": {
+      "lina-voss": {
+        "name": "Lina Voss",
+        "role": "Center vocal",
+        "explanation": "You match Lina, a fictional center vocal. You take the visible line and trust the room to follow."
+      },
+      "mira-noh": {
+        "name": "Mira Noh",
+        "role": "Lead rap",
+        "explanation": "You match Mira, a fictional lead rap. You cut to the exact word and leave the extra ones out."
+      },
+      "theo-park": {
+        "name": "Theo Park",
+        "role": "Sub vocal",
+        "explanation": "You match Theo, a fictional sub vocal. You steady the song for everyone else in it."
+      },
+      "noa-bel": {
+        "name": "Noa Bel",
+        "role": "Lyricist",
+        "explanation": "You match Noa, a fictional lyricist. You notice the missing line and write it down."
+      }
+    }
+  },
+  "ideal-match": {
+    "kindLabel": "Compatibility",
+    "title": "Which K-pop Idol Is Your Ideal Match?",
+    "cardSummary": "Nine questions that name the fictional persona you keep choosing.",
+    "summary": "Answer nine questions about the person you want beside you. The match is a fictional stage persona, not a claim about a real idol.",
+    "meta": "9 questions · 4 min",
+    "rules": "Each answer gives 2 points to one fictional persona. The persona with the most points wins. If two or more share the highest total, the winner is the earliest persona in the list below.",
+    "resultsTitle": "Possible matches",
+    "questions": {
+      "beside": {
+        "prompt": "On stage, you want someone who...",
+        "options": {
+          "a": "Stands calm and makes the picture clear.",
+          "b": "Moves first and pulls the energy up.",
+          "c": "Builds the arrangement before the lights rise.",
+          "d": "Commits to the performance with nothing held back."
+        }
+      },
+      "after": {
+        "prompt": "After the show, you want them to...",
+        "options": {
+          "a": "Sit with you until the room goes quiet.",
+          "b": "Still be buzzing, ready for one more song.",
+          "c": "Talk through what worked and what to fix.",
+          "d": "Replay the feeling, not the checklist."
+        }
+      },
+      "quality": {
+        "prompt": "The quality you keep looking for is...",
+        "options": {
+          "a": "Composure.",
+          "b": "Kinetic joy.",
+          "c": "Craft.",
+          "d": "Nerve."
+        }
+      },
+      "plans": {
+        "prompt": "When the plan changes, they...",
+        "options": {
+          "a": "Adjust without making a scene.",
+          "b": "Turn the change into a new move.",
+          "c": "Rebuild the set so it still holds.",
+          "d": "Say yes and figure the show out live."
+        }
+      },
+      "notice": {
+        "prompt": "You notice them first because...",
+        "options": {
+          "a": "The frame gets clearer when they enter.",
+          "b": "The rhythm changes when they move.",
+          "c": "The song sounds finished near them.",
+          "d": "The performance gets braver near them."
+        }
+      },
+      "message": {
+        "prompt": "A message from them sounds like...",
+        "options": {
+          "a": "I am here. Take your time.",
+          "b": "Come outside. One song.",
+          "c": "I changed the bridge. Listen.",
+          "d": "Do it bigger. I will match you."
+        }
+      },
+      "day-off": {
+        "prompt": "Their day off looks like...",
+        "options": {
+          "a": "A clean room and a long window.",
+          "b": "A class, a street, a new step.",
+          "c": "Headphones and a session file.",
+          "d": "A stage they were not booked to use."
+        }
+      },
+      "conflict": {
+        "prompt": "A hard conversation with them...",
+        "options": {
+          "a": "Stays low and specific.",
+          "b": "Moves, then settles.",
+          "c": "Ends with a plan you can both play.",
+          "d": "Gets honest fast, then gets warm again."
+        }
+      },
+      "choosing": {
+        "prompt": "The choice you repeat is someone who...",
+        "options": {
+          "a": "Makes stillness look deliberate.",
+          "b": "Makes movement look easy.",
+          "c": "Makes the work sound inevitable.",
+          "d": "Makes the risk look shared."
+        }
+      }
+    },
+    "results": {
+      "sora-ell": {
+        "name": "Sora Ell",
+        "role": "Visual line",
+        "explanation": "Your ideal match is Sora, a fictional visual. You keep choosing composure and a clear frame."
+      },
+      "jae-rim": {
+        "name": "Jae Rim",
+        "role": "Main dancer",
+        "explanation": "Your ideal match is Jae, a fictional main dancer. You keep choosing motion and a brighter tempo."
+      },
+      "hana-sol": {
+        "name": "Hana Sol",
+        "role": "Producer",
+        "explanation": "Your ideal match is Hana, a fictional producer. You keep choosing craft and a song that holds together."
+      },
+      "ryn-cho": {
+        "name": "Ryn Cho",
+        "role": "Performance",
+        "explanation": "Your ideal match is Ryn, a fictional performer. You keep choosing nerve and a risk you can share."
+      }
+    }
+  }
+}

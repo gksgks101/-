@@ -1,0 +1,98 @@
+{
+  "Metadata": {
+    "title": "Kaleid",
+    "description": "Play original K-pop ideal-type tournaments, personality quizzes, and compatibility quizzes."
+  },
+  "Common": {
+    "skip": "Skip to content",
+    "home": "Home",
+    "play": "Play",
+    "backHome": "Back to home"
+  },
+  "Nav": {
+    "primary": "Primary",
+    "home": "Home",
+    "worldCup": "Ideal Type World Cup",
+    "personality": "Personality Quiz",
+    "compatibility": "Compatibility Quiz",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Locale": {
+    "label": "Language",
+    "en": "English",
+    "es": "Spanish"
+  },
+  "Home": {
+    "eyebrow": "Fan entertainment",
+    "headline": "Discover Your K-pop Match",
+    "lede": "Play an ideal-type world cup, a personality quiz, and a compatibility quiz built from original stage personas.",
+    "start": "Start Playing",
+    "browse": "See popular quizzes",
+    "featuredTitle": "Featured games",
+    "featuredLede": "Three ways to play, each with a result you can come back to.",
+    "popularTitle": "Popular quizzes",
+    "popularLede": "Short quizzes with original archetypes. Pick one and see where you land.",
+    "roundLabel": "Round of 8",
+    "versus": "vs",
+    "finalLabel": "Final",
+    "finalTitle": "Your match"
+  },
+  "Footer": {
+    "nav": "Footer",
+    "tagline": "Original K-pop fan entertainment for brackets, quizzes, and matchups.",
+    "about": "About",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "rights": "Kaleid is an original fan project with no official affiliation."
+  },
+  "Quiz": {
+    "progress": "Question {current} of {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "seeResult": "See result",
+    "choose": "Choose one answer",
+    "start": "Start quiz",
+    "retake": "Retake",
+    "lead": "{name} leads with {points} points.",
+    "runnerUp": "{name} is closest, with {points} points.",
+    "tieNote": "Those personas tied. The fixed order picks {name}.",
+    "yourScores": "Your scores",
+    "points": "{count} points",
+    "strength": "Match strength {percent}%",
+    "invalidTitle": "That result link does not open",
+    "invalidBody": "The link is incomplete or out of date. Start the quiz again to get a new result.",
+    "backToQuiz": "Back to the quiz"
+  },
+  "Share": {
+    "share": "Share",
+    "copyLink": "Copy link",
+    "download": "Download image",
+    "shared": "Shared",
+    "copied": "Link copied",
+    "downloadStarted": "Download started",
+    "shareFailed": "Sharing did not finish",
+    "copyFailed": "Could not copy the link",
+    "imageFailed": "The image could not be created. The link still works.",
+    "shareText": "My Kaleid result: {name}",
+    "poster": "Result card"
+  },
+  "Tournament": {
+    "start": "Start the bracket",
+    "progress": "Match {current} of {total}",
+    "quarter": "Quarterfinal",
+    "semifinal": "Semifinal",
+    "final": "Final",
+    "choose": "Choose the persona you want to keep.",
+    "previous": "Previous",
+    "retake": "Play again",
+    "invalidTitle": "That result link does not open",
+    "invalidBody": "The link is incomplete or out of date. Start the bracket again to name a champion.",
+    "back": "Back to the bracket"
+  },
+  "NotFound": {
+    "title": "That page is not on the stage",
+    "body": "The link may be out of date. Head back home to pick a game.",
+    "home": "Back to home"
+  }
+}

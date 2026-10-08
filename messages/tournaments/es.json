@@ -1,0 +1,49 @@
+{
+  "world-cup": {
+    "kindLabel": "Mundial",
+    "title": "Mundial de tipo ideal",
+    "summary": "Ocho personajes ficticios. Un campeón.",
+    "participants": {
+      "lina-voss": {
+        "name": "Lina Voss",
+        "role": "Vocal principal",
+        "explanation": "Te quedaste con Lina, una vocal principal ficticia. El bracket terminó en quien toma la primera línea."
+      },
+      "mira-noh": {
+        "name": "Mira Noh",
+        "role": "Rap principal",
+        "explanation": "Te quedaste con Mira, una rapera principal ficticia. El bracket terminó en quien suelta la frase exacta."
+      },
+      "sora-ell": {
+        "name": "Sora Ell",
+        "role": "Línea visual",
+        "explanation": "Te quedaste con Sora, una línea visual ficticia. El bracket terminó en quien deja la imagen clara."
+      },
+      "jae-rim": {
+        "name": "Jae Rim",
+        "role": "Bailarín principal",
+        "explanation": "Te quedaste con Jae, un bailarín principal ficticio. El bracket terminó en quien se mueve primero."
+      },
+      "hana-sol": {
+        "name": "Hana Sol",
+        "role": "Productor",
+        "explanation": "Te quedaste con Hana, una productora ficticia. El bracket terminó en quien arma la canción antes de las luces."
+      },
+      "theo-park": {
+        "name": "Theo Park",
+        "role": "Subvocal",
+        "explanation": "Te quedaste con Theo, un subvocal ficticio. El bracket terminó en quien sostiene la armonía."
+      },
+      "ryn-cho": {
+        "name": "Ryn Cho",
+        "role": "Performance",
+        "explanation": "Te quedaste con Ryn, una performer ficticia. El bracket terminó en quien se entrega sin reservarse nada."
+      },
+      "noa-bel": {
+        "name": "Noa Bel",
+        "role": "Letrista",
+        "explanation": "Te quedaste con Noa, una letrista ficticia. El bracket terminó en quien escribe lo que el público no vio."
+      }
+    }
+  }
+}
