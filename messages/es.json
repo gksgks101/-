@@ -1,0 +1,98 @@
+{
+  "Metadata": {
+    "title": "Kaleid",
+    "description": "Juega torneos de tipo ideal, quizzes de personalidad y quizzes de compatibilidad de K-pop originales."
+  },
+  "Common": {
+    "skip": "Saltar al contenido",
+    "home": "Inicio",
+    "play": "Jugar",
+    "backHome": "Volver al inicio"
+  },
+  "Nav": {
+    "primary": "Principal",
+    "home": "Inicio",
+    "worldCup": "Mundial de tipo ideal",
+    "personality": "Quiz de personalidad",
+    "compatibility": "Quiz de compatibilidad",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "Locale": {
+    "label": "Idioma",
+    "en": "Inglés",
+    "es": "Español"
+  },
+  "Home": {
+    "eyebrow": "Entretenimiento fan",
+    "headline": "Descubre tu match de K-pop",
+    "lede": "Juega un mundial de tipo ideal, un quiz de personalidad y un quiz de compatibilidad creados con personajes de escenario originales.",
+    "start": "Empezar a jugar",
+    "browse": "Ver quizzes populares",
+    "featuredTitle": "Juegos destacados",
+    "featuredLede": "Tres formas de jugar, cada una con un resultado al que puedes volver.",
+    "popularTitle": "Quizzes populares",
+    "popularLede": "Quizzes breves con arquetipos originales. Elige uno y mira dónde caes.",
+    "roundLabel": "Octavos",
+    "versus": "vs",
+    "finalLabel": "Final",
+    "finalTitle": "Tu match"
+  },
+  "Footer": {
+    "nav": "Pie de página",
+    "tagline": "Entretenimiento fan de K-pop original para brackets, quizzes y compatibilidades.",
+    "about": "Acerca de",
+    "privacy": "Privacidad",
+    "contact": "Contacto",
+    "rights": "Kaleid es un proyecto fan original, sin afiliación oficial."
+  },
+  "Quiz": {
+    "progress": "Pregunta {current} de {total}",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "seeResult": "Ver resultado",
+    "choose": "Elige una respuesta",
+    "start": "Empezar quiz",
+    "retake": "Repetir",
+    "lead": "{name} va primero con {points} puntos.",
+    "runnerUp": "{name} es quien más se acerca, con {points} puntos.",
+    "tieNote": "Esos personajes empataron. El orden fijo elige a {name}.",
+    "yourScores": "Tus puntos",
+    "points": "{count} puntos",
+    "strength": "Fuerza del match {percent}%",
+    "invalidTitle": "Ese enlace de resultado no abre",
+    "invalidBody": "El enlace está incompleto o desactualizado. Empieza el quiz otra vez para obtener un resultado nuevo.",
+    "backToQuiz": "Volver al quiz"
+  },
+  "Share": {
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "download": "Descargar imagen",
+    "shared": "Compartido",
+    "copied": "Enlace copiado",
+    "downloadStarted": "Descarga iniciada",
+    "shareFailed": "No se completó el envío",
+    "copyFailed": "No se pudo copiar el enlace",
+    "imageFailed": "No se pudo crear la imagen. El enlace sigue disponible.",
+    "shareText": "Mi resultado de Kaleid: {name}",
+    "poster": "Tarjeta de resultado"
+  },
+  "Tournament": {
+    "start": "Empezar el bracket",
+    "progress": "Duelo {current} de {total}",
+    "quarter": "Cuartos",
+    "semifinal": "Semifinal",
+    "final": "Final",
+    "choose": "Elige el personaje con el que te quedas.",
+    "previous": "Anterior",
+    "retake": "Jugar otra vez",
+    "invalidTitle": "Ese enlace de resultado no abre",
+    "invalidBody": "El enlace está incompleto o desactualizado. Empieza el bracket otra vez para nombrar un campeón.",
+    "back": "Volver al bracket"
+  },
+  "NotFound": {
+    "title": "Esa página no está en el escenario",
+    "body": "Puede que el enlace esté desactualizado. Vuelve al inicio para elegir un juego.",
+    "home": "Volver al inicio"
+  }
+}
