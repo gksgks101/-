@@ -62,56 +62,236 @@ const JOBS: Record<string, Record<Locale, string[]>> = {
   },
 };
 
-const JOB_WHY: Record<string, Record<Locale, { saju: string; easy: string }>> = {
+const JOB_LINES: Record<string, Record<Locale, { saju: string; easy: string }[]>> = {
   조직형: {
-    ko: { saju: "관성·비겁이 사람과 규칙을 같이 다루는 자리", easy: "역할이 보이면 오래 가고, 혼자 다 만들려 하면 지쳐요." },
-    es: { saju: "Autoridad y compañeros: gente y normas a la vez", easy: "Si el rol se ve, duras; si lo haces todo solo, te cansas." },
-    pl: { saju: "Autorytet i towarzysze: ludzie i zasady naraz", easy: "Gdy widać rolę — wytrzymasz; jak wszystko sam — zmęczysz się." },
+    ko: [
+      { saju: "관성이 사람과 규칙을 한 판에서 다루게 함", easy: "인사처럼 역할을 나누는 자리에서 오래 가요." },
+      { saju: "월지 십성이 조직에서 보이는 태도", easy: "프로젝트처럼 마감과 사람을 묶는 일이 맞아요." },
+      { saju: "비겁이 손님·동료와 나란히 섬", easy: "호텔처럼 서비스 규칙이 보이면 힘이 나요." },
+      { saju: "정관 계열이 기록과 절차를 받침", easy: "행정처럼 문서가 남는 일이 체질이에요." },
+      { saju: "빈 곳을 메우는 조율 감각", easy: "코디네이터처럼 혼자 다 쥐지 않는 팀이 맞아요." },
+    ],
+    es: [
+      { saju: "La autoridad junta gente y normas", easy: "Como personal: dura si se parten roles." },
+      { saju: "La rama del mes es la actitud en la organización", easy: "Como jefe de proyecto: plazo y gente a la vez." },
+      { saju: "Los compañeros se ponen al lado del huésped", easy: "Como hotelero: si se ve la norma de servicio, hay fuerza." },
+      { saju: "El cargo estable sostiene registro y trámite", easy: "Como administrativo: el papel que queda es tu cuerpo." },
+      { saju: "Olfato para rellenar huecos", easy: "Como coordinador: un equipo que no lo agarra todo." },
+    ],
+    pl: [
+      { saju: "Autorytet łączy ludzi i zasady", easy: "Jak kadry: wytrzymasz, gdy role są podzielone." },
+      { saju: "Gałąź miesiąca to postawa w organizacji", easy: "Jak kierownik projektu: deadline i ludzie naraz." },
+      { saju: "Towarzysze stają obok gościa", easy: "Jak hotelarz: gdy widać regułę obsługi, jest siła." },
+      { saju: "Urząd podpiera zapis i procedurę", easy: "Jak administracja: papier, który zostaje, to twoja budowa." },
+      { saju: "Węch do wypełniania luk", easy: "Jak koordynator: zespół, który nie chwyta wszystkiego." },
+    ],
   },
   공무원형: {
-    ko: { saju: "정관·인성이 시험·규율·공적 책임을 받침", easy: "절차가 있는 판에서 신뢰가 쌓여요. 즉흥 사업은 체질이 아니에요." },
-    es: { saju: "Cargo estable e impronta: examen, norma, deber público", easy: "En un tablero con procedimiento se acumula fe. El negocio improvisado no es tu cuerpo." },
-    pl: { saju: "Urząd i pieczęć: egzamin, norma, obowiązek publiczny", easy: "Na planszy z procedurą rośnie zaufanie. Improwizowany biznes to nie twoja budowa." },
+    ko: [
+      { saju: "정관이 공적 책임과 규율을 받침", easy: "경찰처럼 규칙이 분명한 현장이 맞아요." },
+      { saju: "편관이 위급을 연료로 씀", easy: "소방처럼 압박이 있는 자리에서 집중이 나와요." },
+      { saju: "인성이 숫자·조문을 자산으로 만듦", easy: "세무처럼 시험과 조문이 단가가 돼요." },
+      { saju: "정인이 가르치고 보호하는 자리", easy: "교사처럼 역할이 보이면 오래 가요." },
+      { saju: "정관+인성이 공공 돌봄을 받침", easy: "사회복지처럼 절차 있는 돌봄이 체질이에요." },
+    ],
+    es: [
+      { saju: "El cargo sostiene deber público y norma", easy: "Como policía: un campo con regla clara." },
+      { saju: "La presión usa la urgencia de combustible", easy: "Como bombero: la concentración sale bajo apuro." },
+      { saju: "La impronta vuelve cifra y artículo en activo", easy: "Como inspector fiscal: examen y norma marcan tarifa." },
+      { saju: "El apoyo es enseñar y amparar", easy: "Como docente: si el rol se ve, duras." },
+      { saju: "Cargo e impronta sostienen el cuidado público", easy: "Como trabajador social: el cuidado con trámite es tu cuerpo." },
+    ],
+    pl: [
+      { saju: "Urząd podpiera obowiązek publiczny i normę", easy: "Jak policjant: pole z jasną zasadą." },
+      { saju: "Presja bierze nagłość za paliwo", easy: "Jak strażak: skupienie wychodzi w napięciu." },
+      { saju: "Pieczęć zamienia cyfrę i przepis w aktyw", easy: "Jak skarbówka: egzamin i przepis to stawka." },
+      { saju: "Wsparcie to uczyć i osłaniać", easy: "Jak nauczyciel: gdy widać rolę, wytrzymasz." },
+      { saju: "Urząd i pieczęć podpierają publiczną troskę", easy: "Jak pracownik socjalny: troska z procedurą to twoja budowa." },
+    ],
   },
   전문직형: {
-    ko: { saju: "인성+식상이 자격과 기술로 단가를 만듦", easy: "깊이 있는 한 분야가 수입이 돼요. 잡무가 전문을 삼키지 않게 하세요." },
-    es: { saju: "Impronta y expresión: el título marca la tarifa", easy: "Un oficio hondo se vuelve ingreso. Que lo extra no trague lo experto." },
-    pl: { saju: "Pieczęć i wyraz: kwalifikacja ustala stawkę", easy: "Głęboki fach staje się przychodem. Niech chałtura nie pożre specjalności." },
+    ko: [
+      { saju: "정관+인성이 조문과 변론을 단가로 만듦", easy: "변호사처럼 자격과 말이 수입이 돼요." },
+      { saju: "정재가 숫자 약속을 지킴", easy: "회계사처럼 장부가 남는 일이 맞아요." },
+      { saju: "인성이 조제·돌봄 지식을 받침", easy: "약사처럼 깊이 있는 한 분야가 단가예요." },
+      { saju: "정관이 노동 규범을 읽음", easy: "노무사처럼 조문과 사람이 겹치는 자리예요." },
+      { saju: "식상이 기술을 문서로 남김", easy: "변리사처럼 아이디어를 권리로 바꾸는 일이 맞아요." },
+    ],
+    es: [
+      { saju: "Cargo e impronta: artículo y alegato marcan tarifa", easy: "Como abogado: título y palabra son ingreso." },
+      { saju: "La riqueza estable guarda la cifra prometida", easy: "Como contador: el libro que queda te sienta." },
+      { saju: "La impronta sostiene saber de cuidado", easy: "Como farmacéutico: un oficio hondo es la tarifa." },
+      { saju: "El cargo lee la norma laboral", easy: "Como asesor laboral: artículo y gente se cruzan." },
+      { saju: "La expresión deja la técnica por escrito", easy: "Como patentes: convertir idea en derecho." },
+    ],
+    pl: [
+      { saju: "Urząd i pieczęć: przepis i mowa to stawka", easy: "Jak adwokat: kwalifikacja i słowo to przychód." },
+      { saju: "Stały majątek trzyma obiecaną cyfrę", easy: "Jak księgowy: księga, która zostaje, ci leży." },
+      { saju: "Pieczęć podpiera wiedzę troski", easy: "Jak farmaceuta: głęboki fach to stawka." },
+      { saju: "Urząd czyta normę pracy", easy: "Jak kadry: przepis i człowiek się krzyżują." },
+      { saju: "Wyraz zostawia technikę na piśmie", easy: "Jak patenty: zamienić pomysł w prawo." },
+    ],
   },
   기술직형: {
-    ko: { saju: "식상·금/수의 손기술·시스템이 결과로 남음", easy: "손으로, 코드로, 도면으로 남는 일이 맞아요. 말만 많은 회의는 줄이세요." },
-    es: { saju: "Expresión y sistema: queda en la mano, el código, el plano", easy: "Te sienta lo que queda hecho. Recorta las juntas de solo hablar." },
-    pl: { saju: "Wyraz i system: zostaje w ręku, kodzie, rysunku", easy: "Pasuje to, co zostaje zrobione. Tnij zebrania z samą gadką." },
+    ko: [
+      { saju: "식상이 손과 시스템으로 결과를 남김", easy: "개발처럼 코드가 남는 일이 맞아요." },
+      { saju: "금·수가 기계의 규칙을 읽음", easy: "기계기술처럼 도면이 말이 되는 자리예요." },
+      { saju: "식신이 회로를 안전하게 이음", easy: "전기기사처럼 반복 가능한 기술이 단가예요." },
+      { saju: "토·금이 구조의 중심을 잡음", easy: "건축처럼 선이 남는 일이 체질이에요." },
+      { saju: "식상+수가 데이터를 흐름으로 만듦", easy: "데이터 엔지니어처럼 파이프라인이 작품이 돼요." },
+    ],
+    es: [
+      { saju: "La expresión deja resultado en mano y sistema", easy: "Como desarrollador: el código que queda te sienta." },
+      { saju: "Metal y agua leen la norma de la máquina", easy: "Como técnico: el plano se vuelve palabra." },
+      { saju: "La expresión une el circuito con calma", easy: "Como electricista: la técnica repetible es tarifa." },
+      { saju: "Tierra y metal sujetan el centro de la estructura", easy: "Como arquitecto técnico: la línea que queda es tu cuerpo." },
+      { saju: "Expresión y agua vuelven datos en flujo", easy: "Como ingeniero de datos: el tubo se vuelve obra." },
+    ],
+    pl: [
+      { saju: "Wyraz zostawia wynik w ręku i systemie", easy: "Jak programista: kod, który zostaje, ci leży." },
+      { saju: "Metal i woda czytają normę maszyny", easy: "Jak technik: rysunek staje się mową." },
+      { saju: "Wyraz spaja obwód spokojnie", easy: "Jak elektryk: powtarzalna technika to stawka." },
+      { saju: "Ziemia i metal trzymają środek konstrukcji", easy: "Jak technik architekt: linia, która zostaje, to twoja budowa." },
+      { saju: "Wyraz i woda robią z danych przepływ", easy: "Jak inżynier danych: rura staje się dziełem." },
+    ],
   },
   창업형: {
-    ko: { saju: "식상생재·편재가 내 이름으로 현금 흐름을 만듦", easy: "만들어 보여주는 쪽이 연료예요. 지시만 받는 자리는 금방 답답해져요." },
-    es: { saju: "Expresión→riqueza: el flujo lleva tu nombre", easy: "Crear y mostrar es el combustible. Un puesto solo de órdenes te ahoga." },
-    pl: { saju: "Wyraz→majątek: przepływ z twoim nazwiskiem", easy: "Tworzenie i pokazywanie to paliwo. Samo wykonywanie poleceń dusi." },
+    ko: [
+      { saju: "식상생재가 내 이름 현금 흐름을 만듦", easy: "자영업처럼 만들어 보여주는 쪽이 연료예요." },
+      { saju: "편재가 기회 판을 키움", easy: "스타트업처럼 한 판을 직접 여는 일이 맞아요." },
+      { saju: "식신이 손으로 남는 물건을 만듦", easy: "공방처럼 작품이 가게가 되는 리듬이에요." },
+      { saju: "상관이 독립 의견으로 값을 받음", easy: "컨설턴트처럼 내 판단이 상품이 돼요." },
+      { saju: "정재가 반복 매장을 지키게 함", easy: "점주처럼 약속된 매출이 마음을 놓게 해요." },
+    ],
+    es: [
+      { saju: "Expresión→riqueza: flujo con tu nombre", easy: "Como autónomo: crear y mostrar es el combustible." },
+      { saju: "La riqueza móvil agranda el tablero", easy: "Como fundador: abrir tú el tablero." },
+      { saju: "La expresión hace objeto que queda en la mano", easy: "Como taller: la obra se vuelve tienda." },
+      { saju: "El talento cobra por opinión independiente", easy: "Como consultor: tu juicio es el producto." },
+      { saju: "La riqueza estable guarda el local que se repite", easy: "Como franquicia: el ingreso prometido calma." },
+    ],
+    pl: [
+      { saju: "Wyraz→majątek: przepływ z nazwiskiem", easy: "Jak samozatrudnienie: tworzyć i pokazywać to paliwo." },
+      { saju: "Ruchomy majątek powiększa planszę", easy: "Jak startup: sam otworzyć planszę." },
+      { saju: "Wyraz robi przedmiot, który zostaje w ręku", easy: "Jak pracownia: dzieło staje się sklepem." },
+      { saju: "Talent bierze zapłatę za niezależną opinię", easy: "Jak konsultant: twój osąd jest towarem." },
+      { saju: "Stały majątek pilnuje powtarzalnego lokalu", easy: "Jak franczyza: obiecany utarg uspokaja." },
+    ],
   },
   기획형: {
-    ko: { saju: "인성·식상이 읽고 설계하고 판을 짬", easy: "판을 짜는 자리가 맞아요. 실행 파트너가 없으면 기획만 쌓여요." },
-    es: { saju: "Impronta y expresión: leer, diseñar, armar el tablero", easy: "Te sienta armar el plan. Sin socio de ejecución, solo se apila el papel." },
-    pl: { saju: "Pieczęć i wyraz: czytać, projektować, stawiać planszę", easy: "Pasuje układanie planu. Bez partnera wykonania — sterta papieru." },
+    ko: [
+      { saju: "식상이 서비스를 설계함", easy: "서비스 기획처럼 판을 짜는 자리가 맞아요." },
+      { saju: "상관이 이미지를 말로 만듦", easy: "브랜드처럼 한 줄 톤이 상품이 돼요." },
+      { saju: "인성+식상이 사람 동선을 읽음", easy: "UX처럼 흐름을 그리는 일이 체질이에요." },
+      { saju: "정관이 공공 규칙을 설계함", easy: "정책 기획처럼 조문과 현장이 겹쳐요." },
+      { saju: "식신이 이야기를 채널로 짬", easy: "콘텐츠 기획처럼 만드는 판이 먼저예요." },
+    ],
+    es: [
+      { saju: "La expresión diseña el servicio", easy: "Como planificador de servicio: armar el tablero." },
+      { saju: "El talento hace imagen con palabras", easy: "Como marca: una línea de tono es el producto." },
+      { saju: "Impronta y expresión leen el recorrido", easy: "Como UX: dibujar el flujo es tu cuerpo." },
+      { saju: "El cargo diseña la norma pública", easy: "Como políticas: artículo y campo se cruzan." },
+      { saju: "La expresión arma el relato en canal", easy: "Como contenidos: primero el tablero de crear." },
+    ],
+    pl: [
+      { saju: "Wyraz projektuje usługę", easy: "Jak planista usług: stawiać planszę." },
+      { saju: "Talent robi obraz słowem", easy: "Jak marka: jedna linijka tonu jest towarem." },
+      { saju: "Pieczęć i wyraz czytają tor człowieka", easy: "Jak UX: rysować przepływ to twoja budowa." },
+      { saju: "Urząd projektuje publiczną normę", easy: "Jak polityki: przepis i pole się krzyżują." },
+      { saju: "Wyraz splata opowieść w kanał", easy: "Jak treści: najpierw plansza tworzenia." },
+    ],
   },
   영업형: {
-    ko: { saju: "상관·편재가 사람과 숫자를 동시에 움직임", easy: "사람과 숫자를 같이 움직이는 자리예요. 거절을 개인 거절로 듣지 마세요." },
-    es: { saju: "Talento y riqueza móvil: gente y cifras a la vez", easy: "Mueves personas y números. No oigas el no como rechazo personal." },
-    pl: { saju: "Talent i ruchomy majątek: ludzie i cyfry naraz", easy: "Ruszasz ludzi i liczby. Nie słuchaj „nie” jako osobistej odmowy." },
+    ko: [
+      { saju: "편재가 사람과 숫자 사이를 건너감", easy: "제약 영업처럼 거절을 일로 듣는 자리가 맞아요." },
+      { saju: "상관이 현장을 말로 닫음", easy: "부동산처럼 한 건이 생활이 되는 리듬이에요." },
+      { saju: "식상이 거리와 언어를 넓힘", easy: "해외영업처럼 판이 큰 자리가 숨이 트여요." },
+      { saju: "정재가 약속을 반복 수입으로 만듦", easy: "보험처럼 지키는 계약이 마음이 놓여요." },
+      { saju: "식신이 관계를 오래 데움", easy: "고객성공처럼 한 고객을 오래 보는 일이 맞아요." },
+    ],
+    es: [
+      { saju: "La riqueza móvil cruza gente y cifra", easy: "Como visitador: oír el no como oficio." },
+      { saju: "El talento cierra el campo con palabras", easy: "Como inmobiliaria: un trato se vuelve vida." },
+      { saju: "La expresión ensancha distancia e idioma", easy: "Como exportación: el tablero grande abre el pecho." },
+      { saju: "La riqueza estable vuelve el pacto en ingreso", easy: "Como seguros: el contrato que se cumple calma." },
+      { saju: "La expresión calienta el vínculo largo", easy: "Como customer success: un cliente visto largo." },
+    ],
+    pl: [
+      { saju: "Ruchomy majątek przechodzi między ludźmi i cyfrą", easy: "Jak pharma: słyszeć „nie” jako fach." },
+      { saju: "Talent zamyka pole słowem", easy: "Jak nieruchomości: jeden deal staje się życiem." },
+      { saju: "Wyraz poszerza dystans i język", easy: "Jak eksport: wielka plansza otwiera oddech." },
+      { saju: "Stały majątek robi z umowy przychód", easy: "Jak ubezpieczenia: dotrzymana umowa uspokaja." },
+      { saju: "Wyraz długo ogrzewa więź", easy: "Jak opieka klienta: jeden klient oglądany długo." },
+    ],
   },
   연구형: {
-    ko: { saju: "인성이 깊게 파는 시간을 자산으로 만듦", easy: "혼자 읽는 오전이 근무의 일부여야 해요. 창구형 응대만 하면 방전돼요." },
-    es: { saju: "La impronta convierte la hondura en activo", easy: "Una mañana de lectura debe ser parte del trabajo. Solo atender gente te vacía." },
-    pl: { saju: "Pieczęć zamienia głębię w aktyw", easy: "Poranek czytania ma być częścią etatu. Samo okienko ludzi cię opróżnia." },
+    ko: [
+      { saju: "인성이 깊게 파는 시간을 자산으로 만듦", easy: "연구원처럼 혼자 읽는 오전이 근무예요." },
+      { saju: "식상이 숫자를 이야기로 바꿈", easy: "데이터 분석처럼 표가 말이 되는 일이 맞아요." },
+      { saju: "정인이 전수와 강의를 받침", easy: "교수처럼 깊이 후 공개가 단가예요." },
+      { saju: "정관+인성이 임상 절차를 지킴", easy: "임상연구처럼 기록이 남는 현장이 체질이에요." },
+      { saju: "편재가 시장 흐름을 읽음", easy: "시장조사처럼 숫자 뒤의 사람이 보여요." },
+    ],
+    es: [
+      { saju: "La impronta vuelve hondura en activo", easy: "Como investigador: la mañana de lectura es el trabajo." },
+      { saju: "La expresión vuelve cifra en relato", easy: "Como analista: la tabla se vuelve palabra." },
+      { saju: "El apoyo sostiene transmitir y dar clase", easy: "Como profesor: la hondura publicada es tarifa." },
+      { saju: "Cargo e impronta guardan el trámite clínico", easy: "Como ensayo: el campo con registro es tu cuerpo." },
+      { saju: "La riqueza móvil lee el flujo del mercado", easy: "Como mercado: se ve la gente detrás del número." },
+    ],
+    pl: [
+      { saju: "Pieczęć zamienia głębię w aktyw", easy: "Jak badacz: poranek czytania jest etatem." },
+      { saju: "Wyraz zamienia cyfrę w opowieść", easy: "Jak analityk: tabela staje się mową." },
+      { saju: "Wsparcie podpiera przekaz i wykład", easy: "Jak wykładowca: opublikowana głębia to stawka." },
+      { saju: "Urząd i pieczęć pilnują procedury klinicznej", easy: "Jak badania kliniczne: pole z zapisem to twoja budowa." },
+      { saju: "Ruchomy majątek czyta przepływ rynku", easy: "Jak rynek: widać ludzi za liczbą." },
+    ],
   },
   콘텐츠형: {
-    ko: { saju: "식상·화가 작품이 남는 채널을 원함", easy: "만들고 알리는 리듬이 직업이 돼요. 매일 사람만 상대하는 창구는 오래 못 가요." },
-    es: { saju: "Expresión y fuego: un canal con obra", easy: "Crear y publicar se vuelve oficio. Una ventanilla de gente todo el día no dura." },
-    pl: { saju: "Wyraz i ogień: kanał z dziełem", easy: "Tworzenie i publikacja stają się fachem. Okienko ludzi przez cały dzień nie wytrzyma." },
+    ko: [
+      { saju: "식상·화가 눈에 남는 형태를 원함", easy: "디자이너처럼 보이는 작품이 직업이 돼요." },
+      { saju: "상관이 시간과 장면을 자름", easy: "영상 편집처럼 리듬을 자르는 일이 맞아요." },
+      { saju: "인성+식상이 글을 남김", easy: "작가처럼 문장이 자산이 되는 리듬이에요." },
+      { saju: "상관이 한 줄로 설득함", easy: "카피라이터처럼 짧은 말이 값이 돼요." },
+      { saju: "화가 소리와 무대를 밝힘", easy: "뮤지션처럼 켜진 상태가 일이 되는 자리예요." },
+    ],
+    es: [
+      { saju: "Expresión y fuego quieren forma que se ve", easy: "Como diseñador: la obra visible es el oficio." },
+      { saju: "El talento corta tiempo y escena", easy: "Como editor de vídeo: cortar el ritmo." },
+      { saju: "Impronta y expresión dejan letra", easy: "Como escritor: la frase se vuelve activo." },
+      { saju: "El talento persuade en una línea", easy: "Como copy: la palabra corta vale." },
+      { saju: "El fuego ilumina sonido y escenario", easy: "Como músico: el estado encendido es el trabajo." },
+    ],
+    pl: [
+      { saju: "Wyraz i ogień chcą kształtu, który widać", easy: "Jak projektant: widoczne dzieło jest fachem." },
+      { saju: "Talent tnie czas i scenę", easy: "Jak montaż: ciąć rytm." },
+      { saju: "Pieczęć i wyraz zostawiają pismo", easy: "Jak pisarz: zdanie staje się aktywem." },
+      { saju: "Talent przekonuje jedną linijką", easy: "Jak copy: krótkie słowo ma cenę." },
+      { saju: "Ogień rozświetla dźwięk i scenę", easy: "Jak muzyk: stan włączony jest pracą." },
+    ],
   },
   투자형: {
-    ko: { saju: "편재·식상이 기회와 리스크를 숫자로 읽음", easy: "기회 감각은 자산이에요. 한 번에 올인하지 말고 한도와 정산부터 정하세요." },
-    es: { saju: "Riqueza móvil y expresión: lee oportunidad y riesgo en cifras", easy: "El olfato es activo. No all-in: primero techo y liquidación." },
-    pl: { saju: "Ruchomy majątek i wyraz: czyta okazję i ryzyko w liczbach", easy: "Węch to aktyw. Nie all-in: najpierw limit i rozliczenie." },
+    ko: [
+      { saju: "편재가 기회와 리스크를 숫자로 읽음", easy: "금융분석처럼 한도가 있는 판단이 맞아요." },
+      { saju: "정재가 현금흐름을 지킴", easy: "재무분석처럼 새는 구멍을 먼저 봐요." },
+      { saju: "편관이 손실 한도를 자름", easy: "리스크 관리처럼 자르는 일이 자산이에요." },
+      { saju: "토·금이 실물 가치를 가늠함", easy: "감정평가처럼 눈에 보이는 값이 마음이 놓여요." },
+      { saju: "식상이 운용 규칙을 문서로 남김", easy: "펀드 보조처럼 정산 주기가 기본 장비예요." },
+    ],
+    es: [
+      { saju: "La riqueza móvil lee oportunidad y riesgo en cifra", easy: "Como analista financiero: un juicio con techo." },
+      { saju: "La riqueza estable guarda el flujo", easy: "Como finanzas: primero las fugas." },
+      { saju: "La presión corta el techo de pérdida", easy: "Como riesgos: cortar es el activo." },
+      { saju: "Tierra y metal tasan el valor real", easy: "Como tasador: el valor que se ve calma." },
+      { saju: "La expresión deja la norma de gestión por escrito", easy: "Como fondos: el ciclo de liquidación es el equipo de serie." },
+    ],
+    pl: [
+      { saju: "Ruchomy majątek czyta okazję i ryzyko w cyfrze", easy: "Jak analityk finansowy: osąd z limitem." },
+      { saju: "Stały majątek pilnuje przepływu", easy: "Jak finanse: najpierw wycieki." },
+      { saju: "Presja tnie limit straty", easy: "Jak ryzyko: cięcie jest aktywem." },
+      { saju: "Ziemia i metal szacują realną wartość", easy: "Jak rzeczoznawca: widoczna wartość uspokaja." },
+      { saju: "Wyraz zostawia normę zarządzania na piśmie", easy: "Jak fundusz: cykl rozliczenia to fabryczne wyposażenie." },
+    ],
   },
 };
 
@@ -120,10 +300,11 @@ export function rankedJobs(types: TypeScore[], locale: Locale): RankedJob[] {
   const used = new Set<string>();
   for (const item of types) {
     const names = JOBS[item.type]?.[locale] ?? [];
-    const why = JOB_WHY[item.type]?.[locale];
-    for (const name of names) {
+    const lines = JOB_LINES[item.type]?.[locale] ?? [];
+    for (const [index, name] of names.entries()) {
       if (used.has(name)) continue;
       used.add(name);
+      const why = lines[index];
       ranked.push({
         rank: ranked.length + 1,
         name,

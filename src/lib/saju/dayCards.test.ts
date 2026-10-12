@@ -59,7 +59,7 @@ describe("해석 카드", () => {
       const career = cards.find((item) => item.id === "career");
       const jobBlock = career?.easySections?.find((item) => item.items.length >= 5);
       expect(jobBlock?.items[0]).toMatch(/1/);
-      expect(jobBlock?.items.join(" ")).not.toMatch(/조직형|콘텐츠형/);
+      expect(new Set(jobBlock?.items).size).toBe(jobBlock?.items.length);
     }
   });
 

@@ -296,7 +296,7 @@ export function assembleThemeCards(
     frontBullets: [],
     easyHeadline: loc(locale, "좋아하는 티는 작게, 약속은 분명하게.", "El gusto, en bajo; la cita, clara.", "Sympatia cicho, umowa jasno."),
     easy: clean([
-      twelveEasy(p.day.twelveStageKorean, locale),
+      loc(locale, "결론: 좋아하는 티는 작게, 약속은 분명하게.", "Conclusión: el gusto en bajo, la cita clara.", "Wniosek: sympatia cicho, umowa jasno."),
       loc(locale, "이유는 일지 리듬이 관계의 기본값이기 때문이에요.", "Motivo: el ritmo de la rama del día es el valor por defecto del vínculo.", "Powód: rytm gałęzi dnia to baza relacji."),
     ]),
     easyBullets: [],
@@ -475,7 +475,10 @@ export function assembleThemeCards(
     easyBullets: [],
     easySections: [
       section(loc(locale, "생활 습관", "Hábitos", "Nawyki"), [healthLong(healthEl, locale)[2] ?? healthLong(healthEl, locale)[1]]),
-      section(loc(locale, "좋은 운동", "Movimiento que sienta", "Ruch, który leży"), [hobby.sport, daeun ? loc(locale, `요즘 메모: ${daeun.health}.`, `Nota: ${daeun.health}.`, `Notatka: ${daeun.health}.`) : ""]),
+      section(loc(locale, "좋은 운동", "Movimiento que sienta", "Ruch, który leży"), [
+        loc(locale, `과하지 않게 ${hobby.sport} 쪽으로 몸을 풀어 주세요.`, `Muévete sin pasarte, hacia ${hobby.sport}.`, `Ruszaj się bez przesady, ku ${hobby.sport}.`),
+        daeun ? loc(locale, `요즘 메모: ${daeun.health}.`, `Nota: ${daeun.health}.`, `Notatka: ${daeun.health}.`) : "",
+      ]),
     ],
     disclaimer: loc(locale, "의료 판단을 대체하지 않습니다.", "No sustituye una decisión médica.", "Nie zastępuje decyzji medycznej."),
   };
