@@ -64,7 +64,7 @@ export function PillarFlipCard({
           <p className="mt-auto pt-3 text-xs text-[var(--dancheong)]">{msg(locale, "tapEasy")}</p>
         </article>
         <article className="theme-face theme-face-back hanji-panel flex h-full flex-col overflow-y-auto rounded-2xl p-4 text-left">
-          <p className="text-xs tracking-[0.2em] text-[var(--accent)]">{role.easyTitle}</p>
+          <p className="text-xs tracking-wide text-[var(--accent)]">{role.easyTitle}</p>
           <p className="mt-2 text-base font-semibold leading-7 text-[var(--ink)]">{easy[0]}</p>
           {easy.slice(1).map((line) => (
             <p key={line.slice(0, 24)} className="mt-3 text-[15px] leading-7 text-[var(--ink)]">

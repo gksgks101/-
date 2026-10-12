@@ -608,7 +608,7 @@ export function assembleThemeCards(
     id: "fashion",
     title: msg(locale, "tabFashion"),
     easy: clean([
-      loc(locale, `결론: ${fashion.style}.`, `Conclusión: ${fashion.style}.`, `Wniosek: ${fashion.style}.`),
+      loc(locale, `결론: ${josa(fashion.style, "이/가")} 잘 어울려요.`, `Conclusión: te va ${fashion.style}.`, `Wniosek: pasuje ci ${fashion.style}.`),
       loc(locale, `이유: ${openAt(3)}`, `Motivo: ${openAt(3)}`, `Powód: ${openAt(3)}`),
       loc(locale, `조언: ${josa(fashion.color.replace(/\s*포인트$/, ""), "을/를")} 옷에 조금만 넣으세요.`, `Consejo: pon ${fashion.color} solo un poco en la ropa.`, `Rada: ${fashion.color} tylko trochę w ubraniu.`),
     ]),
