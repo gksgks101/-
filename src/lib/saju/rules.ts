@@ -503,6 +503,13 @@ export function analyzeUseGod(dayElement: ElementKey, strength: StrengthAnalysis
   };
 }
 
+function endsWithRieul(value: string): boolean {
+  const last = value.codePointAt(value.length - 1);
+  if (!last) return false;
+  if (last < 0xac00 || last > 0xd7a3) return last === 0x3139 || last === 0x11af;
+  return (last - 0xac00) % 28 === 8;
+}
+
 export function analyzePattern(month: Pillar): PatternAnalysis {
   const god = month.hiddenStems[0]?.tenGodKorean ?? month.ganTenGodKorean;
   const map: Record<string, string> = {
@@ -520,7 +527,7 @@ export function analyzePattern(month: Pillar): PatternAnalysis {
   const name = map[god] ?? `${god} 중심 구조`;
   return {
     name,
-    basis: `월지 본기 십성이 ${god}이므로 ${name}으로 먼저 봅니다.`,
+    basis: `월지 본기 십성이 ${god}이므로 ${name}${endsWithRieul(name) ? "로" : "으로"} 먼저 봅니다.`,
     summary: "격국은 간판일 뿐이며, 신강/신약·용신·합충이 맞아야 격의 장점이 실제로 열립니다.",
   };
 }
