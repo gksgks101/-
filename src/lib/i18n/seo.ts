@@ -12,7 +12,7 @@ function isPlaceholderHost(url: string): boolean {
   return /saju\.app$/i.test(url.replace(/^https?:\/\//, "").replace(/\/$/, ""));
 }
 
-export function resolveSiteUrl(env: NodeJS.ProcessEnv = process.env): string {
+export function resolveSiteUrl(env: Record<string, string | undefined> = process.env): string {
   const candidates = [env.NEXT_PUBLIC_SITE_URL, env.VERCEL_PROJECT_PRODUCTION_URL, env.VERCEL_URL];
   for (const raw of candidates) {
     const trimmed = raw?.trim();
