@@ -56,10 +56,10 @@ export async function renderSharePoster(
 
   const card = dayMasterCard(calculation.dayMaster.gan);
   const image = await loadImage(card.image);
-  const cardW = 620;
+  const cardW = 480;
   const cardH = Math.round((cardW * 4) / 3);
   const cardX = (width - cardW) / 2;
-  const cardY = 210;
+  const cardY = 180;
   ctx.save();
   ctx.beginPath();
   ctx.roundRect(cardX, cardY, cardW, cardH, 28);
@@ -78,7 +78,10 @@ export async function renderSharePoster(
   ctx.fillText(msg(locale, "shareBrand"), width / 2, 90);
   ctx.fillStyle = "#f3efe6";
   ctx.font = "700 54px 'Noto Serif KR', 'Noto Serif', serif";
-  const name = calculation.birth.displayName || msg(locale, "anonymous");
+  const name =
+    !calculation.birth.displayName || calculation.birth.displayName === "익명"
+      ? msg(locale, "anonymous")
+      : calculation.birth.displayName;
   ctx.fillText(msg(locale, "resultTitle", { name }), width / 2, 155);
   ctx.fillStyle = "#c4a574";
   ctx.font = "600 36px 'Noto Serif KR', serif";
@@ -92,28 +95,28 @@ export async function renderSharePoster(
   ];
   const boxW = 220;
   const gap = 18;
-  const rowY = cardY + cardH + 90;
+  const rowY = cardY + cardH + 80;
   const totalW = boxW * 4 + gap * 3;
   let x = (width - totalW) / 2;
   for (const [key, pillar] of pillars) {
     ctx.strokeStyle = "rgba(196,165,116,0.4)";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(x, rowY, boxW, 150, 16);
+    ctx.roundRect(x, rowY, boxW, 120, 16);
     ctx.stroke();
     ctx.fillStyle = "#8a7d6e";
-    ctx.font = "500 22px 'Noto Sans', 'Noto Sans KR', sans-serif";
-    ctx.fillText(PILLAR_NAME[key][locale], x + boxW / 2, rowY + 38);
+    ctx.font = "500 20px 'Noto Sans', 'Noto Sans KR', sans-serif";
+    ctx.fillText(PILLAR_NAME[key][locale], x + boxW / 2, rowY + 32);
     ctx.fillStyle = "#f3efe6";
-    ctx.font = "700 42px 'Noto Serif KR', serif";
-    ctx.fillText(pillar ? pillar.ganzhi : "—", x + boxW / 2, rowY + 98);
+    ctx.font = "700 36px 'Noto Serif KR', serif";
+    ctx.fillText(pillar ? pillar.ganzhi : "—", x + boxW / 2, rowY + 82);
     x += boxW + gap;
   }
 
   const percents = elementPercents(calculation.elements.powerScore);
   const keys = Object.keys(percents) as ElementKey[];
   let barX = 80;
-  const barY = rowY + 190;
+  const barY = rowY + 155;
   ctx.textAlign = "left";
   for (const key of keys) {
     const w = ((width - 160) * percents[key]) / 100;
@@ -130,21 +133,24 @@ export async function renderSharePoster(
     barY + 64,
   );
 
-  let ty = barY + 120;
+  let ty = barY + 100;
   ctx.textAlign = "left";
+  const limit = height - 140;
   for (const theme of themes) {
+    if (ty > limit) break;
     ctx.fillStyle = "#c4a574";
-    ctx.font = "700 28px 'Noto Serif KR', serif";
+    ctx.font = "700 26px 'Noto Serif KR', serif";
     ctx.fillText(theme.title, 80, ty);
     ctx.fillStyle = "#ddd6c8";
-    ctx.font = "400 26px 'Noto Sans', 'Noto Sans KR', sans-serif";
+    ctx.font = "400 24px 'Noto Sans', 'Noto Sans KR', sans-serif";
     const lines = wrap(ctx, theme.paragraphs[0] ?? "", width - 160);
-    ty += 40;
-    for (const line of lines.slice(0, 2)) {
+    ty += 34;
+    for (const line of lines.slice(0, 1)) {
+      if (ty > limit) break;
       ctx.fillText(line, 80, ty);
-      ty += 36;
+      ty += 32;
     }
-    ty += 18;
+    ty += 14;
   }
 
   ctx.textAlign = "center";

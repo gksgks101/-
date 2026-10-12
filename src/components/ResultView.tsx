@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { prose } from "@/lib/i18n/prose";
@@ -49,11 +49,8 @@ function PillarCard({ title, pillar, locale }: { title: string; pillar: Pillar |
 }
 
 export function ResultView({ locale }: { locale: Locale }) {
-  const [data] = useState<AnalyzeResponse | null>(() => {
-    if (typeof window === "undefined") return null;
-    const raw = sessionStorage.getItem("saju-result");
-    return raw ? (JSON.parse(raw) as AnalyzeResponse) : null;
-  });
+  const [data, setData] = useState<AnalyzeResponse | null>(null);
+  const [ready, setReady] = useState(false);
   const [selectedDaeun, setSelectedDaeun] = useState(0);
   const [compareIndex, setCompareIndex] = useState(0);
   const [cleared, setCleared] = useState(false);
@@ -71,6 +68,12 @@ export function ResultView({ locale }: { locale: Locale }) {
   const themes = useMemo(() => (chart ? buildThemeCards(chart, locale) : []), [chart, locale]);
   const card = chart ? dayMasterCard(chart.dayMaster.gan) : null;
 
+  useEffect(() => {
+    const raw = sessionStorage.getItem("saju-result");
+    setData(raw ? (JSON.parse(raw) as AnalyzeResponse) : null);
+    setReady(true);
+  }, []);
+
   async function makeImage() {
     if (!chart) return null;
     setShareState(msg(locale, "sharing"));
@@ -80,6 +83,10 @@ export function ResultView({ locale }: { locale: Locale }) {
       setShareState(msg(locale, "shareFail"));
       return null;
     }
+  }
+
+  if (!ready) {
+    return <div className="mx-auto max-w-xl px-5 py-24 text-center text-[var(--muted)]">{msg(locale, "analyzing")}</div>;
   }
 
   if (cleared) {
@@ -107,7 +114,8 @@ export function ResultView({ locale }: { locale: Locale }) {
   const currentYear = new Date().getFullYear();
   const visibleSeun = chart.seun.filter((item) => item.year >= currentYear && item.year <= currentYear + 20);
   const daeun = chart.daeun[selectedDaeun] ?? chart.daeun[0];
-  const displayName = chart.birth.displayName || msg(locale, "anonymous");
+  const displayName =
+    !chart.birth.displayName || chart.birth.displayName === "익명" ? msg(locale, "anonymous") : chart.birth.displayName;
   const location = chart.birth.location
     .split(" ")
     .map((part) => placeName(part, locale))

@@ -56,7 +56,7 @@ export const ui: Record<Locale, Dict> = {
     analyzing: "사주 계산 중...",
     analyzeFail: "분석에 실패했습니다.",
     resultKicker: "SAJU CHART",
-    resultTitle: "{name}님의 사주",
+    resultTitle: "{name}의 사주",
     anonymous: "손님",
     timeUnknownLabel: "시간 미상",
     clearData: "입력값 삭제",
