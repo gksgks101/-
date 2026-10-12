@@ -29,6 +29,7 @@ export const birthInputSchema = z.object({
   useTrueSolarTime: z.boolean().optional(),
   unlockFull: z.boolean().optional(),
   useLlm: z.boolean().optional(),
+  locale: z.enum(["ko", "es", "pl"]).optional(),
 });
 
 export type BirthInputPayload = z.infer<typeof birthInputSchema>;

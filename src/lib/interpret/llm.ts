@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n/config";
 import { calculationToAiJson } from "@/lib/saju/engine";
 import type { InterpretationReport, ReportSection, SajuCalculation } from "@/lib/saju/types";
 import { buildRuleReport } from "./rules";
@@ -50,8 +51,10 @@ function withLocks(sections: ReportSection[]): ReportSection[] {
   return sections.map((item) => ({ ...item, locked: !FREE_IDS.has(item.id) }));
 }
 
-export async function interpretWithLlm(calculation: SajuCalculation): Promise<InterpretationReport> {
+export async function interpretWithLlm(calculation: SajuCalculation, locale: Locale = "ko"): Promise<InterpretationReport> {
   const fallback = buildRuleReport(calculation);
+  const language =
+    locale === "es" ? "Responde en español." : locale === "pl" ? "Odpowiadaj po polsku." : "한국어로 답하라.";
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL ?? "gpt-4.1-mini";
   const baseUrl = process.env.OPENAI_BASE_URL ?? "https://api.openai.com/v1";
@@ -69,7 +72,7 @@ export async function interpretWithLlm(calculation: SajuCalculation): Promise<In
       temperature: 0.4,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: SYSTEM },
+        { role: "system", content: `${SYSTEM}\n${language}` },
         {
           role: "user",
           content: `아래는 이미 계산이 끝난 사주 데이터다. 이 데이터를 변경하지 말고 명리학적 해석만 수행하라.\n\n${JSON.stringify(payload)}`,

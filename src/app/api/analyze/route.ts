@@ -11,9 +11,9 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: "입력값이 올바르지 않습니다.", details: parsed.error.flatten() }, { status: 400 });
     }
-    const { unlockFull, useLlm, name, ...birth } = parsed.data;
+    const { unlockFull, useLlm, name, locale, ...birth } = parsed.data;
     const calculation = calculateSaju({ ...birth, name });
-    const report = useLlm ? await interpretWithLlm(calculation) : buildRuleReport(calculation);
+    const report = useLlm ? await interpretWithLlm(calculation, locale) : buildRuleReport(calculation);
     return NextResponse.json({
       calculation,
       report: {

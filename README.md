@@ -32,6 +32,12 @@ npm run dev
 
 브라우저에서 [http://localhost:3000](http://localhost:3000) 을 엽니다.
 
+언어:
+
+- 한국어 `/ko`
+- 스페인어 `/es`
+- 폴란드어 `/pl`
+
 - `npm install` : 필요한 부품을 받습니다.
 - `npm test` : 사주 계산이 맞는지 자동 검사합니다.
 - `npm run dev` : 내 컴퓨터에서 사이트를 켭니다. 종료는 `Ctrl + C`.
