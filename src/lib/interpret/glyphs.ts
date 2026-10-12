@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import { josa } from "@/lib/i18n/josa";
 import { BRANCH_META, STEM_KO, STEM_META } from "@/lib/saju/constants";
 import type { ElementKey, Pillar, PillarKey } from "@/lib/saju/types";
 import { loc } from "./themeContext";
@@ -220,7 +221,7 @@ export function pillarEasyLines(pillar: Pillar, key: PillarKey, locale: Locale):
     branchEasy(pillar.zhi, locale),
     loc(
       locale,
-      `하늘 글자 ${ganLabel(pillar.gan)}는 ${elWord(ganEl, locale)}, 땅 글자 ${pillar.zhiKorean}(${pillar.zhi})는 ${elWord(zhiEl, locale)} 기운입니다.`,
+      `하늘 글자 ${josa(ganLabel(pillar.gan), "은/는")} ${elWord(ganEl, locale)}, 땅 글자 ${josa(`${pillar.zhiKorean}(${pillar.zhi})`, "은/는")} ${elWord(zhiEl, locale)} 기운입니다.`,
       `Letra del cielo ${ganLabel(pillar.gan)}: ${elWord(ganEl, locale)}. Letra de la tierra ${pillar.zhi}: ${elWord(zhiEl, locale)}.`,
       `Znak nieba ${ganLabel(pillar.gan)}: ${elWord(ganEl, locale)}. Znak ziemi ${pillar.zhi}: ${elWord(zhiEl, locale)}.`,
     ),

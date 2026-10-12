@@ -440,7 +440,7 @@ export function assembleThemeCards(
         loc(locale, `용신 ${ctx.elName(yongKey)} = ${directionOf(yongKey, locale)}`, `Yongsin ${ctx.elName(yongKey)} = ${directionOf(yongKey, locale)}`, `Yongsin ${ctx.elName(yongKey)} = ${directionOf(yongKey, locale)}`),
       ]),
       section(loc(locale, "침대 · 책상", "Cama · escritorio", "Łóżko · biurko"), [
-        loc(locale, `머리와 의자 등받이는 ${directionOf(yongKey, locale)}을 등지지 않게, 창을 약간 그쪽으로 열어 두세요.`, `Cabecera y respaldo: no de espaldas al ${directionOf(yongKey, locale)}. Abre un poco la ventana hacia ahí.`, `Wezgłowie i oparcie: nie plecami do ${directionOf(yongKey, locale)}. Otwórz trochę okno w tę stronę.`),
+        loc(locale, `머리와 의자 등받이는 ${josa(directionOf(yongKey, locale), "을/를")} 등지지 않게, 창을 약간 그쪽으로 열어 두세요.`, `Cabecera y respaldo: no de espaldas al ${directionOf(yongKey, locale)}. Abre un poco la ventana hacia ahí.`, `Wezgłowie i oparcie: nie plecami do ${directionOf(yongKey, locale)}. Otwórz trochę okno w tę stronę.`),
       ]),
       section(loc(locale, "추천 소품", "Objetos", "Przedmioty"), [
         loc(locale, "용신 색 소품을 책상 가까이 두면 매일 눈에 들어옵니다.", "Si acercas un objeto del color yongsin, lo ves cada día.", "Kolor yongsin na biurku wpada w oko codziennie."),
@@ -544,7 +544,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, fashion.style, fashion.style, fashion.style),
     easy: clean([
       loc(locale, `결론: ${fashion.style}.`, `Conclusión: ${fashion.style}.`, `Wniosek: ${fashion.style}.`),
-      loc(locale, `이유: 핵심 구조의 ${yong}과 같은 오행을 입는 일입니다.`, `Motivo: vestir el mismo elemento que ${yong}.`, `Powód: ubierać ten sam żywioł co ${yong}.`),
+      loc(locale, `이유: 핵심 구조의 ${josa(yong, "과/와")} 같은 오행을 입는 일입니다.`, `Motivo: vestir el mismo elemento que ${yong}.`, `Powód: ubierać ten sam żywioł co ${yong}.`),
     ]),
     easyBullets: [],
     easySections: [
@@ -565,8 +565,8 @@ export function assembleThemeCards(
     frontBullets: [],
     easyHeadline: loc(locale, `도움이 되는 맛은 ${food.help} 쪽이에요.`, `Te sienta el sabor de ${food.help}.`, `Leży ci smak ${food.help}.`),
     easy: clean([
-      loc(locale, `결론: ${food.help}가 이 사주를 돕습니다.`, `Conclusión: ${food.help} ayuda a esta carta.`, `Wniosek: ${food.help} pomaga tej karcie.`),
-      loc(locale, `이유: 용신 ${ctx.elName(yongKey)}을 생활로 한 줌 보태는 일입니다.`, `Motivo: sumar un puñado de ${ctx.elName(yongKey)} al día.`, `Powód: dodać garść ${ctx.elName(yongKey)} do dnia.`),
+      loc(locale, `결론: ${josa(food.help, "이/가")} 이 사주를 돕습니다.`, `Conclusión: ${food.help} ayuda a esta carta.`, `Wniosek: ${food.help} pomaga tej karcie.`),
+      loc(locale, `이유: ${josa(`용신 ${ctx.elName(yongKey)}`, "을/를")} 생활로 한 줌 보태는 일입니다.`, `Motivo: sumar un puñado de ${ctx.elName(yongKey)} al día.`, `Powód: dodać garść ${ctx.elName(yongKey)} do dnia.`),
     ]),
     easyBullets: [],
     easySections: [
@@ -615,7 +615,7 @@ export function assembleThemeCards(
     frontBullets: [],
     easyHeadline: music.mood,
     easy: clean([
-      loc(locale, `결론: ${music.genre}가 맞아요.`, `Conclusión: te va ${music.genre}.`, `Wniosek: pasuje ci ${music.genre}.`),
+      loc(locale, `결론: ${josa(music.genre, "이/가")} 맞아요.`, `Conclusión: te va ${music.genre}.`, `Wniosek: pasuje ci ${music.genre}.`),
       loc(locale, `이유: ${music.mood}`, `Motivo: ${music.mood}`, `Powód: ${music.mood}`),
     ]),
     easyBullets: [],
@@ -628,12 +628,12 @@ export function assembleThemeCards(
     title: msg(locale, "themeHobby"),
     kicker: hobby.sport.split(",")[0]?.trim() ?? "",
     front: clean([
-      loc(locale, `약한 오행 ${ctx.elName(healthEl)}을 생활 움직임으로 보탭니다.`, `El elemento flojo ${ctx.elName(healthEl)} se suma con movimiento.`, `Słaby żywioł ${ctx.elName(healthEl)} dodaje się ruchem.`),
+      loc(locale, `약한 오행 ${josa(ctx.elName(healthEl), "을/를")} 생활 움직임으로 보탭니다.`, `El elemento flojo ${ctx.elName(healthEl)} se suma con movimiento.`, `Słaby żywioł ${ctx.elName(healthEl)} dodaje się ruchem.`),
       yong,
     ]),
     frontTerms: terms(locale, [["오행", loc(locale, "오행", "cinco elementos", "pięć żywiołów")]]),
     frontBullets: [],
-    easyHeadline: loc(locale, `${hobby.hobby}가 오래 가요.`, `${hobby.hobby} te dura.`, `${hobby.hobby} wytrzyma długo.`),
+    easyHeadline: loc(locale, `${josa(hobby.hobby, "이/가")} 오래 가요.`, `${hobby.hobby} te dura.`, `${hobby.hobby} wytrzyma długo.`),
     easy: clean([
       loc(locale, `결론: 취미는 ${hobby.hobby}, 운동은 ${hobby.sport}.`, `Conclusión: ocio ${hobby.hobby}; movimiento ${hobby.sport}.`, `Wniosek: hobby ${hobby.hobby}; ruch ${hobby.sport}.`),
       loc(locale, "이유는 용신을 즐겁게, 약한 오행을 몸으로 채우기 때문이에요.", "Motivo: el yongsin se llena con gusto; lo flojo, con el cuerpo.", "Powód: yongsin napełniasz przyjemnością, słabe — ciałem."),
@@ -659,7 +659,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, `행운의 숫자는 ${luckyBit.numbers.join(", ")}예요.`, `Números de suerte: ${luckyBit.numbers.join(", ")}.`, `Szczęśliwe liczby: ${luckyBit.numbers.join(", ")}.`),
     easy: clean([
       loc(locale, `결론: 숫자 ${luckyBit.numbers.join("·")}, 요일 ${luckyBit.weekday}, 계절 ${luckyBit.season}.`, `Conclusión: números ${luckyBit.numbers.join("·")}, día ${luckyBit.weekday}, estación ${luckyBit.season}.`, `Wniosek: liczby ${luckyBit.numbers.join("·")}, dzień ${luckyBit.weekday}, pora ${luckyBit.season}.`),
-      loc(locale, `이유: 핵심 구조의 ${yong}과 같은 오행 상징이에요.`, `Motivo: el mismo elemento que ${yong}.`, `Powód: ten sam żywioł co ${yong}.`),
+      loc(locale, `이유: 핵심 구조의 ${josa(yong, "과/와")} 같은 오행 상징이에요.`, `Motivo: el mismo elemento que ${yong}.`, `Powód: ten sam żywioł co ${yong}.`),
     ]),
     easyBullets: [],
     easySections: [

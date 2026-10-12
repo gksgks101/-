@@ -44,4 +44,13 @@ describe("테스트 생일 카피", () => {
     expect(jobs).toHaveLength(5);
     expect(new Set(jobs).size).toBe(5);
   });
+
+  it("한국어 조사 받침을 지킨다", () => {
+    const cards = buildThemeCards(sample, "ko");
+    const blob = cards
+      .flatMap((card) => [card.easyHeadline, ...card.easy, ...(card.easySections ?? []).flatMap((item) => item.items)])
+      .join("\n");
+    expect(blob).not.toMatch(/화을|수과|목과/);
+    expect(coreHeadline(sample, "ko")).toContain("매화라");
+  });
 });

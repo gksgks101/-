@@ -184,7 +184,7 @@ export function coreGlossary(calculation: SajuCalculation, locale: Locale): Core
       term: loc(locale, `기신 ${gi}`, `Gisin ${gi}`, `Gisin ${gi}`),
       line: loc(
         locale,
-        `${helpLine(calculation.useGod.gisin, locale)}는 이미 충분해서, 더 많아지면 오히려 고집이 세지거나 생각이 많아져요.`,
+        `${josa(helpLine(calculation.useGod.gisin, locale), "은/는")} 이미 충분해서, 더 많아지면 오히려 고집이 세지거나 생각이 많아져요.`,
         `${helpLine(calculation.useGod.gisin, locale)} ya está de más: si crece, aparece terquedad o exceso de pensamiento.`,
         `${helpLine(calculation.useGod.gisin, locale)} już wystarcza: jak przybędzie, rośnie upór albo nadmiar myśli.`,
       ),
