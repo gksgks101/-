@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { STEM_PAGES } from "@/lib/content/encyclopedia";
 import { isLocale } from "@/lib/i18n/config";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return localeMetadata(locale, "stemsMetaTitle", "stemsMetaDesc", "/stems");
 }
 
-export default async function StemsPage({ params }: { params: Promise<{ locale: string }> }) {
+async function StemsBody({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   return (
@@ -38,5 +39,13 @@ export default async function StemsPage({ params }: { params: Promise<{ locale: 
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function StemsPage({ params }: { params: Promise<{ locale: string }> }) {
+  return (
+    <Suspense fallback={<div className="px-5 py-12 text-center text-[var(--muted)]">…</div>}>
+      <StemsBody params={params} />
+    </Suspense>
   );
 }

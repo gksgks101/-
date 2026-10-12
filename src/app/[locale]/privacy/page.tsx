@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { isLocale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { localeMetadata } from "@/lib/i18n/seo";
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return localeMetadata(locale, "privacyTitle", "privacyLead", "/privacy");
 }
 
-export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
+async function PrivacyBody({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   return (
@@ -27,5 +28,13 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
       <h2 className="mt-10 text-xl">{msg(locale, "privacyH4")}</h2>
       <p className="text-[var(--muted)]">{msg(locale, "privacyP4")}</p>
     </article>
+  );
+}
+
+export default function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
+  return (
+    <Suspense fallback={<div className="px-5 py-16 text-center text-[var(--muted)]">…</div>}>
+      <PrivacyBody params={params} />
+    </Suspense>
   );
 }

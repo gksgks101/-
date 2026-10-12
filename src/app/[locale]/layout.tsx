@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { HtmlLang } from "@/components/HtmlLang";
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return localeMetadata(locale, "metaTitle", "metaDesc");
 }
 
-export default async function LocaleLayout({
+async function LocaleShell({
   children,
   params,
 }: {
@@ -60,5 +61,19 @@ export default async function LocaleLayout({
       <main className="flex-1">{children}</main>
       <footer className="border-t border-[var(--line)] px-5 py-8 text-center text-xs text-[var(--muted)]">{msg(locale, "footer")}</footer>
     </>
+  );
+}
+
+export default function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  return (
+    <Suspense fallback={<div className="px-5 py-10 text-center text-[var(--muted)]">…</div>}>
+      <LocaleShell params={params}>{children}</LocaleShell>
+    </Suspense>
   );
 }

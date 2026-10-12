@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { ANIMAL_PAGES, animalPage } from "@/lib/content/encyclopedia";
 import { LOCALES, isLocale } from "@/lib/i18n/config";
@@ -20,7 +21,7 @@ export async function generateMetadata({
   return localeMetadata(locale, "animalsMetaTitle", "animalsMetaDesc", `/animals/${slug}`);
 }
 
-export default async function AnimalDetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+async function AnimalBody({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const page = animalPage(slug);
@@ -42,5 +43,13 @@ export default async function AnimalDetailPage({ params }: { params: Promise<{ l
         {msg(locale, "analyzeCta")}
       </Link>
     </article>
+  );
+}
+
+export default function AnimalDetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+  return (
+    <Suspense fallback={<div className="px-5 py-12 text-center text-[var(--muted)]">…</div>}>
+      <AnimalBody params={params} />
+    </Suspense>
   );
 }
