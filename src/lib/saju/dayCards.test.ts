@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "@/lib/i18n/config";
-import { buildThemeCards, elementPercents } from "@/lib/interpret/themes";
+import { THEME_IDS, buildThemeCards, elementPercents } from "@/lib/interpret/themes";
 import { calculateSaju } from "./engine";
 import { DAY_MASTER_CARDS, dayMasterCard } from "./dayCards";
 
@@ -31,14 +31,21 @@ describe("해석 카드", () => {
     city: "안산",
   });
 
-  it("세 언어 모두 여섯 장을 만든다", () => {
+  it("세 언어 모두 열 장을 앞뒤로 만든다", () => {
     for (const locale of LOCALES) {
       const cards = buildThemeCards(calculation, locale);
-      expect(cards.map((item) => item.id)).toEqual(["character", "love", "wealth", "career", "health", "year"]);
+      expect(cards.map((item) => item.id)).toEqual([...THEME_IDS]);
       for (const card of cards) {
-        expect(card.paragraphs.length).toBeGreaterThanOrEqual(3);
+        expect(card.front.length).toBeGreaterThanOrEqual(1);
+        expect(card.easyHeadline.length).toBeGreaterThan(4);
+        expect(card.easy.length).toBeGreaterThanOrEqual(1);
         expect(card.title.length).toBeGreaterThan(1);
       }
+      const wealth = cards.find((item) => item.id === "wealth");
+      expect(wealth?.disclaimer).toContain(locale === "ko" ? "재미로" : locale === "es" ? "entretenimiento" : "rozrywkowa");
+      const colors = cards.find((item) => item.id === "colors");
+      expect(colors?.luckyColors?.length).toBeGreaterThan(0);
+      expect(colors?.avoidColors?.length).toBeGreaterThan(0);
     }
   });
 

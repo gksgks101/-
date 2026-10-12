@@ -143,7 +143,7 @@ export async function renderSharePoster(
     ctx.fillText(theme.title, 80, ty);
     ctx.fillStyle = "#ddd6c8";
     ctx.font = "400 24px 'Noto Sans', 'Noto Sans KR', sans-serif";
-    const lines = wrap(ctx, theme.paragraphs[0] ?? "", width - 160);
+    const lines = wrap(ctx, theme.easyHeadline || theme.easy[0] || theme.front[0] || "", width - 160);
     ty += 34;
     for (const line of lines.slice(0, 1)) {
       if (ty > limit) break;

@@ -105,6 +105,35 @@ textarea {
   transform: rotateY(180deg);
 }
 
+.theme-flip {
+  perspective: 1400px;
+}
+
+.theme-flip-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.theme-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.theme-face {
+  grid-area: 1 / 1;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.theme-face-front {
+  transform: rotateY(0deg);
+}
+
+.theme-face-back {
+  transform: rotateY(180deg);
+}
+
 .saju-card-caption {
   position: absolute;
   right: 14px;

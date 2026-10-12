@@ -1,17 +1,48 @@
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
-import { CAREER_TYPE, ELEMENT_NAME, STRENGTH_NAME, TEN_GOD_NAME, WEALTH_TYPE, tenGod, term } from "@/lib/i18n/terms";
+import { CAREER_TYPE, ELEMENT_NAME, STRENGTH_NAME, WEALTH_TYPE, tenGod, term } from "@/lib/i18n/terms";
+import { CONTROLS, GENERATES } from "@/lib/saju/constants";
 import { dayMasterCard } from "@/lib/saju/dayCards";
 import type { ElementKey, SajuCalculation, SeunItem } from "@/lib/saju/types";
 
-export type ThemeId = "character" | "love" | "wealth" | "career" | "health" | "year";
+function loc(locale: Locale, ko: string, es: string, pl: string): string {
+  if (locale === "es") return es;
+  if (locale === "pl") return pl;
+  return ko;
+}
+
+export const THEME_IDS = [
+  "character",
+  "career",
+  "wealth",
+  "love",
+  "match",
+  "relations",
+  "colors",
+  "fengshui",
+  "health",
+  "year",
+] as const;
+
+export type ThemeId = (typeof THEME_IDS)[number];
+
+export interface ColorChip {
+  hex: string;
+  label: string;
+}
 
 export interface ThemeCardData {
   id: ThemeId;
   title: string;
   kicker: string;
-  paragraphs: string[];
-  bullets: string[];
+  front: string[];
+  frontBullets: string[];
+  easyHeadline: string;
+  easy: string[];
+  easyBullets: string[];
+  luckyColors?: ColorChip[];
+  avoidColors?: ColorChip[];
+  disclaimer?: string;
 }
 
 const STEM_VOICE: Record<string, Record<Locale, string[]>> = {
@@ -217,6 +248,117 @@ function godLine(calculation: SajuCalculation, locale: Locale): string {
     .join(" · ");
 }
 
+const KO_ELEMENT: Record<string, ElementKey> = { 목: "wood", 화: "fire", 토: "earth", 금: "metal", 수: "water" };
+
+function generatedBy(element: ElementKey): ElementKey {
+  return (Object.entries(GENERATES) as [ElementKey, ElementKey][]).find(([, value]) => value === element)?.[0] ?? "water";
+}
+
+function controlledBy(element: ElementKey): ElementKey {
+  return (Object.entries(CONTROLS) as [ElementKey, ElementKey][]).find(([, value]) => value === element)?.[0] ?? "metal";
+}
+
+const STEM_HEAD: Record<string, Record<Locale, string>> = {
+  甲: {
+    ko: "먼저 꽂고, 끝까지 가는 사람이에요.",
+    es: "Eliges rumbo pronto y no sueltas fácil.",
+    pl: "Szybko bierzesz kurs i nie puszczasz łatwo.",
+  },
+  乙: {
+    ko: "휘어져도 안 꺾이는 사람이에요.",
+    es: "Te doblas, pero no te rompes.",
+    pl: "Gniesz się, ale nie łamiesz.",
+  },
+  丙: {
+    ko: "자리를 밝히는 사람이에요. 숨기는 타입이 아니에요.",
+    es: "Iluminas la sala. No eres de esconderte.",
+    pl: "Rozświetlasz miejsce. Nie chowasz się.",
+  },
+  丁: {
+    ko: "한 사람을, 한 일을 오래 데우는 사람이에요.",
+    es: "Calientas largo a una persona o una obra.",
+    pl: "Długo ogrzewasz jedną osobę albo jedną sprawę.",
+  },
+  戊: {
+    ko: "한번 맡은 자리를 버티는 사람이에요.",
+    es: "Si asumes un sitio, te quedas de pilar.",
+    pl: "Jak weźmiesz miejsce, stajesz się podporą.",
+  },
+  己: {
+    ko: "빈 곳을 메우고 사람을 챙기는 사람이에요.",
+    es: "Rellenas huecos y cuidas a la gente.",
+    pl: "Wypełniasz luki i ogarniasz ludzi.",
+  },
+  庚: {
+    ko: "짧게 자르고, 결론을 원하는 사람이에요.",
+    es: "Cortas corto y quieres una conclusión.",
+    pl: "Tniesz krótko i chcesz konkluzji.",
+  },
+  辛: {
+    ko: "디테일과 품격에 자존감이 걸려 있어요.",
+    es: "Tu orgullo vive en el detalle y el tono.",
+    pl: "Twoja godność wisi na detalu i tonie.",
+  },
+  壬: {
+    ko: "판을 크게 보는 사람이에요. 좁으면 답답해요.",
+    es: "Ves el tablero grande. Lo estrecho te ahoga.",
+    pl: "Widzisz szeroką planszę. Ciasnota cię dusi.",
+  },
+  癸: {
+    ko: "말보다 먼저 분위기를 읽는 사람이에요.",
+    es: "Lees el ambiente antes que las palabras.",
+    pl: "Czytasz nastrój wcześniej niż słowa.",
+  },
+};
+
+const SWATCH: Record<ElementKey, { hex: string; ko: string; es: string; pl: string }[]> = {
+  wood: [
+    { hex: "#2f6b3a", ko: "청록", es: "verde bosque", pl: "leśna zieleń" },
+    { hex: "#6d8a63", ko: "연두", es: "verde suave", pl: "jasna zieleń" },
+    { hex: "#6b4f2a", ko: "나무갈색", es: "marrón madera", pl: "brąz drewna" },
+  ],
+  fire: [
+    { hex: "#c43c28", ko: "주홍", es: "cinabrio", pl: "cynober" },
+    { hex: "#8c1c12", ko: "진홍", es: "rojo profundo", pl: "głęboka czerwień" },
+    { hex: "#6b2d5b", ko: "자색", es: "púrpura", pl: "purpura" },
+  ],
+  earth: [
+    { hex: "#d4a017", ko: "황금색", es: "ámbar", pl: "bursztyn" },
+    { hex: "#c4a574", ko: "베이지", es: "beige", pl: "beż" },
+    { hex: "#8c7349", ko: "황토", es: "ocre", pl: "ochra" },
+  ],
+  metal: [
+    { hex: "#f3efe6", ko: "한지 흰빛", es: "blanco hanji", pl: "biel hanji" },
+    { hex: "#c4a574", ko: "금색", es: "oro", pl: "złoto" },
+    { hex: "#9aa3ad", ko: "은색", es: "plata", pl: "srebro" },
+  ],
+  water: [
+    { hex: "#1d4e89", ko: "남색", es: "azul marino", pl: "granat" },
+    { hex: "#6b8498", ko: "회청", es: "azul gris", pl: "szaroniebieski" },
+    { hex: "#1a1c20", ko: "먹색", es: "tinta", pl: "czerń tuszu" },
+  ],
+};
+
+function chipsFor(elements: ElementKey[], locale: Locale, limit: number): ColorChip[] {
+  const seen = new Set<string>();
+  const chips: ColorChip[] = [];
+  for (const element of elements) {
+    for (const item of SWATCH[element]) {
+      if (seen.has(item.hex)) continue;
+      seen.add(item.hex);
+      chips.push({ hex: item.hex, label: loc(locale, item.ko, item.es, item.pl) });
+      if (chips.length >= limit) return chips;
+    }
+  }
+  return chips;
+}
+
+function investStyle(top: string | undefined): "stable" | "aggressive" | "balanced" {
+  if (top && ["축적형", "월급형"].includes(top)) return "stable";
+  if (top && ["투자형", "사업형", "성과형"].includes(top)) return "aggressive";
+  return "balanced";
+}
+
 function healthHint(element: ElementKey, locale: Locale): string {
   const table: Record<ElementKey, Record<Locale, string>> = {
     wood: {
@@ -262,6 +404,7 @@ export function elementPercents(power: Record<ElementKey, number>): Record<Eleme
 export function buildThemeCards(calculation: SajuCalculation, locale: Locale): ThemeCardData[] {
   const card = dayMasterCard(calculation.dayMaster.gan);
   const voice = STEM_VOICE[calculation.dayMaster.gan]?.[locale] ?? STEM_VOICE["甲"][locale];
+  const head = STEM_HEAD[calculation.dayMaster.gan]?.[locale] ?? STEM_HEAD["甲"][locale];
   const strength = term(STRENGTH_NAME, calculation.strength.classification, locale);
   const topWealth = calculation.wealthTypes[0];
   const topCareer = calculation.careerTypes[0];
@@ -269,212 +412,468 @@ export function buildThemeCards(calculation: SajuCalculation, locale: Locale): T
   const seun = currentSeun(calculation);
   const { weak, strong } = weakStrong(calculation);
   const p = calculation.pillars;
-  const hour = p.hour ? `${p.hour.ganzhiKorean} (${p.hour.ganzhi})` : msg(locale, "timeUnknownLabel");
+  const day = calculation.dayMaster;
+  const yongsinKeys = calculation.useGod.yongsin.map((item) => KO_ELEMENT[item]).filter(Boolean) as ElementKey[];
+  const gisinKeys = calculation.useGod.gisin.map((item) => KO_ELEMENT[item]).filter(Boolean) as ElementKey[];
+  const support = generatedBy(day.element);
+  const pressure = controlledBy(day.element);
+  const output = GENERATES[day.element];
+  const wealthEl = CONTROLS[day.element];
+  const style = investStyle(topWealth?.type);
   const year = new Date().getFullYear();
+  const gods = godLine(calculation, locale);
+  const yong = calculation.useGod.yongsin.join("·") || "-";
+  const hee = calculation.useGod.heesin.join("·") || "-";
 
   const character: ThemeCardData = {
     id: "character",
     title: msg(locale, "themeCharacter"),
     kicker: card.title[locale],
-    paragraphs: clean([
-      ...voice,
-      locale === "ko"
-        ? `일간은 ${calculation.dayMaster.ganKorean}${calculation.dayMaster.elementKorean}이고, 신강/신약은 ${calculation.strength.score}점 · ${strength}입니다. 월지 ${p.month.zhiKorean}의 십성(${tenGod(p.month.zhiTenGodKorean, locale)})이 사회에서 보이는 첫인상에 가깝습니다.`
-        : locale === "es"
-          ? `El tronco diario es ${calculation.dayMaster.gan} (${calculation.dayMaster.elementKorean}). Fuerza ${calculation.strength.score} · ${strength}. La rama del mes ${p.month.zhi} (${tenGod(p.month.zhiTenGodKorean, locale)}) se parece a la primera impresión social.`
-          : `Pień dnia to ${calculation.dayMaster.gan} (${calculation.dayMaster.elementKorean}). Siła ${calculation.strength.score} · ${strength}. Gałąź miesiąca ${p.month.zhi} (${tenGod(p.month.zhiTenGodKorean, locale)}) jest bliska pierwszemu wrażeniu społecznemu.`,
-      locale === "ko"
-        ? `십성 상위는 ${godLine(calculation, locale)}입니다. 이 조합이 말투, 결정 속도, 사람 다루는 방식에 반복됩니다.`
-        : locale === "es"
-          ? `Diez dioses dominantes: ${godLine(calculation, locale)}. Ese cóctel se repite en el habla, la velocidad de decisión y el trato.`
-          : `Dominujące dziesięć gwiazd: ${godLine(calculation, locale)}. Ta mieszanka wraca w mowie, tempie decyzji i sposobie traktowania ludzi.`,
+    front: clean([
+      loc(
+        locale,
+        `일간 ${day.ganKorean}${day.elementKorean}(${day.gan}) · 신강/신약 ${calculation.strength.score}점 ${strength}.`,
+        `Tronco diario ${day.gan} (${ELEMENT_NAME.es[day.element]}). Fuerza ${calculation.strength.score} · ${strength}.`,
+        `Pień dnia ${day.gan} (${ELEMENT_NAME.pl[day.element]}). Siła ${calculation.strength.score} · ${strength}.`,
+      ),
+      loc(
+        locale,
+        `월지 ${p.month.zhiKorean}의 십성은 ${tenGod(p.month.zhiTenGodKorean, locale)}입니다. 사회 첫인상과 가깝습니다.`,
+        `La rama del mes ${p.month.zhi} es ${tenGod(p.month.zhiTenGodKorean, locale)}: primera impresión social.`,
+        `Gałąź miesiąca ${p.month.zhi} to ${tenGod(p.month.zhiTenGodKorean, locale)}: pierwsze wrażenie społeczne.`,
+      ),
+      loc(locale, `십성 상위: ${gods}. 용신 ${yong} · 희신 ${hee}.`, `Diez dioses: ${gods}. Yongsin ${yong} · Heesin ${hee}.`, `Dziesięć gwiazd: ${gods}. Yongsin ${yong} · Heesin ${hee}.`),
     ]),
-    bullets: calculation.talents.slice(0, 3).map((item) => item.ability),
-  };
-
-  const love: ThemeCardData = {
-    id: "love",
-    title: msg(locale, "themeLove"),
-    kicker: p.day.zhiKorean,
-    paragraphs: clean([
-      locale === "ko"
-        ? calculation.birth.gender === "male"
-          ? "전통적으로 남성은 재성을 배우자성으로 보지만, 이 사이트는 성별 공식만으로 상대를 단정하지 않습니다. 일지(배우자궁), 합충, 식상, 대운을 함께 봅니다."
-          : "전통적으로 여성은 관성을 배우자성으로 보지만, 성별 공식만으로 결혼 상대를 확정하지 않습니다. 일지와 대운의 기후를 같이 읽습니다."
-        : locale === "es"
-          ? "No fijamos la pareja solo por el sexo. Miramos el palacio del cónyuge (rama del día), uniones y choques, y el clima del daeun."
-          : "Nie ustalamy partnera samą płcią. Patrzymy na pałac współmałżonka (gałąź dnia), połączenia i zderzenia oraz klimat daeun.",
-      locale === "ko"
-        ? `일지는 ${p.day.zhiKorean}(${p.day.twelveStageKorean})이라 관계에서 ${p.day.twelveStageKorean}의 리듬이 잘 드러납니다. 사랑 시작은 식상이 많으면 표현형, 인성이 많으면 관찰형, 관성이 많으면 조건·책임형으로 나타나는 경우가 많습니다.`
-        : locale === "es"
-          ? `La rama del día es ${p.day.zhi} (${p.day.twelveStageKorean}): ese ritmo sale en la pareja. Mucha expresión (siksang) habla; mucha impronta (in) observa; mucha autoridad (gwan) pone condiciones.`
-          : `Gałąź dnia to ${p.day.zhi} (${p.day.twelveStageKorean}): ten rytm widać w relacji. Dużo siksang — wyrażanie; dużo in — obserwacja; dużo gwan — warunki i odpowiedzialność.`,
-      daeun
-        ? locale === "ko"
-          ? `현재 대운의 관계 키워드는 “${daeun.love}”입니다.`
-          : locale === "es"
-            ? `En el daeun actual, la clave relacional es: “${daeun.love}”.`
-            : `W obecnym daeun klucz relacji: „${daeun.love}”.`
-        : "",
-      seun
-        ? locale === "ko"
-          ? `${seun.year}년 세운의 연애는 “${seun.love}” 쪽입니다. 별점 ${seun.stars}/5는 상대 평가입니다.`
-          : locale === "es"
-            ? `En ${seun.year} el amor del seun tiende a “${seun.love}”. ${seun.stars}/5 es valoración relativa.`
-            : `W ${seun.year} miłość seun skłania się ku „${seun.love}”. ${seun.stars}/5 to ocena względna.`
-        : "",
-    ]),
-    bullets: calculation.relations.slice(0, 4).map((item) => item.description),
-  };
-
-  const wealth: ThemeCardData = {
-    id: "wealth",
-    title: msg(locale, "themeWealth"),
-    kicker: topWealth ? term(WEALTH_TYPE, topWealth.type, locale) : "",
-    paragraphs: clean([
-      locale === "ko"
-        ? `가장 잘 맞는 현금흐름 유형은 ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}입니다. ${topWealth?.reasons[0] ?? ""} 돈을 버는 힘(식상생재)과 지키는 힘(정재·인성), 새는 구멍(겁재·충)을 나눠 봅니다.`
-        : locale === "es"
-          ? `El flujo de dinero más afinado es ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}. ${topWealth?.reasons[0] ?? ""} Separamos ganar, guardar y fugas.`
-          : `Najlepiej dopasowany przepływ to ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}. ${topWealth?.reasons[0] ?? ""} Rozdzielamy zarabianie, trzymanie i wycieki.`,
-      locale === "ko"
-        ? `재성 점수 상위: ${calculation.wealthTypes
-            .slice(0, 4)
-            .map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`)
-            .join(" · ")}.`
-        : locale === "es"
-          ? `Ranking: ${calculation.wealthTypes
-              .slice(0, 4)
-              .map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`)
-              .join(" · ")}.`
-          : `Ranking: ${calculation.wealthTypes
-              .slice(0, 4)
-              .map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`)
-              .join(" · ")}.`,
-      daeun
-        ? locale === "ko"
-          ? `이번 대운의 돈 기후는 “${daeun.money}”입니다. 부동산·투자는 사주 추천이 아니라, 재성과 인성이 함께 오는 구간에서 공부 후 실행하는 편이 덜 위험합니다.`
-          : locale === "es"
-            ? `Clima de dinero del daeun: “${daeun.money}”. Esto no es consejo de inversión.`
-            : `Klimat pieniędzy daeun: „${daeun.money}”. To nie jest rada inwestycyjna.`
-        : "",
-    ]),
-    bullets: calculation.wealthTypes.slice(0, 3).flatMap((item) => item.reasons.slice(0, 1)),
+    frontBullets: calculation.strength.reasons.slice(0, 3),
+    easyHeadline: head,
+    easy: voice,
+    easyBullets: calculation.talents.slice(0, 2).map((item) => item.ability),
   };
 
   const career: ThemeCardData = {
     id: "career",
     title: msg(locale, "themeCareer"),
     kicker: topCareer ? term(CAREER_TYPE, topCareer.type, locale) : "",
-    paragraphs: clean([
-      locale === "ko"
-        ? `직업 적성 1순위는 ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}입니다. ${topCareer?.reasons[0] ?? ""} 한 글자로 직업을 확정하지 않습니다.`
-        : locale === "es"
-          ? `Vocación primera: ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}. ${topCareer?.reasons[0] ?? ""} No fijamos un oficio de una sola letra.`
-          : `Pierwszy trop zawodu: ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}. ${topCareer?.reasons[0] ?? ""} Nie zamykamy zawodu jednym znakiem.`,
-      locale === "ko"
-        ? `상위 유형: ${calculation.careerTypes
-            .slice(0, 5)
-            .map((item) => term(CAREER_TYPE, item.type, locale))
-            .join(", ")}. 승진은 관성+인성+해당 대운, 사업은 식상+재성, 전문성은 인성+식상으로 읽습니다.`
-        : locale === "es"
-          ? `Tipos altos: ${calculation.careerTypes
-              .slice(0, 5)
-              .map((item) => term(CAREER_TYPE, item.type, locale))
-              .join(", ")}.`
-          : `Górne typy: ${calculation.careerTypes
-              .slice(0, 5)
-              .map((item) => term(CAREER_TYPE, item.type, locale))
-              .join(", ")}.`,
+    front: clean([
+      loc(
+        locale,
+        `적성 1순위는 ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}입니다. ${topCareer?.reasons[0] ?? ""} 관성+인성은 조직, 식상+재성은 사업, 인성+식상은 전문성으로 읽습니다.`,
+        `Vocación 1: ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}. ${topCareer?.reasons[0] ?? ""} Autoridad+impronta = organización; expresión+riqueza = negocio.`,
+        `Zawód 1: ${term(CAREER_TYPE, topCareer?.type ?? "", locale)}. ${topCareer?.reasons[0] ?? ""} Autorytet+pieczęć = organizacja; wyraz+majątek = biznes.`,
+      ),
+      loc(
+        locale,
+        `상위 유형: ${calculation.careerTypes.slice(0, 5).map((item) => term(CAREER_TYPE, item.type, locale)).join(", ")}.`,
+        `Tipos altos: ${calculation.careerTypes.slice(0, 5).map((item) => term(CAREER_TYPE, item.type, locale)).join(", ")}.`,
+        `Górne typy: ${calculation.careerTypes.slice(0, 5).map((item) => term(CAREER_TYPE, item.type, locale)).join(", ")}.`,
+      ),
       daeun
-        ? locale === "ko"
-          ? `현재 대운의 직업 키워드는 “${daeun.career}”입니다. ${daeun.opportunity}`
-          : locale === "es"
-            ? `Clave laboral del daeun: “${daeun.career}”. ${daeun.opportunity}`
-            : `Klucz zawodowy daeun: „${daeun.career}”. ${daeun.opportunity}`
+        ? loc(locale, `현재 대운 직업 키워드: ${daeun.career}.`, `Daeun laboral: ${daeun.career}.`, `Daeun zawodowy: ${daeun.career}.`)
         : "",
     ]),
-    bullets: calculation.talents.slice(0, 3).map((item) => `${item.title}: ${item.careers.slice(0, 3).join(", ")}`),
+    frontBullets: calculation.talents.slice(0, 3).map((item) => `${item.title}: ${item.careers.slice(0, 3).join(", ")}`),
+    easyHeadline: loc(
+      locale,
+      `일 잘 되는 모드는 ‘${term(CAREER_TYPE, topCareer?.type ?? "", locale)}’에 가까워요.`,
+      `Te va el modo “${term(CAREER_TYPE, topCareer?.type ?? "", locale)}”.`,
+      `Najlepiej wchodzisz w tryb „${term(CAREER_TYPE, topCareer?.type ?? "", locale)}”.`,
+    ),
+    easy: clean([
+      loc(
+        locale,
+        "한 글자로 직업을 못 찍어요. 대신 일하는 리듬은 분명해요.",
+        "No te pongo un oficio de una letra. Sí el ritmo de trabajo.",
+        "Nie dam ci zawodu jedną literą. Rytm pracy — tak.",
+      ),
+      loc(
+        locale,
+        topCareer?.type === "창업형" || topCareer?.type === "콘텐츠형"
+          ? "만들어 보여주는 쪽이 맞아요. 지시만 받는 자리는 금방 답답해져요."
+          : topCareer?.type === "연구형" || topCareer?.type === "전문직형"
+            ? "깊게 파는 일이 맞아요. 매일 사람만 상대하면 방전돼요."
+            : "사람과 규칙을 같이 다루는 자리가 오래 가요. 혼자 다 만들려 하지 마세요.",
+        topCareer?.type === "창업형" || topCareer?.type === "콘텐츠형"
+          ? "Te sienta crear y mostrar. Un puesto solo de órdenes te ahoga."
+          : topCareer?.type === "연구형" || topCareer?.type === "전문직형"
+            ? "Te sienta profundizar. Si solo atiendes gente todo el día, te vacías."
+            : "Te dura un puesto con gente y normas. No intentes hacerlo todo solo.",
+        topCareer?.type === "창업형" || topCareer?.type === "콘텐츠형"
+          ? "Pasuje ci tworzyć i pokazywać. Samo wykonywanie poleceń cię dusi."
+          : topCareer?.type === "연구형" || topCareer?.type === "전문직형"
+            ? "Pasuje ci kopać w głąb. Sam kontakt z ludźmi przez cały dzień cię opróżnia."
+            : "Dłużej wytrzymasz tam, gdzie są ludzie i zasady. Nie rób wszystkiego sam.",
+      ),
+      loc(
+        locale,
+        "프로젝트 하나, 마감 하나, 내가 책임지는 덩어리가 있으면 속도가 나요.",
+        "Un proyecto, un plazo, un bloque tuyo: ahí sale velocidad.",
+        "Jeden projekt, jeden deadline, jeden twój kawałek — wtedy idzie tempo.",
+      ),
+    ]),
+    easyBullets: [],
+  };
+
+  const investLabel = loc(
+    locale,
+    style === "stable" ? "안정형" : style === "aggressive" ? "공격형" : "균형형",
+    style === "stable" ? "conservador" : style === "aggressive" ? "agresivo" : "equilibrado",
+    style === "stable" ? "stabilny" : style === "aggressive" ? "agresywny" : "zrównoważony",
+  );
+
+  const wealth: ThemeCardData = {
+    id: "wealth",
+    title: msg(locale, "themeWealth"),
+    kicker: investLabel,
+    front: clean([
+      loc(
+        locale,
+        `현금흐름 유형 1순위는 ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}입니다. ${topWealth?.reasons[0] ?? ""} 식상생재는 버는 힘, 정재·인성은 지키는 힘, 겁재·충은 새는 구멍입니다.`,
+        `Flujo 1: ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}. ${topWealth?.reasons[0] ?? ""} Expresión→riqueza = ganar; riqueza estable + impronta = guardar.`,
+        `Przepływ 1: ${term(WEALTH_TYPE, topWealth?.type ?? "", locale)}. ${topWealth?.reasons[0] ?? ""} Wyraz→majątek = zarabianie; stały majątek + pieczęć = trzymanie.`,
+      ),
+      loc(
+        locale,
+        `재성 점수: ${calculation.wealthTypes.slice(0, 4).map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`).join(" · ")}.`,
+        `Ranking: ${calculation.wealthTypes.slice(0, 4).map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`).join(" · ")}.`,
+        `Ranking: ${calculation.wealthTypes.slice(0, 4).map((item) => `${term(WEALTH_TYPE, item.type, locale)} ${item.score}`).join(" · ")}.`,
+      ),
+      daeun ? loc(locale, `대운 돈 기후: ${daeun.money}.`, `Clima de dinero del daeun: ${daeun.money}.`, `Klimat pieniędzy daeun: ${daeun.money}.`) : "",
+    ]),
+    frontBullets: calculation.wealthTypes.slice(0, 3).flatMap((item) => item.reasons.slice(0, 1)),
+    easyHeadline: loc(locale, `돈 감각은 ${investLabel}에 가까워요.`, `Tu dinero tira a lo ${investLabel}.`, `Twoje pieniądze ciągną ku stylowi ${investLabel}.`),
+    easy: clean([
+      loc(
+        locale,
+        style === "stable"
+          ? "한 번에 크게 먹기보다, 새는 구멍부터 막는 편이 마음이 편해요."
+          : style === "aggressive"
+            ? "기회가 보이면 몸이 먼저 반응해요. 대신 한 번에 올인하지 마세요."
+            : "벌 때와 지킬 때를 나누면 덜 흔들려요. 반반이 이 사주의 기본값이에요.",
+        style === "stable"
+          ? "Mejor tapar fugas que apostar a lo grande de un golpe."
+          : style === "aggressive"
+            ? "Si ves oportunidad, el cuerpo responde. No pongas todo en una carta."
+            : "Separa ganar y guardar. Mitad y mitad es tu valor por defecto.",
+        style === "stable"
+          ? "Lepiej zatkać wycieki, niż jeść wszystko za jednym razem."
+          : style === "aggressive"
+            ? "Jak widzisz okazję, ciało reaguje pierwsze. Nie stawiaj wszystkiego na jedną kartę."
+            : "Oddziel zarabianie od trzymania. Pół na pół to twoja baza.",
+      ),
+      loc(
+        locale,
+        "월급·모으기·사업 중 뭐가 ‘맞냐’만 보세요. 종목 찍기는 사주 일이 아니에요.",
+        "Mira si te va sueldo, ahorro o negocio. El saju no elige acciones.",
+        "Patrz, czy pasuje pensja, odkładanie czy biznes. Saju nie wybiera spółek.",
+      ),
+    ]),
+    easyBullets: [],
+    disclaimer: msg(locale, "wealthFunDisclaimer"),
+  };
+
+  const love: ThemeCardData = {
+    id: "love",
+    title: msg(locale, "themeLove"),
+    kicker: p.day.zhiKorean,
+    front: clean([
+      loc(
+        locale,
+        `배우자궁은 일지 ${p.day.zhiKorean}(${p.day.twelveStageKorean})입니다. 성별 공식만으로 상대를 단정하지 않고, 일지·합충·식상·대운을 같이 봅니다.`,
+        `Palacio del cónyuge: rama del día ${p.day.zhi} (${p.day.twelveStageKorean}). No fijamos pareja solo por sexo.`,
+        `Pałac współmałżonka: gałąź dnia ${p.day.zhi} (${p.day.twelveStageKorean}). Nie ustalamy partnera samą płcią.`,
+      ),
+      loc(
+        locale,
+        "식상이 많으면 표현형, 인성이 많으면 관찰형, 관성이 많으면 조건·책임형으로 나타나는 경우가 많습니다.",
+        "Mucha expresión: habla. Mucha impronta: observa. Mucha autoridad: pone condiciones.",
+        "Dużo wyrazu: mówi. Dużo pieczęci: obserwuje. Dużo autorytetu: stawia warunki.",
+      ),
+      daeun ? loc(locale, `현재 대운 관계 키워드: ${daeun.love}.`, `Clave relacional del daeun: ${daeun.love}.`, `Klucz relacji daeun: ${daeun.love}.`) : "",
+    ]),
+    frontBullets: calculation.relations.slice(0, 3).map((item) => item.description),
+    easyHeadline: loc(
+      locale,
+      "사랑은 분위기부터 읽고, 말로 밀어붙이면 오히려 어색해져요.",
+      "En el amor lees el ambiente; si empujas con palabras, se pone raro.",
+      "W miłości najpierw czytasz nastrój; pchanie słowami robi się dziwnie.",
+    ),
+    easy: clean([
+      loc(
+        locale,
+        `관계에서 ${p.day.twelveStageKorean} 리듬이 나와요. 급하게 확정하려고 하면 상대가 숨어요.`,
+        `En pareja sale el ritmo ${p.day.twelveStageKorean}. Si cierras demasiado pronto, el otro se esconde.`,
+        `W relacji wychodzi rytm ${p.day.twelveStageKorean}. Jak za szybko zamykasz, druga strona się chowa.`,
+      ),
+      loc(
+        locale,
+        "좋아하는 티는 작게, 약속은 분명하게. 그게 이 사주의 연애 매너예요.",
+        "El gusto, en bajo; la cita, clara. Ese es tu modo.",
+        "Sympatia — cicho. Umowa — jasno. Taki masz tryb.",
+      ),
+      seun ? loc(locale, `${seun.year}년 연애 날씨: ${seun.love}.`, `Clima amoroso ${seun.year}: ${seun.love}.`, `Klimat miłości ${seun.year}: ${seun.love}.`) : "",
+    ]),
+    easyBullets: [],
+  };
+
+  const match: ThemeCardData = {
+    id: "match",
+    title: msg(locale, "themeMatch"),
+    kicker: loc(locale, `${ELEMENT_NAME.ko[support]}생 ${ELEMENT_NAME.ko[day.element]}`, `${ELEMENT_NAME.es[support]} → ${ELEMENT_NAME.es[day.element]}`, `${ELEMENT_NAME.pl[support]} → ${ELEMENT_NAME.pl[day.element]}`),
+    front: clean([
+      loc(
+        locale,
+        `나를 생하는 오행은 ${ELEMENT_NAME.ko[support]}(인성), 같은 오행은 ${ELEMENT_NAME.ko[day.element]}(비겁), 나를 극하는 오행은 ${ELEMENT_NAME.ko[pressure]}(관성)입니다.`,
+        `Me genera ${ELEMENT_NAME.es[support]} (impronta). Mismo elemento: ${ELEMENT_NAME.es[day.element]}. Me controla ${ELEMENT_NAME.es[pressure]} (autoridad).`,
+        `Rodzi mnie ${ELEMENT_NAME.pl[support]} (pieczęć). Ten sam żywioł: ${ELEMENT_NAME.pl[day.element]}. Kontroluje mnie ${ELEMENT_NAME.pl[pressure]} (autorytet).`,
+      ),
+      loc(
+        locale,
+        `내가 생하는 쪽은 ${ELEMENT_NAME.ko[output]}(식상), 내가 극하는 쪽은 ${ELEMENT_NAME.ko[wealthEl]}(재성)입니다. 합이 있으면 끌리고, 충이 있으면 리듬이 어긋납니다.`,
+        `Yo genero ${ELEMENT_NAME.es[output]} (expresión) y controlo ${ELEMENT_NAME.es[wealthEl]} (riqueza). Unión atrae; choque desajusta el ritmo.`,
+        `Ja rodzę ${ELEMENT_NAME.pl[output]} (wyraz) i kontroluję ${ELEMENT_NAME.pl[wealthEl]} (majątek). Połączenie przyciąga; zderzenie psuje rytm.`,
+      ),
+    ]),
+    frontBullets: calculation.relations.slice(0, 3).map((item) => `${item.typeKorean}: ${item.description}`),
+    easyHeadline: loc(
+      locale,
+      `편해요: ${ELEMENT_NAME.ko[support]}·${ELEMENT_NAME.ko[day.element]} 느낌의 사람. 부담: ${ELEMENT_NAME.ko[pressure]}처럼 세게 누르는 사람.`,
+      `Cómodo: gente ${ELEMENT_NAME.es[support]}/${ELEMENT_NAME.es[day.element]}. Cuidado: quien aprieta como ${ELEMENT_NAME.es[pressure]}.`,
+      `Wygodnie: ludzie ${ELEMENT_NAME.pl[support]}/${ELEMENT_NAME.pl[day.element]}. Uwaga: kto uciska jak ${ELEMENT_NAME.pl[pressure]}.`,
+    ),
+    easy: clean([
+      loc(
+        locale,
+        "받아주고, 속도 맞춰 주고, 혼자 결정하라고 안 재촉하는 사람이 오래 가요.",
+        "Quien te recibe, adapta el ritmo y no te empuja a decidir solo, dura.",
+        "Kto cię przyjmuje, dopasowuje tempo i nie pcha do decyzji w pojedynkę — zostaje.",
+      ),
+      loc(
+        locale,
+        "내 말을 자르거나, 정답만 던지거나, 자존심 싸움으로 가는 사람은 초반엔 짜릿해도 금방 지쳐요.",
+        "Quien te corta, suelta ‘la verdad’ o pelea el orgullo: al inicio pica, luego cansa.",
+        "Kto ci przerywa, rzuca „prawdę” albo idzie w honory: na starcie iskrzy, potem męczy.",
+      ),
+    ]),
+    easyBullets: [],
+  };
+
+  const relations: ThemeCardData = {
+    id: "relations",
+    title: msg(locale, "themeRelations"),
+    kicker: loc(locale, "년주·월주", "Año · mes", "Rok · miesiąc"),
+    front: clean([
+      loc(
+        locale,
+        `년주 ${p.year.ganzhiKorean}은 초년·친구 층, 월주 ${p.month.ganzhiKorean}은 사회·직장 층으로 읽습니다. 월지 십성 ${tenGod(p.month.zhiTenGodKorean, locale)}이 조직에서 보이는 태도입니다.`,
+        `Pilar del año ${p.year.ganzhi}: amigos/inicio. Pilar del mes ${p.month.ganzhi}: trabajo. Diez dioses del mes: ${tenGod(p.month.zhiTenGodKorean, locale)}.`,
+        `Filar roku ${p.year.ganzhi}: przyjaciele/początek. Filar miesiąca ${p.month.ganzhi}: praca. Gwiazda miesiąca: ${tenGod(p.month.zhiTenGodKorean, locale)}.`,
+      ),
+      calculation.relations.length
+        ? loc(locale, `원국 합충: ${calculation.relations.map((item) => item.typeKorean).join(", ")}.`, `Uniones/choques: ${calculation.relations.map((item) => item.typeKorean).join(", ")}.`, `Połączenia/zderzenia: ${calculation.relations.map((item) => item.typeKorean).join(", ")}.`)
+        : loc(locale, "원국 합충이 두드러지지 않아 관계는 대운·세운에서 더 잘 흔들립니다.", "Pocos choques natales: las relaciones se mueven más en daeun/seun.", "Mało zderzeń w karcie: relacje ruszają się bardziej w daeun/seun."),
+    ]),
+    frontBullets: [],
+    easyHeadline: loc(
+      locale,
+      "친구는 깊게, 직장은 역할이 분명할 때 편해요.",
+      "Amigos, en profundidad. Trabajo, cuando el rol está claro.",
+      "Przyjaciele — głęboko. Praca — gdy rola jest jasna.",
+    ),
+    easy: clean([
+      loc(
+        locale,
+        "친구는 많이 사귀기보다, 몇 명과 오래 가는 쪽이 맞아요. 가벼운 모임은 괜찮고, 매일 감정 공유는 부담이에요.",
+        "Mejor pocos amigos largos que muchos. Queda bien lo ligero; compartir emoción a diario pesa.",
+        "Lepiej kilku przyjaciół na długo niż tłum. Lekkie spotkania OK; codzienne wylewanie emocji ciąży.",
+      ),
+      loc(
+        locale,
+        "직장에서는 ‘내가 뭘 맡는지’가 보이면 힘이 나요. 모호한 지시, 갑작스런 역할 변경은 스트레스를 키워요.",
+        "En el trabajo te da fuerza ver qué es tuyo. La orden vaga y el cambio brusco de rol estresan.",
+        "W pracy dodaje siły, gdy widać, co jest twoje. Mętne polecenie i nagła zmiana roli robią stres.",
+      ),
+    ]),
+    easyBullets: [],
+  };
+
+  const lucky = chipsFor(yongsinKeys.length ? yongsinKeys : [support, output], locale, 4);
+  const avoid = chipsFor(gisinKeys.length ? gisinKeys : [pressure], locale, 3);
+
+  const colors: ThemeCardData = {
+    id: "colors",
+    title: msg(locale, "themeColors"),
+    kicker: loc(locale, `용신 ${yong}`, `Yongsin ${yong}`, `Yongsin ${yong}`),
+    front: clean([
+      loc(
+        locale,
+        `용신 오행 ${yong}은 색으로 보완하는 오행입니다. 희신 ${hee}, 기신 ${calculation.useGod.gisin.join("·") || "-"}.`,
+        `Yongsin ${yong}: elementos a reforzar con color. Heesin ${hee}. Gisin ${calculation.useGod.gisin.join("·") || "-"}.`,
+        `Yongsin ${yong}: żywioły do wzmocnienia kolorem. Heesin ${hee}. Gisin ${calculation.useGod.gisin.join("·") || "-"}.`,
+      ),
+      loc(
+        locale,
+        "오방색 기준으로 용신 계열은 가까이, 기신 계열은 눈앞에 너무 많이 두지 않습니다.",
+        "En obangsaek, acerca el yongsin y no satures el gisin delante de los ojos.",
+        "W obangsaek trzymaj yongsin blisko, a gisin nie pchaj przed oczy.",
+      ),
+    ]),
+    frontBullets: [],
+    easyHeadline: loc(locale, "옷·소품 색깔은 ‘기분 좋아지는 쪽’을 고르면 돼요.", "En ropa y objetos, elige el color que te sienta bien.", "W ubraniu i przedmiotach bierz kolor, przy którym ci dobrze."),
+    easy: clean([
+      loc(
+        locale,
+        "행운색은 나를 살리는 오행 색이에요. 피하면 좋은 색은 ‘나쁜 색’이 아니라, 너무 많으면 피곤한 색이에요.",
+        "Los colores de suerte nutren tu elemento. Los de evitar no son ‘malos’: cansan si hay demasiados.",
+        "Kolory szczęścia karmią twój żywioł. Te do unikania nie są „złe” — męczą, gdy jest ich za dużo.",
+      ),
+    ]),
+    easyBullets: [],
+    luckyColors: lucky,
+    avoidColors: avoid,
+  };
+
+  const fengshui: ThemeCardData = {
+    id: "fengshui",
+    title: msg(locale, "themeFengshui"),
+    kicker: loc(locale, `용신 ${yong}`, `Yongsin ${yong}`, `Yongsin ${yong}`),
+    front: clean([
+      loc(
+        locale,
+        `풍수는 용신 오행을 공간에 배치하는 일로 봅니다. 목은 동, 화는 남, 토는 중앙·남서, 금은 서, 수는 북입니다.`,
+        `El feng shui aquí coloca el yongsin en el espacio. Madera este, fuego sur, tierra centro/SO, metal oeste, agua norte.`,
+        `Feng shui tutaj stawia yongsin w przestrzeni. Drewno wschód, ogień południe, ziemia środek/SW, metal zachód, woda północ.`,
+      ),
+      loc(
+        locale,
+        `이 사주의 우선 오행은 ${yong}입니다. 책상·침대·출입구가 그 방향을 막지 않게 합니다.`,
+        `Tu elemento prioritario es ${yong}. Que mesa, cama y puerta no lo tapen.`,
+        `Twój pierwszy żywioł to ${yong}. Biurko, łóżko i drzwi niech go nie zasłaniają.`,
+      ),
+    ]),
+    frontBullets: (yongsinKeys.length ? yongsinKeys : [day.element]).map((element) =>
+      loc(
+        locale,
+        element === "wood"
+          ? "동쪽 · 식물 · 나무 소품 · 직사각 배치"
+          : element === "fire"
+            ? "남쪽 · 조명 · 촛불 · 따뜻한 직물"
+            : element === "earth"
+              ? "중앙·남서 · 도자기 · 낮은 수납 · 안정된 바닥"
+              : element === "metal"
+                ? "서쪽 · 둥근 금속 · 종 · 정리된 선"
+                : "북쪽 · 거울·물그릇 · 남색 패브릭 · 곡선",
+        element === "wood"
+          ? "Este · plantas · madera · líneas rectas"
+          : element === "fire"
+            ? "Sur · luz · vela · tejidos cálidos"
+            : element === "earth"
+              ? "Centro/SO · cerámica · mueble bajo · suelo estable"
+              : element === "metal"
+                ? "Oeste · metal redondo · campana · líneas limpias"
+                : "Norte · espejo/cuenco de agua · tela índigo · curva",
+        element === "wood"
+          ? "Wschód · rośliny · drewno · proste linie"
+          : element === "fire"
+            ? "Południe · światło · świeca · ciepłe tkaniny"
+            : element === "earth"
+              ? "Środek/SW · ceramika · niska szafka · stabilna podłoga"
+              : element === "metal"
+                ? "Zachód · okrągły metal · dzwon · czyste linie"
+                : "Północ · lustro/miseczka wody · granat · łuk",
+      ),
+    ),
+    easyHeadline: loc(locale, "집을 ‘용신 쪽으로’ 조금 열어 두면 숨이 트여요.", "Si abres un poco la casa hacia tu yongsin, respiras.", "Jak trochę otworzysz dom w stronę yongsin, łapiesz oddech."),
+    easy: clean([
+      loc(
+        locale,
+        "비싼 인테리어가 아니라, 방향 하나와 소품 하나면 충분해요. 책상 앞에 그 색·그 질감을 두세요.",
+        "No hace falta un interior caro: una dirección y un objeto. Pon ese color y esa textura delante del escritorio.",
+        "Nie trzeba drogiego wnętrza: jeden kierunek i jeden przedmiot. Ten kolor i tę fakturę postaw przed biurkiem.",
+      ),
+      loc(
+        locale,
+        "너무 많은 거울, 너무 밝은 조명, 너무 막힌 구석이 있으면 먼저 그것부터 빼세요.",
+        "Si hay demasiados espejos, luz dura o un rincón tapado, quita eso primero.",
+        "Za dużo luster, ostrego światła albo zatkany kąt — to zdejmij najpierw.",
+      ),
+    ]),
+    easyBullets: [],
   };
 
   const health: ThemeCardData = {
     id: "health",
     title: msg(locale, "themeHealth"),
-    kicker: ELEMENT_NAME[locale][calculation.dayMaster.element],
-    paragraphs: clean([
-      locale === "ko"
-        ? "사주는 의학적 진단이 아닙니다. 아래는 명리학적으로 취약하게 보는 경향이며, 증상은 의사와 상의해야 합니다."
-        : locale === "es"
-          ? "El saju no es un diagnóstico médico. Lo que sigue es una tendencia simbólica de myeongri."
-          : "Saju nie jest diagnozą medyczną. Poniżej symboliczna tendencja myeongri.",
-      locale === "ko"
-        ? `일간 ${calculation.dayMaster.elementKorean}과 월령 ${calculation.season.monthOrderKorean} 조합에서는 수면·스트레스·피로 관리가 기본값이 됩니다.`
-        : locale === "es"
-          ? `Con tronco ${calculation.dayMaster.elementKorean} y mes ${calculation.season.monthOrderKorean}, sueño, estrés y fatiga son la base.`
-          : `Przy pniu ${calculation.dayMaster.elementKorean} i miesiącu ${calculation.season.monthOrderKorean} bazą są sen, stres i zmęczenie.`,
-      healthHint(calculation.dayMaster.element, locale),
-      locale === "ko"
-        ? `세력이 큰 오행은 ${strong.map((key) => ELEMENT_NAME.ko[key]).join("·")}, 약한 오행은 ${weak.map((key) => ELEMENT_NAME.ko[key]).join("·")}입니다. 과한 쪽은 줄이고 약한 쪽은 생활 습관으로 보완합니다.`
-        : locale === "es"
-          ? `Elementos fuertes: ${strong.map((key) => ELEMENT_NAME.es[key]).join(", ")}. Débiles: ${weak.map((key) => ELEMENT_NAME.es[key]).join(", ")}.`
-          : `Silne żywioły: ${strong.map((key) => ELEMENT_NAME.pl[key]).join(", ")}. Słabe: ${weak.map((key) => ELEMENT_NAME.pl[key]).join(", ")}.`,
-      daeun
-        ? locale === "ko"
-          ? `대운 건강 메모: ${daeun.health}`
-          : locale === "es"
-            ? `Nota de salud del daeun: ${daeun.health}`
-            : `Notatka zdrowia daeun: ${daeun.health}`
-        : "",
+    kicker: ELEMENT_NAME[locale][day.element],
+    front: clean([
+      loc(locale, "사주는 의학적 진단이 아닙니다. 오행-장부의 상징적 대응만 적습니다.", "El saju no es diagnóstico. Solo hay correspondencia simbólica elemento-órgano.", "Saju nie jest diagnozą. Tylko symboliczne powiązanie żywioł–narząd."),
+      loc(
+        locale,
+        `일간 ${day.elementKorean} · 월령 ${calculation.season.monthOrderKorean}. 강한 오행 ${strong.map((key) => ELEMENT_NAME.ko[key]).join("·")}, 약한 오행 ${weak.map((key) => ELEMENT_NAME.ko[key]).join("·")}.`,
+        `Tronco ${ELEMENT_NAME.es[day.element]} · mes ${calculation.season.monthOrderKorean}. Fuertes: ${strong.map((key) => ELEMENT_NAME.es[key]).join(", ")}. Débiles: ${weak.map((key) => ELEMENT_NAME.es[key]).join(", ")}.`,
+        `Pień ${ELEMENT_NAME.pl[day.element]} · miesiąc ${calculation.season.monthOrderKorean}. Silne: ${strong.map((key) => ELEMENT_NAME.pl[key]).join(", ")}. Słabe: ${weak.map((key) => ELEMENT_NAME.pl[key]).join(", ")}.`,
+      ),
+      healthHint(day.element, locale),
     ]),
-    bullets: calculation.weaknesses.slice(0, 3).map((item) => `${item.title} — ${item.remedy}`),
+    frontBullets: calculation.weaknesses.slice(0, 3).map((item) => `${item.title} — ${item.remedy}`),
+    easyHeadline: loc(locale, "몸이 먼저 보내는 신호는 ‘잠’이랑 ‘긴장’이에요.", "El cuerpo avisa primero con sueño y tensión.", "Ciało najpierw daje znać snem i napięciem."),
+    easy: clean([
+      loc(
+        locale,
+        "크게 아프다는 뜻이 아니에요. 과한 오행은 줄이고, 약한 오행은 생활로 보완하면 돼요.",
+        "No dice que te vas a enfermar. Baja lo que sobra y refuerza lo flojo en el día a día.",
+        "To nie znaczy, że zachorujesz. Ujmij to, czego za dużo, i wspieraj to, co słabe, na co dzień.",
+      ),
+      healthHint(day.element, locale),
+      daeun ? loc(locale, `요즘 구간 메모: ${daeun.health}.`, `Nota de ahora: ${daeun.health}.`, `Notatka na teraz: ${daeun.health}.`) : "",
+    ]),
+    easyBullets: [],
   };
 
   const yearCard: ThemeCardData = {
     id: "year",
     title: msg(locale, "themeYear"),
     kicker: seun ? `${seun.year}` : `${year}`,
-    paragraphs: clean([
+    front: clean([
       seun
-        ? locale === "ko"
-          ? `${seun.year}년은 ${seun.ganzhiKorean}(${seun.ganzhi}) · ${tenGod(seun.tenGodKorean, locale)} 세운입니다. ${seun.summary} 별점 ${seun.stars}/5는 상대 평가입니다.`
-          : locale === "es"
-            ? `${seun.year} es seun ${seun.ganzhi} · ${tenGod(seun.tenGodKorean, locale)}. ${seun.summary} Estrellas ${seun.stars}/5 (relativo).`
-            : `${seun.year} to seun ${seun.ganzhi} · ${tenGod(seun.tenGodKorean, locale)}. ${seun.summary} Gwiazdki ${seun.stars}/5 (względnie).`
-        : locale === "ko"
-          ? `${year}년 세운 데이터를 계산했습니다.`
-          : `${year}`,
-      seun
-        ? locale === "ko"
-          ? `직업: ${seun.career} / 돈: ${seun.money} / 연애: ${seun.love}`
-          : locale === "es"
-            ? `Trabajo: ${seun.career} / Dinero: ${seun.money} / Amor: ${seun.love}`
-            : `Praca: ${seun.career} / Pieniądze: ${seun.money} / Miłość: ${seun.love}`
-        : "",
+        ? loc(
+            locale,
+            `${seun.year}년 세운 ${seun.ganzhiKorean}(${seun.ganzhi}) · ${tenGod(seun.tenGodKorean, locale)}. ${seun.summary} 별점 ${seun.stars}/5는 상대 평가입니다.`,
+            `Seun ${seun.year}: ${seun.ganzhi} · ${tenGod(seun.tenGodKorean, locale)}. ${seun.summary} Estrellas ${seun.stars}/5 (relativo).`,
+            `Seun ${seun.year}: ${seun.ganzhi} · ${tenGod(seun.tenGodKorean, locale)}. ${seun.summary} Gwiazdki ${seun.stars}/5 (względnie).`,
+          )
+        : loc(locale, `${year}년 세운을 계산했습니다.`, `Seun de ${year} calculado.`, `Seun ${year} policzony.`),
+      seun ? loc(locale, `직업 ${seun.career} / 돈 ${seun.money} / 연애 ${seun.love}.`, `Trabajo ${seun.career} / dinero ${seun.money} / amor ${seun.love}.`, `Praca ${seun.career} / pieniądze ${seun.money} / miłość ${seun.love}.`) : "",
       daeun
-        ? locale === "ko"
-          ? `올해가 속한 대운은 ${daeun.startAge}~${daeun.endAge}세 ${daeun.ganzhiKorean}(${tenGod(daeun.tenGodKorean, locale)})입니다. ${daeun.opportunity} 주의: ${daeun.caution}`
-          : locale === "es"
-            ? `El daeun de este año: ${daeun.startAge}–${daeun.endAge} ${daeun.ganzhi} (${tenGod(daeun.tenGodKorean, locale)}). ${daeun.opportunity}`
-            : `Daeun tego roku: ${daeun.startAge}–${daeun.endAge} ${daeun.ganzhi} (${tenGod(daeun.tenGodKorean, locale)}). ${daeun.opportunity}`
+        ? loc(
+            locale,
+            `올해 대운 ${daeun.startAge}~${daeun.endAge}세 ${daeun.ganzhiKorean}(${tenGod(daeun.tenGodKorean, locale)}).`,
+            `Daeun ${daeun.startAge}–${daeun.endAge}: ${daeun.ganzhi} (${tenGod(daeun.tenGodKorean, locale)}).`,
+            `Daeun ${daeun.startAge}–${daeun.endAge}: ${daeun.ganzhi} (${tenGod(daeun.tenGodKorean, locale)}).`,
+          )
         : "",
-      seun && seun.relationsWithNatal.length
-        ? locale === "ko"
-          ? `원국과의 관계: ${seun.relationsWithNatal.join(", ")}. 충이 있으면 이동·계약·이별을 한꺼번에 결정하지 않는 해가 됩니다.`
-          : locale === "es"
-            ? `Relación con la carta natal: ${seun.relationsWithNatal.join(", ")}.`
-            : `Relacja z kartą urodzenia: ${seun.relationsWithNatal.join(", ")}.`
-        : locale === "ko"
-          ? "올해는 원국과 큰 충이 겹치지 않으면 기존 판을 다지는 해로 읽습니다."
-          : locale === "es"
-            ? "Si no hay choque fuerte con la carta natal, el año sirve para consolidar el tablero."
-            : "Jeśli nie ma mocnego zderzenia z kartą urodzenia, rok służy do utrwalenia planszy.",
     ]),
-    bullets: seun?.sinsalChanges?.length ? seun.sinsalChanges : calculation.sinsal.slice(0, 3).map((item) => item.name),
+    frontBullets: seun?.relationsWithNatal ?? [],
+    easyHeadline: loc(
+      locale,
+      seun?.relationsWithNatal.length ? "올해는 판이 움직이는 해예요. 한 번에 결정하지 마세요." : "올해는 판을 키우기보다, 있는 판을 다지는 해에 가까워요.",
+      seun?.relationsWithNatal.length ? "Este año mueve el tablero. No decidas todo a la vez." : "Este año, más que agrandar, asienta lo que ya tienes.",
+      seun?.relationsWithNatal.length ? "Ten rok rusza planszę. Nie decyduj wszystkiego naraz." : "Ten rok raczej utrwala planszę, niż ją powiększa.",
+    ),
+    easy: clean([
+      loc(
+        locale,
+        "직업·돈·연애를 동시에 갈아엎지 마세요. 하나만 움직이고, 나머지는 유지가 이득이에요.",
+        "No vuelques trabajo, dinero y amor a la vez. Mueve uno; el resto, mantenerlo.",
+        "Nie wywracaj naraz pracy, pieniędzy i miłości. Rusz jedno; resztę trzymaj.",
+      ),
+      seun ? loc(locale, `올해 한 줄: 일 ${seun.career} / 돈 ${seun.money} / 마음 ${seun.love}.`, `Este año: trabajo ${seun.career} / dinero ${seun.money} / corazón ${seun.love}.`, `W tym roku: praca ${seun.career} / pieniądze ${seun.money} / serce ${seun.love}.`) : "",
+    ]),
+    easyBullets: seun?.sinsalChanges ?? [],
   };
 
-  return [character, love, wealth, career, health, yearCard];
+  return [character, career, wealth, love, match, relations, colors, fengshui, health, yearCard];
 }
 
 export function themeHeadline(card: ThemeCardData): string {
-  return card.paragraphs[0] ?? "";
+  return card.easyHeadline || card.easy[0] || card.front[0] || "";
 }

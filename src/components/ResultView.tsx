@@ -12,7 +12,7 @@ import { downloadBlob, renderSharePoster, shareOrDownload } from "@/lib/share/re
 import type { AnalyzeResponse, Pillar, SajuCalculation } from "@/lib/saju/types";
 import { DayMasterCard } from "./DayMasterCard";
 import { ElementChart } from "./ElementChart";
-import { MotifIcon } from "./MotifIcon";
+import { ThemeFlipCard } from "./ThemeFlipCard";
 
 function stars(count: number) {
   return "★".repeat(count) + "☆".repeat(Math.max(0, 5 - count));
@@ -237,27 +237,7 @@ export function ResultView({ locale }: { locale: Locale }) {
         <p className="mt-2 text-sm text-[var(--muted)]">{msg(locale, "themesLead")}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {themes.map((theme) => (
-            <article key={theme.id} className="hanji-panel rounded-3xl p-6">
-              <div className="mb-4 flex items-center gap-3">
-                <MotifIcon id={theme.id} />
-                <div>
-                  <p className="text-xs tracking-[0.2em] text-[var(--gold)]">{theme.kicker}</p>
-                  <h3 className="pillar-gan text-2xl">{theme.title}</h3>
-                </div>
-              </div>
-              {theme.paragraphs.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)} className="mb-3 leading-7 text-[#ddd6c8]">
-                  {paragraph}
-                </p>
-              ))}
-              {theme.bullets.length > 0 && (
-                <ul className="mt-2 space-y-2 text-sm text-[var(--muted)]">
-                  {theme.bullets.map((item) => (
-                    <li key={item}>· {item}</li>
-                  ))}
-                </ul>
-              )}
-            </article>
+            <ThemeFlipCard key={theme.id} theme={theme} locale={locale} />
           ))}
         </div>
       </section>

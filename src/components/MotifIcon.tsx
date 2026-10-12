@@ -42,6 +42,35 @@ const PATH: Record<ThemeId, ReactNode> = {
       <path d="M18 38c6-4 22-4 28 0" fill="none" stroke="#e8e0d0" strokeWidth="1.6" />
     </>
   ),
+  match: (
+    <>
+      <path d="M18 36c6-10 10-14 14-22 4 8 8 12 14 22" fill="none" stroke="#c43c28" strokeWidth="2.2" />
+      <circle cx="24" cy="34" r="4" fill="#c4a574" />
+      <circle cx="40" cy="34" r="4" fill="#2f6b3a" />
+    </>
+  ),
+  relations: (
+    <>
+      <circle cx="22" cy="24" r="7" fill="none" stroke="#c4a574" strokeWidth="2" />
+      <circle cx="42" cy="24" r="7" fill="none" stroke="#c4a574" strokeWidth="2" />
+      <circle cx="32" cy="40" r="7" fill="none" stroke="#1d4e89" strokeWidth="2" />
+    </>
+  ),
+  colors: (
+    <>
+      <circle cx="22" cy="24" r="7" fill="#2f6b3a" />
+      <circle cx="34" cy="22" r="7" fill="#c43c28" />
+      <circle cx="28" cy="34" r="7" fill="#d4a017" />
+      <circle cx="40" cy="34" r="6" fill="#1d4e89" />
+    </>
+  ),
+  fengshui: (
+    <>
+      <rect x="18" y="26" width="28" height="18" fill="none" stroke="#c4a574" strokeWidth="2" />
+      <path d="M16 26l16-12 16 12" fill="none" stroke="#c43c28" strokeWidth="2" />
+      <circle cx="32" cy="34" r="4" fill="#d4a017" />
+    </>
+  ),
 };
 
 export function MotifIcon({ id }: { id: ThemeId }) {
