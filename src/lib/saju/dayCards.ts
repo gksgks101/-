@@ -9,6 +9,7 @@ export interface DayMasterCard {
   motif: Record<Locale, string>;
   title: Record<Locale, string>;
   subtitle: Record<Locale, string>;
+  keywords: Record<Locale, [string, string, string]>;
 }
 
 export const CARD_BACK_IMAGE = "/cards/back.jpg";
@@ -26,6 +27,11 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Un gran pino que crece derecho. Energía de inicio y apertura.",
       pl: "Wielka sosna rosnąca prosto. Energia początku i pionierskości.",
     },
+    keywords: {
+      ko: ["시작", "개척", "책임"],
+      es: ["inicio", "apertura", "deber"],
+      pl: ["start", "pionierskość", "odpowiedzialność"],
+    },
   },
   乙: {
     gan: "乙",
@@ -38,6 +44,11 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       ko: "바람에 휘어도 꺾이지 않는 매화와 버들.",
       es: "Ciruelo y sauce: flexibles, no se rompen con el viento.",
       pl: "Śliwa i wierzba: giętkie, nie łamią się na wietrze.",
+    },
+    keywords: {
+      ko: ["유연", "감각", "조율"],
+      es: ["flexión", "sentido", "ajuste"],
+      pl: ["elastyczność", "zmysł", "strojenie"],
     },
   },
   丙: {
@@ -52,6 +63,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Gran sol sobre dancheong. Fuego que revela e ilumina.",
       pl: "Wielkie słońce nad dancheong. Ogień, który odsłania i rozświetla.",
     },
+    keywords: { ko: ["밝힘", "열정", "공개"], es: ["luz", "pasión", "mostrar"], pl: ["światło", "pasja", "jawność"] },
   },
   丁: {
     gan: "丁",
@@ -65,6 +77,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Peonía y linterna de loto. Un fuego fino y duradero.",
       pl: "Piwonia i lotosowa latarnia. Subtelny, długotrwały ogień.",
     },
+    keywords: { ko: ["섬세", "지속", "취향"], es: ["sutileza", "duración", "gusto"], pl: ["subtelność", "trwanie", "gust"] },
   },
   戊: {
     gan: "戊",
@@ -78,6 +91,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Montaña y muralla. Tierra que sostiene el centro.",
       pl: "Góra i mur. Ziemia, która trzyma centrum.",
     },
+    keywords: { ko: ["중심", "신뢰", "버팀"], es: ["centro", "fe", "pilar"], pl: ["środek", "zaufanie", "podpora"] },
   },
   己: {
     gan: "己",
@@ -91,6 +105,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Arrozales de tierra amarilla. Tierra que nutre y acoge.",
       pl: "Żółte pola ryżowe. Ziemia, która karmi i obejmuje.",
     },
+    keywords: { ko: ["돌봄", "실무", "품기"], es: ["cuidado", "oficio", "acoger"], pl: ["troska", "robota", "obejmowanie"] },
   },
   庚: {
     gan: "庚",
@@ -104,6 +119,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Roca, espada y campana. Metal que corta y establece.",
       pl: "Skała, miecz i dzwon. Metal, który tnie i ustanawia.",
     },
+    keywords: { ko: ["결단", "원칙", "절단"], es: ["corte", "norma", "filo"], pl: ["cięcie", "zasada", "ostrze"] },
   },
   辛: {
     gan: "辛",
@@ -117,6 +133,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Jade y plata bajo la luna. Metal refinado.",
       pl: "Jadeit i srebro w blasku księżyca. Wyszlifowany metal.",
     },
+    keywords: { ko: ["품격", "디테일", "예민"], es: ["tono", "detalle", "sensibilidad"], pl: ["ton", "detal", "wrażliwość"] },
   },
   壬: {
     gan: "壬",
@@ -130,6 +147,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Gran mar de olas minhwa. Agua que fluye y abarca.",
       pl: "Wielkie morze fal minhwa. Woda, która płynie i ogarnia.",
     },
+    keywords: { ko: ["시야", "흐름", "확장"], es: ["mirada", "flujo", "ampliar"], pl: ["pole widzenia", "przepływ", "rozszerzanie"] },
   },
   癸: {
     gan: "癸",
@@ -143,6 +161,7 @@ export const DAY_MASTER_CARDS: Record<string, DayMasterCard> = {
       es: "Rocío del estanque al alba. Agua que se filtra.",
       pl: "Poranna rosa na stawie. Woda, która wsiąka.",
     },
+    keywords: { ko: ["직관", "스밈", "회복"], es: ["intuición", "filtrar", "recobro"], pl: ["intuicja", "wsiąkanie", "odzysk"] },
   },
 };
 

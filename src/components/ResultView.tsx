@@ -1,18 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { prose } from "@/lib/i18n/prose";
 import { GENDER_NAME, PILLAR_NAME, STRENGTH_NAME, placeName, tenGod, term } from "@/lib/i18n/terms";
+import { currentDaeun } from "@/lib/interpret/themeContext";
 import { buildThemeCards } from "@/lib/interpret/themes";
+import { buildResultSummary, youAreLine } from "@/lib/interpret/summary";
+import { buildTodayMonth } from "@/lib/interpret/today";
+import { accentFromYongsin, yongsinLine, yongsinReason } from "@/lib/interpret/yongsin";
 import { dayMasterCard } from "@/lib/saju/dayCards";
+import { decodeShareQuery, encodeShareQuery } from "@/lib/share/resultUrl";
 import { downloadBlob, renderSharePoster, shareOrDownload } from "@/lib/share/renderPoster";
 import type { AnalyzeResponse, Pillar, SajuCalculation } from "@/lib/saju/types";
 import { DayMasterCard } from "./DayMasterCard";
 import { ElementChart } from "./ElementChart";
-import { ThemeFlipCard } from "./ThemeFlipCard";
+import { MatchPanel } from "./MatchPanel";
+import { SeasonDaeun } from "./SeasonDaeun";
+import { ThemeDeck } from "./ThemeDeck";
 
 function stars(count: number) {
   return "★".repeat(count) + "☆".repeat(Math.max(0, 5 - count));
@@ -30,7 +38,7 @@ function PillarCard({ title, pillar, locale }: { title: string; pillar: Pillar |
   return (
     <article className="hanji-panel rounded-2xl p-4 text-center">
       <p className="text-xs tracking-[0.2em] text-[var(--muted)]">{title}</p>
-      <p className="pillar-gan mt-3 text-3xl text-[var(--gold)]">{pillar.gan}</p>
+      <p className="pillar-gan mt-3 text-3xl text-[var(--accent)]">{pillar.gan}</p>
       <p className="text-sm text-[var(--muted)]">
         {pillar.ganKorean} · {tenGod(pillar.ganTenGodKorean, locale)}
       </p>
@@ -48,13 +56,24 @@ function PillarCard({ title, pillar, locale }: { title: string; pillar: Pillar |
   );
 }
 
+const SCORE_LABEL: Record<string, string> = {
+  love: "love",
+  wealth: "money",
+  career: "career",
+  health: "health",
+  relations: "relation",
+};
+
 export function ResultView({ locale }: { locale: Locale }) {
+  const searchParams = useSearchParams();
   const [data, setData] = useState<AnalyzeResponse | null>(null);
   const [ready, setReady] = useState(false);
-  const [selectedDaeun, setSelectedDaeun] = useState(0);
+  const [selectedDaeun, setSelectedDaeun] = useState<number | null>(null);
   const [compareIndex, setCompareIndex] = useState(0);
   const [cleared, setCleared] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showSeunMore, setShowSeunMore] = useState(false);
+  const [showEvidence, setShowEvidence] = useState(false);
   const [shareState, setShareState] = useState("");
 
   const chart: SajuCalculation | undefined = useMemo(() => {
@@ -67,12 +86,47 @@ export function ResultView({ locale }: { locale: Locale }) {
 
   const themes = useMemo(() => (chart ? buildThemeCards(chart, locale) : []), [chart, locale]);
   const card = chart ? dayMasterCard(chart.dayMaster.gan) : null;
+  const summary = chart ? buildResultSummary(chart, locale) : null;
+  const fortunes = chart ? buildTodayMonth(chart, locale) : null;
+  const accent = chart ? accentFromYongsin(chart) : "#c41e3a";
 
   useEffect(() => {
-    const raw = sessionStorage.getItem("saju-result");
-    setData(raw ? (JSON.parse(raw) as AnalyzeResponse) : null);
-    setReady(true);
-  }, []);
+    let cancelled = false;
+    async function load() {
+      const raw = sessionStorage.getItem("saju-result");
+      if (raw) {
+        if (!cancelled) {
+          setData(JSON.parse(raw) as AnalyzeResponse);
+          setReady(true);
+        }
+        return;
+      }
+      const share = decodeShareQuery(searchParams);
+      if (!share) {
+        if (!cancelled) setReady(true);
+        return;
+      }
+      try {
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...share, locale, unlockFull: true }),
+        });
+        const json = await response.json();
+        if (!response.ok) throw new Error(json.error);
+        sessionStorage.setItem("saju-result", JSON.stringify(json));
+        if (!cancelled) setData(json as AnalyzeResponse);
+      } catch {
+        if (!cancelled) setData(null);
+      } finally {
+        if (!cancelled) setReady(true);
+      }
+    }
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [locale, searchParams]);
 
   async function makeImage() {
     if (!chart) return null;
@@ -85,6 +139,17 @@ export function ResultView({ locale }: { locale: Locale }) {
     }
   }
 
+  async function copyShareLink() {
+    if (!data?.shareInput) return;
+    const url = `${window.location.origin}/${locale}/result?${encodeShareQuery(data.shareInput)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareState(msg(locale, "shareLinkCopied"));
+    } catch {
+      setShareState(url);
+    }
+  }
+
   if (!ready) {
     return <div className="mx-auto max-w-xl px-5 py-24 text-center text-[var(--muted)]">{msg(locale, "analyzing")}</div>;
   }
@@ -93,18 +158,18 @@ export function ResultView({ locale }: { locale: Locale }) {
     return (
       <div className="mx-auto max-w-xl px-5 py-24 text-center">
         <p>{msg(locale, "cleared")}</p>
-        <Link href={`/${locale}`} className="mt-6 inline-block text-[var(--gold)]">
+        <Link href={`/${locale}`} className="mt-6 inline-block text-[var(--dancheong)]">
           {msg(locale, "analyzeAgain")}
         </Link>
       </div>
     );
   }
 
-  if (!data || !chart || !card) {
+  if (!data || !chart || !card || !summary) {
     return (
       <div className="mx-auto max-w-xl px-5 py-24 text-center">
         <p>{msg(locale, "noResult")}</p>
-        <Link href={`/${locale}`} className="mt-6 inline-block text-[var(--gold)]">
+        <Link href={`/${locale}`} className="mt-6 inline-block text-[var(--dancheong)]">
           {msg(locale, "enterBirth")}
         </Link>
       </div>
@@ -112,27 +177,52 @@ export function ResultView({ locale }: { locale: Locale }) {
   }
 
   const currentYear = new Date().getFullYear();
-  const visibleSeun = chart.seun.filter((item) => item.year >= currentYear && item.year <= currentYear + 20);
-  const daeun = chart.daeun[selectedDaeun] ?? chart.daeun[0];
+  const nearSeun = chart.seun.filter((item) => item.year >= currentYear - 2 && item.year <= currentYear + 2);
+  const extraSeun = chart.seun.filter((item) => item.year < currentYear - 2 || item.year > currentYear + 2);
   const displayName =
     !chart.birth.displayName || chart.birth.displayName === "익명" ? msg(locale, "anonymous") : chart.birth.displayName;
   const location = chart.birth.location
     .split(" ")
     .map((part) => placeName(part, locale))
     .join(" ");
+  const hourCandidates = data.hourCandidates ?? [];
+  const nowDaeun = currentDaeun(chart);
+  const currentDaeunIndex = chart.daeun.findIndex(
+    (item) => item.ganzhi === nowDaeun?.ganzhi && item.startAge === nowDaeun.startAge,
+  );
+  const daeunIndex = selectedDaeun ?? (currentDaeunIndex >= 0 ? currentDaeunIndex : 0);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-5 py-10">
+    <div className="mx-auto w-full max-w-6xl px-5 py-10" style={{ ["--accent" as string]: accent }}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs tracking-[0.3em] text-[var(--gold)]">{msg(locale, "resultKicker")}</p>
-          <h1 className="pillar-gan mt-2 text-3xl sm:text-4xl">{msg(locale, "resultTitle", { name: displayName })}</h1>
+          <p className="text-xs tracking-[0.3em] text-[var(--accent)]">{msg(locale, "resultKicker")}</p>
+          <h1 className="pillar-gan mt-2 text-4xl leading-tight sm:text-5xl">{youAreLine(summary.typeName, locale)}</h1>
           <p className="mt-2 text-[var(--muted)]">
             {chart.birth.solarDate} {chart.birth.time ?? msg(locale, "timeUnknownLabel")} · {location} ·{" "}
             {GENDER_NAME[chart.birth.gender][locale]}
+            {displayName !== msg(locale, "anonymous") ? ` · ${displayName}` : ""}
           </p>
+          <p className="mt-4 text-sm tracking-[0.18em] text-[var(--muted)]">{msg(locale, "yearKeywords")}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {summary.yearKeywords.map((word) => (
+              <span
+                key={word}
+                className="rounded-full border border-[var(--line)] bg-white/50 px-4 py-2 text-lg font-semibold text-[var(--ink)]"
+              >
+                {word}
+              </span>
+            ))}
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => void copyShareLink()}
+            className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm text-[var(--ivory)]"
+          >
+            {msg(locale, "shareLink")}
+          </button>
           <button
             type="button"
             onClick={async () => {
@@ -142,7 +232,7 @@ export function ResultView({ locale }: { locale: Locale }) {
               await downloadBlob(blob, file);
               setShareState(msg(locale, "shareCopied"));
             }}
-            className="rounded-full bg-[var(--gold)] px-4 py-2 text-sm text-[#1a140e]"
+            className="rounded-full border border-[var(--line)] px-4 py-2 text-sm"
           >
             {msg(locale, "shareSave")}
           </button>
@@ -171,17 +261,56 @@ export function ResultView({ locale }: { locale: Locale }) {
           </button>
         </div>
       </div>
-      {shareState && <p className="mb-6 text-sm text-[var(--gold)]">{shareState}</p>}
+      {shareState && <p className="mb-6 text-sm text-[var(--dancheong)]">{shareState}</p>}
+
+      <section className="mb-8 grid grid-cols-5 gap-2 rounded-3xl border border-[var(--line)] bg-white/40 p-4">
+        {summary.scores.map((item) => (
+          <div key={item.id} className="text-center">
+            <p className="text-xs text-[var(--muted)] sm:text-sm">{msg(locale, SCORE_LABEL[item.id])}</p>
+            <p className="mt-1 text-base text-[var(--dancheong)] sm:text-xl" aria-label={`${item.stars}/5`}>
+              {stars(item.stars)}
+            </p>
+          </div>
+        ))}
+      </section>
+
+      {fortunes && (
+        <section className="mb-8 grid gap-3 sm:grid-cols-2">
+          {[fortunes.today, fortunes.month].map((item) => (
+            <article key={item.title} className="hanji-panel rounded-2xl p-5">
+              <p className="text-xs tracking-[0.2em] text-[var(--muted)]">{msg(locale, "todayHint")}</p>
+              <h2 className="mt-1 text-lg font-semibold">{item.title}</h2>
+              <p className="mt-1 text-[var(--dancheong)]">{stars(item.stars)}</p>
+              <p className="mt-2 leading-7">{item.line}</p>
+            </article>
+          ))}
+        </section>
+      )}
+
+      {hourCandidates.length > 1 && (
+        <section className="mb-8 rounded-2xl border border-[var(--accent)]/40 bg-white/50 p-5">
+          <p className="font-semibold text-[var(--dancheong)]">{msg(locale, "hourMaybeTitle")}</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">{msg(locale, "hourMaybeLead")}</p>
+          <ul className="mt-4 space-y-2 text-sm">
+            {hourCandidates.map((item) => (
+              <li key={`${item.ganzhi}-${item.time}`}>
+                {item.ganzhiKorean} ({item.zhiKorean}) · {item.time}
+                {item.isCurrent ? ` · ${msg(locale, "hourCurrent")}` : ""}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {chart.hourBoundary?.crossesBoundary && (
-        <section className="mb-8 rounded-2xl border border-[var(--gold)]/40 bg-[#1c1812] p-5">
-          <p className="text-[var(--gold)]">{msg(locale, "boundaryTitle")}</p>
+        <section className="mb-8 rounded-2xl border border-[var(--accent)]/40 bg-white/50 p-5">
+          <p className="text-[var(--dancheong)]">{msg(locale, "boundaryTitle")}</p>
           <p className="mt-2 text-sm text-[var(--muted)]">{chart.hourBoundary.message}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setCompareIndex(0)}
-              className={`rounded-full px-4 py-2 text-sm ${compareIndex === 0 ? "bg-[var(--gold)] text-[#1a140e]" : "border border-[var(--line)]"}`}
+              className={`rounded-full px-4 py-2 text-sm ${compareIndex === 0 ? "bg-[var(--accent)] text-[var(--ivory)]" : "border border-[var(--line)]"}`}
             >
               {msg(locale, "defaultResult")}
             </button>
@@ -190,7 +319,7 @@ export function ResultView({ locale }: { locale: Locale }) {
                 key={item.time}
                 type="button"
                 onClick={() => setCompareIndex(index + 1)}
-                className={`rounded-full px-4 py-2 text-sm ${compareIndex === index + 1 ? "bg-[var(--gold)] text-[#1a140e]" : "border border-[var(--line)]"}`}
+                className={`rounded-full px-4 py-2 text-sm ${compareIndex === index + 1 ? "bg-[var(--accent)] text-[var(--ivory)]" : "border border-[var(--line)]"}`}
               >
                 {item.hourBranchKorean}시 {item.time}
               </button>
@@ -221,9 +350,8 @@ export function ResultView({ locale }: { locale: Locale }) {
           <h2 className="mb-3 text-sm tracking-[0.2em] text-[var(--muted)]">{msg(locale, "coreTitle")}</h2>
           <p className="pillar-gan text-2xl">{term(STRENGTH_NAME, chart.strength.classification, locale)}</p>
           <p className="mt-2 text-sm text-[var(--muted)]">{chart.pattern.name}</p>
-          <p className="mt-4 text-sm">
-            {msg(locale, "yongsin")} {chart.useGod.yongsin.join("·")} · {msg(locale, "heesin")} {chart.useGod.heesin.join("·")}
-          </p>
+          <p className="mt-4 text-sm">{yongsinLine(chart, locale)}</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">{yongsinReason(chart, locale)}</p>
           <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
             {chart.strength.reasons.slice(0, 4).map((item) => (
               <li key={item}>· {item}</li>
@@ -235,72 +363,22 @@ export function ResultView({ locale }: { locale: Locale }) {
       <section className="mt-12">
         <h2 className="pillar-gan text-3xl">{msg(locale, "themesTitle")}</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">{msg(locale, "themesLead")}</p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {themes.map((theme) => (
-            <ThemeFlipCard key={theme.id} theme={theme} locale={locale} />
-          ))}
-        </div>
+        <ThemeDeck themes={themes} locale={locale} />
       </section>
 
-      <section className="mt-10 hanji-panel rounded-3xl p-6">
-        <h3 className="pillar-gan text-2xl">{msg(locale, "daeunTitle")}</h3>
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-3">
-          {chart.daeun.map((item, index) => (
-            <button
-              key={item.ganzhi + item.startAge}
-              type="button"
-              onClick={() => setSelectedDaeun(index)}
-              className={`min-w-28 rounded-2xl border px-3 py-3 text-left ${selectedDaeun === index ? "border-[var(--gold)] bg-[#221b14]" : "border-[var(--line)]"}`}
-            >
-              <p className="text-xs text-[var(--muted)]">
-                {item.startAge}–{item.endAge}
-              </p>
-              <p className="pillar-gan text-xl">{item.ganzhi}</p>
-              <p className="text-xs text-[var(--gold)]">{stars(item.stars)}</p>
-            </button>
-          ))}
-        </div>
-        {daeun && (
-          <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-            <p>
-              {daeun.ganzhiKorean} · {tenGod(daeun.tenGodKorean, locale)}
-            </p>
-            <p>
-              {msg(locale, "keywords")} {daeun.keywords.join(" · ")}
-            </p>
-            <p>
-              {msg(locale, "money")} {prose(daeun.money, locale)}
-            </p>
-            <p>
-              {msg(locale, "career")} {prose(daeun.career, locale)}
-            </p>
-            <p>
-              {msg(locale, "love")} {prose(daeun.love, locale)}
-            </p>
-            <p>
-              {msg(locale, "health")} {prose(daeun.health, locale)}
-            </p>
-            <p>
-              {msg(locale, "relation")} {prose(daeun.relationship, locale)}
-            </p>
-            <p>
-              {msg(locale, "caution")} {prose(daeun.caution, locale)}
-            </p>
-            <p className="sm:col-span-2">
-              {msg(locale, "opportunity")} {prose(daeun.opportunity, locale)}
-            </p>
-          </div>
-        )}
-      </section>
+      <SeasonDaeun locale={locale} chart={chart} selected={daeunIndex} onSelect={setSelectedDaeun} />
 
       <section className="mt-6 hanji-panel rounded-3xl p-6">
         <h3 className="pillar-gan text-2xl">{msg(locale, "seunTitle")}</h3>
         <p className="mt-2 text-sm text-[var(--muted)]">{msg(locale, "seunHint")}</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {visibleSeun.map((item) => (
-            <article key={item.year} className="rounded-xl border border-[var(--line)] p-4">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {nearSeun.map((item) => (
+            <article
+              key={item.year}
+              className={`rounded-xl border p-4 ${item.year === currentYear ? "border-[var(--accent)] bg-white/50" : "border-[var(--line)]"}`}
+            >
               <p className="text-lg">{item.year}</p>
-              <p className="text-[var(--gold)]">{stars(item.stars)}</p>
+              <p className="text-[var(--dancheong)]">{stars(item.stars)}</p>
               <p className="mt-2 text-sm">
                 {item.ganzhi} · {tenGod(item.tenGodKorean, locale)}
               </p>
@@ -316,11 +394,36 @@ export function ResultView({ locale }: { locale: Locale }) {
             </article>
           ))}
         </div>
+        {extraSeun.length > 0 && (
+          <div className="mt-4 text-center">
+            <button type="button" onClick={() => setShowSeunMore((value) => !value)} className="text-sm text-[var(--dancheong)] underline-offset-4 hover:underline">
+              {showSeunMore ? msg(locale, "hideSeun") : msg(locale, "moreSeun")}
+            </button>
+          </div>
+        )}
+        {showSeunMore && (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {extraSeun.map((item) => (
+              <article key={item.year} className="rounded-xl border border-[var(--line)] p-4">
+                <p className="text-lg">{item.year}</p>
+                <p className="text-[var(--dancheong)]">{stars(item.stars)}</p>
+                <p className="mt-2 text-sm">
+                  {item.ganzhi} · {tenGod(item.tenGodKorean, locale)}
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
-      <div className="mt-8 text-center">
-        <button type="button" onClick={() => setShowMore((value) => !value)} className="text-sm text-[var(--gold)] underline-offset-4 hover:underline">
+      <MatchPanel locale={locale} self={data} />
+
+      <div className="mt-10 space-y-3 text-center">
+        <button type="button" onClick={() => setShowMore((value) => !value)} className="block w-full text-sm text-[var(--dancheong)] underline-offset-4 hover:underline">
           {showMore ? msg(locale, "hideReport") : msg(locale, "moreReport")}
+        </button>
+        <button type="button" onClick={() => setShowEvidence((value) => !value)} className="block w-full text-sm text-[var(--dancheong)] underline-offset-4 hover:underline">
+          {showEvidence ? msg(locale, "hideEvidence") : msg(locale, "moreEvidence")}
         </button>
       </div>
 
@@ -330,7 +433,7 @@ export function ResultView({ locale }: { locale: Locale }) {
             <article key={section.id} className="hanji-panel rounded-3xl p-6">
               <h3 className="pillar-gan text-2xl">{section.title}</h3>
               {section.paragraphs.map((paragraph) => (
-                <p key={paragraph.slice(0, 20)} className="mb-3 mt-3 leading-7 text-[#ddd6c8]">
+                <p key={paragraph.slice(0, 20)} className="mb-3 mt-3 leading-7 text-[var(--ink)]">
                   {paragraph}
                 </p>
               ))}
@@ -346,15 +449,17 @@ export function ResultView({ locale }: { locale: Locale }) {
         </div>
       )}
 
-      <section className="mt-6 hanji-panel rounded-3xl p-6">
-        <h3 className="pillar-gan text-2xl">{msg(locale, "evidenceTitle")}</h3>
-        <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
-          {chart.evidence.map((item) => (
-            <li key={item}>· {item}</li>
-          ))}
-        </ul>
-        <p className="mt-6 text-xs text-[var(--muted)]">{data.report.disclaimer}</p>
-      </section>
+      {showEvidence && (
+        <section className="mt-6 hanji-panel rounded-3xl p-6">
+          <h3 className="pillar-gan text-2xl">{msg(locale, "evidenceTitle")}</h3>
+          <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
+            {chart.evidence.map((item) => (
+              <li key={item}>· {item}</li>
+            ))}
+          </ul>
+          <p className="mt-6 text-xs text-[var(--muted)]">{data.report.disclaimer}</p>
+        </section>
+      )}
     </div>
   );
 }

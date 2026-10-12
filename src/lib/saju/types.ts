@@ -295,6 +295,15 @@ export interface InterpretationReport {
   disclaimer: string;
 }
 
+export interface HourCandidate {
+  time: string;
+  zhi: string;
+  zhiKorean: string;
+  ganzhi: string;
+  ganzhiKorean: string;
+  isCurrent: boolean;
+}
+
 export interface AnalyzeResponse {
   calculation: SajuCalculation;
   report: InterpretationReport;
@@ -302,5 +311,22 @@ export interface AnalyzeResponse {
     nameUsedForDisplayOnly: true;
     birthDataSentToAi: false;
     stored: false;
+  };
+  hourCandidates?: HourCandidate[];
+  shareInput?: {
+    gender: GenderType;
+    calendar: CalendarType;
+    date: string;
+    isLeapMonth?: boolean;
+    timeKnowledge: TimeKnowledge;
+    time?: string;
+    timeRangeStart?: string;
+    timeRangeEnd?: string;
+    timeAccuracy?: TimeAccuracy;
+    country: string;
+    city: string;
+    useLocalMeanCorrection?: boolean;
+    useYajaSi?: boolean;
+    useTrueSolarTime?: boolean;
   };
 }

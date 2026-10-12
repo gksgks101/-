@@ -17,7 +17,7 @@ export function LanguageSwitch({ locale }: { locale: Locale }) {
             key={item}
             href={href}
             hrefLang={item}
-            className={`rounded-full px-2.5 py-1 ${active ? "bg-[var(--gold)] text-[#1a140e]" : "text-[var(--muted)] hover:text-[var(--ivory)]"}`}
+            className={`rounded-full px-2.5 py-1 ${active ? "bg-[var(--accent)] text-[var(--ivory)]" : "text-[var(--muted)] hover:text-[var(--ink)]"}`}
           >
             {LOCALE_LABEL[item]}
           </Link>

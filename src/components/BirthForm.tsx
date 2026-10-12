@@ -7,8 +7,10 @@ import { msg } from "@/lib/i18n/messages";
 import { placeName } from "@/lib/i18n/terms";
 import { CITIES, COUNTRIES, citiesFor } from "@/lib/geo/locations";
 import type { BirthInputPayload } from "@/lib/saju/schema";
+import { encodeShareQuery, toShareable } from "@/lib/share/resultUrl";
 
-const selectClass = "w-full rounded-xl border border-[var(--line)] bg-[#161310] px-3 py-3 outline-none focus:border-[var(--gold)]";
+const selectClass =
+  "w-full rounded-xl border border-[var(--line)] bg-[var(--paper)] px-3 py-3 text-[var(--ink)] outline-none focus:border-[var(--accent)]";
 
 export function BirthForm({ locale }: { locale: Locale }) {
   const router = useRouter();
@@ -78,7 +80,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? msg(locale, "analyzeFail"));
       sessionStorage.setItem("saju-result", JSON.stringify(data));
-      router.push(`/${locale}/result`);
+      router.push(`/${locale}/result?${encodeShareQuery(toShareable(form))}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : msg(locale, "analyzeFail"));
     } finally {
@@ -95,7 +97,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
           value={form.name ?? ""}
           onChange={(event) => update("name", event.target.value)}
           placeholder={msg(locale, "namePlaceholder")}
-          className="w-full rounded-xl border border-[var(--line)] bg-[#161310] px-4 py-3 outline-none focus:border-[var(--gold)]"
+          className="w-full rounded-xl border border-[var(--line)] bg-[var(--paper)] px-4 py-3 text-[var(--ink)] outline-none focus:border-[var(--accent)]"
         />
       </label>
 
@@ -111,7 +113,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
                 key={value}
                 type="button"
                 onClick={() => update("gender", value as "male" | "female")}
-                className={`rounded-xl border px-4 py-3 ${form.gender === value ? "border-[var(--gold)] bg-[#241d16] text-[var(--gold)]" : "border-[var(--line)]"}`}
+                className={`rounded-xl border px-4 py-3 ${form.gender === value ? "border-[var(--accent)] bg-white/50 text-[var(--dancheong)]" : "border-[var(--line)]"}`}
               >
                 {label}
               </button>
@@ -129,7 +131,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
                 key={value}
                 type="button"
                 onClick={() => update("calendar", value as "solar" | "lunar")}
-                className={`rounded-xl border px-4 py-3 ${form.calendar === value ? "border-[var(--gold)] bg-[#241d16] text-[var(--gold)]" : "border-[var(--line)]"}`}
+                className={`rounded-xl border px-4 py-3 ${form.calendar === value ? "border-[var(--accent)] bg-white/50 text-[var(--dancheong)]" : "border-[var(--line)]"}`}
               >
                 {label}
               </button>
@@ -196,7 +198,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
               key={value}
               type="button"
               onClick={() => update("timeKnowledge", value as BirthInputPayload["timeKnowledge"])}
-              className={`rounded-xl border px-3 py-3 text-sm ${form.timeKnowledge === value ? "border-[var(--gold)] bg-[#241d16] text-[var(--gold)]" : "border-[var(--line)]"}`}
+              className={`rounded-xl border px-3 py-3 text-sm ${form.timeKnowledge === value ? "border-[var(--accent)] bg-white/50 text-[var(--dancheong)]" : "border-[var(--line)]"}`}
             >
               {label}
             </button>
@@ -322,12 +324,12 @@ export function BirthForm({ locale }: { locale: Locale }) {
         </label>
       </div>
 
-      <button type="button" onClick={() => setAdvanced((value) => !value)} className="text-sm text-[var(--gold)] underline-offset-4 hover:underline">
+      <button type="button" onClick={() => setAdvanced((value) => !value)} className="text-sm text-[var(--dancheong)] underline-offset-4 hover:underline">
         {advanced ? msg(locale, "advancedClose") : msg(locale, "advanced")}
       </button>
 
       {advanced && (
-        <div className="space-y-3 rounded-2xl border border-[var(--line)] bg-[#14110e] p-4 text-sm">
+        <div className="space-y-3 rounded-2xl border border-[var(--line)] bg-[var(--hanji)] p-4 text-sm">
           <label className="flex items-center gap-3">
             <input type="checkbox" checked={Boolean(form.useLocalMeanCorrection)} onChange={(event) => update("useLocalMeanCorrection", event.target.checked)} />
             {msg(locale, "optMean")}
@@ -351,7 +353,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
 
       {loading && (
         <div className="space-y-2 rounded-2xl border border-[var(--line)] p-4">
-          <p className="text-sm text-[var(--gold)]">{msg(locale, "analyzing")}</p>
+          <p className="text-sm text-[var(--dancheong)]">{msg(locale, "analyzing")}</p>
           <ul className="space-y-1 text-sm text-[var(--muted)]">
             {steps.map((label, index) => (
               <li key={label}>
@@ -365,7 +367,7 @@ export function BirthForm({ locale }: { locale: Locale }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-[var(--gold)] py-4 font-medium text-[#1a140e] transition hover:opacity-90 disabled:opacity-50"
+        className="w-full rounded-full bg-[var(--accent)] py-4 font-medium text-[var(--ivory)] transition hover:opacity-90 disabled:opacity-50"
       >
         {loading ? msg(locale, "submitting") : msg(locale, "submit")}
       </button>

@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { interpretWithLlm } from "@/lib/interpret/llm";
+import { buildHourCandidates } from "@/lib/interpret/hourCandidates";
 import { buildRuleReport } from "@/lib/interpret/rules";
 import { calculateSaju } from "@/lib/saju/engine";
 import { birthInputSchema } from "@/lib/saju/schema";
+import { toShareable } from "@/lib/share/resultUrl";
 
 export async function POST(request: Request) {
   try {
@@ -25,6 +27,8 @@ export async function POST(request: Request) {
         birthDataSentToAi: false,
         stored: false,
       },
+      hourCandidates: buildHourCandidates({ ...birth, name }),
+      shareInput: toShareable(parsed.data),
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "계산 중 오류가 발생했습니다.";

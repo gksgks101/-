@@ -23,11 +23,17 @@ export interface ColorChip {
   label: string;
 }
 
+export interface GlossChip {
+  word: string;
+  gloss: string;
+}
+
 export interface ThemeCardData {
   id: ThemeId;
   title: string;
   kicker: string;
   front: string[];
+  frontTerms: GlossChip[];
   frontBullets: string[];
   easyHeadline: string;
   easy: string[];
@@ -316,9 +322,17 @@ export function elementPercents(power: Record<ElementKey, number>): Record<Eleme
   return Object.fromEntries(raw.map((item) => [item.key, item.value])) as Record<ElementKey, number>;
 }
 
+export function stemEasyLine(gan: string, locale: Locale): string {
+  return STEM_HEAD[gan]?.[locale] ?? STEM_HEAD["甲"][locale];
+}
+
+export function stemVoice(gan: string, locale: Locale): string[] {
+  return STEM_VOICE[gan]?.[locale] ?? STEM_VOICE["甲"][locale];
+}
+
 export function buildThemeCards(calculation: SajuCalculation, locale: Locale): ThemeCardData[] {
-  const voice = STEM_VOICE[calculation.dayMaster.gan]?.[locale] ?? STEM_VOICE["甲"][locale];
-  const head = STEM_HEAD[calculation.dayMaster.gan]?.[locale] ?? STEM_HEAD["甲"][locale];
+  const voice = stemVoice(calculation.dayMaster.gan, locale);
+  const head = stemEasyLine(calculation.dayMaster.gan, locale);
   return assembleThemeCards(calculation, locale, voice, head, chipsFor);
 }
 

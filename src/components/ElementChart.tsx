@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { ELEMENT_COLOR, ELEMENT_NAME, POWER_LABEL } from "@/lib/i18n/terms";
+import { ELEMENT_METAPHOR } from "@/lib/interpret/elementMetaphors";
 import { elementPercents } from "@/lib/interpret/themes";
 import type { ElementCount, ElementKey, ElementStrength } from "@/lib/saju/types";
 import { ElementGlyph } from "./MotifIcon";
@@ -45,7 +46,7 @@ export function ElementChart({
             <div key={key} className="flex flex-col items-center gap-2 text-center">
               <div className="relative">
                 <svg viewBox="0 0 44 44" className="h-14 w-14 -rotate-90">
-                  <circle cx="22" cy="22" r={r} fill="none" stroke="#2a241d" strokeWidth="5" />
+                  <circle cx="22" cy="22" r={r} fill="none" stroke="rgba(28,22,18,0.12)" strokeWidth="5" />
                   <circle
                     cx="22"
                     cy="22"
@@ -71,15 +72,17 @@ export function ElementChart({
       <div className="mt-6 space-y-3">
         {ORDER.map((key) => {
           const width = Math.round((power[key] / max) * 100);
+          const metaphor = labels[key] === "약" ? ELEMENT_METAPHOR[key][locale].little : ELEMENT_METAPHOR[key][locale].much;
           return (
             <div key={key} className="grid grid-cols-[2.2rem_1fr_3.2rem] items-center gap-3 text-sm">
               <span>{ELEMENT_NAME[locale][key]}</span>
-              <div className="h-3 overflow-hidden rounded-full bg-[#2a241d]">
+              <div className="h-3 overflow-hidden rounded-full bg-[rgba(28,22,18,0.12)]">
                 <div className="h-3 rounded-full transition-[width] duration-700" style={{ width: `${width}%`, background: ELEMENT_COLOR[key] }} />
               </div>
               <span className="text-right text-[var(--muted)]">
                 {Math.round(power[key])} · {POWER_LABEL[labels[key]]?.[locale] ?? labels[key]}
               </span>
+              <p className="col-span-3 text-xs leading-5 text-[var(--muted)]">{metaphor}</p>
             </div>
           );
         })}
