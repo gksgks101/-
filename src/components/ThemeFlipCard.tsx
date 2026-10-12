@@ -38,15 +38,15 @@ function FaceBody({
 }) {
   return (
     <>
-      {lines.map((line) => (
-        <p key={line.slice(0, 28)} className="mb-3 leading-7 text-[#ddd6c8]">
+      {lines.map((line, index) => (
+        <p key={`${index}-${line.slice(0, 24)}`} className="mb-3 leading-7 text-[#ddd6c8]">
           {line}
         </p>
       ))}
       {bullets.length > 0 && (
         <ul className="mt-1 space-y-2 text-sm text-[var(--muted)]">
-          {bullets.map((item) => (
-            <li key={item}>· {item}</li>
+          {bullets.map((item, index) => (
+            <li key={`${index}-${item.slice(0, 24)}`}>· {item}</li>
           ))}
         </ul>
       )}

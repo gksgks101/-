@@ -36,10 +36,12 @@ describe("해석 카드", () => {
       const cards = buildThemeCards(calculation, locale);
       expect(cards.map((item) => item.id)).toEqual([...THEME_IDS]);
       for (const card of cards) {
-        expect(card.front.length).toBeGreaterThanOrEqual(1);
+        expect(card.front.length).toBeGreaterThanOrEqual(4);
         expect(card.easyHeadline.length).toBeGreaterThan(4);
-        expect(card.easy.length).toBeGreaterThanOrEqual(1);
+        expect(card.easy.length).toBeGreaterThanOrEqual(4);
         expect(card.title.length).toBeGreaterThan(1);
+        expect(card.front.join("").length).toBeGreaterThan(220);
+        expect(card.easy.join("").length).toBeGreaterThan(180);
       }
       const wealth = cards.find((item) => item.id === "wealth");
       expect(wealth?.disclaimer).toContain(locale === "ko" ? "재미로" : locale === "es" ? "entretenimiento" : "rozrywkowa");
@@ -53,5 +55,21 @@ describe("해석 카드", () => {
     const percents = elementPercents(calculation.elements.powerScore);
     const sum = Object.values(percents).reduce((a, b) => a + b, 0);
     expect(sum).toBe(100);
+  });
+
+  it("섹터마다 원국·십성·대운·세운 신호를 겹쳐 쓴다", () => {
+    const cards = buildThemeCards(calculation, "ko");
+    const byId = Object.fromEntries(cards.map((item) => [item.id, item]));
+    const character = `${byId.character.front.join(" ")} ${byId.character.easy.join(" ")}`;
+    const career = `${byId.career.front.join(" ")} ${byId.career.easy.join(" ")}`;
+    const wealth = `${byId.wealth.front.join(" ")} ${byId.wealth.easy.join(" ")}`;
+    const love = `${byId.love.front.join(" ")} ${byId.love.easy.join(" ")}`;
+    const year = `${byId.year.front.join(" ")} ${byId.year.easy.join(" ")}`;
+    expect(character).toMatch(/격국|용신|십성/);
+    expect(career).toMatch(/대운|세운/);
+    expect(wealth).toMatch(/식상생재|정재|재미로|잔고/);
+    expect(love).toMatch(/배우자궁|12운성|식상/);
+    expect(year).toMatch(/세운|대운/);
+    expect(byId.year.front.some((line) => /\d{4}년/.test(line))).toBe(true);
   });
 });

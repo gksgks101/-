@@ -42,6 +42,34 @@ export const POWER_LABEL: Record<string, Record<Locale, string>> = {
   약: { ko: "약", es: "débil", pl: "słaby" },
 };
 
+export const YIN_YANG_NAME: Record<"yang" | "yin", Record<Locale, string>> = {
+  yang: { ko: "양", es: "yang", pl: "yang" },
+  yin: { ko: "음", es: "yin", pl: "yin" },
+};
+
+export const GOD_GROUP_NAME: Record<string, Record<Locale, string>> = {
+  비겁: { ko: "비겁", es: "compañeros (bi/geop)", pl: "towarzysze (bi/geop)" },
+  식상: { ko: "식상", es: "expresión (sik/sang)", pl: "wyraz (sik/sang)" },
+  재성: { ko: "재성", es: "riqueza (jae)", pl: "majątek (jae)" },
+  관성: { ko: "관성", es: "autoridad (gwan)", pl: "autorytet (gwan)" },
+  인성: { ko: "인성", es: "impronta (in)", pl: "pieczęć (in)" },
+};
+
+export const TWELVE_STAGE_NAME: Record<string, Record<Locale, string>> = {
+  장생: { ko: "장생", es: "Changsheng (inicio)", pl: "Jangsaeng (początek)" },
+  목욕: { ko: "목욕", es: "Muyu (baño/sensibilidad)", pl: "Mogyok (kąpiel/wrażliwość)" },
+  관대: { ko: "관대", es: "Guandai (presentación)", pl: "Gwandae (prezentacja)" },
+  건록: { ko: "건록", es: "Jianlu (autonomía)", pl: "Geollok (samodzielność)" },
+  제왕: { ko: "제왕", es: "Diwang (apogeo)", pl: "Jewang (szczyt)" },
+  쇠: { ko: "쇠", es: "Shuai (descenso)", pl: "Soe (zejście)" },
+  병: { ko: "병", es: "Bing (revisión)", pl: "Byeong (przegląd)" },
+  사: { ko: "사", es: "Si (cierre)", pl: "Sa (zamknięcie)" },
+  묘: { ko: "묘", es: "Mu (retiro/almacén)", pl: "Myo (schowanie)" },
+  절: { ko: "절", es: "Jue (corte/reset)", pl: "Jeol (cięcie/reset)" },
+  태: { ko: "태", es: "Tai (gestación)", pl: "Tae (zaczyn)" },
+  양: { ko: "양", es: "Yang (crianza)", pl: "Yang (hodowla)" },
+};
+
 export const GENDER_NAME: Record<"male" | "female", Record<Locale, string>> = {
   male: { ko: "남성", es: "Hombre", pl: "Mężczyzna" },
   female: { ko: "여성", es: "Mujer", pl: "Kobieta" },
