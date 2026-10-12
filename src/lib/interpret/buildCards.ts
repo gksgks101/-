@@ -151,7 +151,7 @@ export function assembleThemeCards(
     easyHeadline: head,
     easy: clean([
       loc(locale, `결론: ${head}`, `Conclusión: ${head}`, `Wniosek: ${head}`),
-      loc(locale, `이유: ${bits.public.replace(/요\.?$/, " 편이에요.")}`, `Motivo: ${bits.public}`, `Powód: ${bits.public}`),
+      loc(locale, `이유: ${bits.real}`, `Motivo: ${bits.real}`, `Powód: ${bits.real}`),
       loc(locale, `조언: ${bits.stressEase.replace(/^푸는 법:\s*/, "")}`, `Consejo: ${bits.stressEase.replace(/^Alivio:\s*/, "")}`, `Rada: ${bits.stressEase.replace(/^Ulga:\s*/, "")}`),
     ]),
     easyBullets: [],
@@ -245,7 +245,7 @@ export function assembleThemeCards(
       loc(locale, `결론: 버는 방식은 ${styleName} 쪽이에요.`, `Conclusión: ganas más al modo ${styleName}.`, `Wniosek: zarabiasz raczej w trybie ${styleName}.`),
       loc(
         locale,
-        ctx.style === "aggressive" ? "이유는 기회에 몸이 먼저 반응하기 때문이에요." : "이유는 새는 구멍을 막는 해가 쌓여야 큰돈이 되기 때문이에요.",
+        ctx.style === "aggressive" ? "이유: 기회에 몸이 먼저 반응해요." : "이유: 새는 구멍을 막는 해가 쌓여야 큰돈이 돼요.",
         ctx.style === "aggressive" ? "Motivo: el cuerpo responde a la oportunidad." : "Motivo: los años de tapar fugas suman más que un golpe.",
         ctx.style === "aggressive" ? "Powód: ciało reaguje na okazję." : "Powód: lata zatykania wycieków składają się na większe pieniądze.",
       ),
@@ -309,7 +309,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, "좋아하는 티는 작게, 약속은 분명하게.", "El gusto, en bajo; la cita, clara.", "Sympatia cicho, umowa jasno."),
     easy: clean([
       loc(locale, "결론: 좋아하는 티는 작게, 약속은 분명하게.", "Conclusión: el gusto en bajo, la cita clara.", "Wniosek: sympatia cicho, umowa jasno."),
-      loc(locale, "이유는 속도가 맞아야 마음이 오래가기 때문이에요.", "Motivo: el vínculo dura si encaja el ritmo.", "Powód: relacja trwa, gdy zgadza się tempo."),
+      loc(locale, "이유: 속도가 맞아야 마음이 오래 가요.", "Motivo: el vínculo dura si encaja el ritmo.", "Powód: relacja trwa, gdy zgadza się tempo."),
       loc(locale, "조언: 밀당보다 한 줄을 먼저 정하세요.", "Consejo: antes que el tira y afloja, una línea clara.", "Rada: zamiast gry na zwłokę — jedna jasna linijka."),
     ]),
     easyBullets: [],
@@ -337,7 +337,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, "받아 주고 속도를 맞추는 사람이 오래 가요.", "Quien te recibe al ritmo dura.", "Kto przyjmuje twoje tempo — zostaje."),
     easy: clean([
       loc(locale, "결론: 받아 주고 속도를 맞추는 사람이 오래 가요.", "Conclusión: quien te recibe al ritmo dura.", "Wniosek: kto przyjmuje tempo — zostaje."),
-      loc(locale, "이유는 결이 같으면 자존심 싸움이 적기 때문이에요.", "Motivo: si el temple encaja, hay menos pelea de orgullo.", "Powód: gdy temperament się zgadza, mniej sporu o honor."),
+      loc(locale, "이유: 결이 같으면 자존심 싸움이 적어요.", "Motivo: si el temple encaja, hay menos pelea de orgullo.", "Powód: gdy temperament się zgadza, mniej sporu o honor."),
       loc(locale, "조언: 정답만 던지는 사람과는 거리를 두세요.", "Consejo: distancia con quien solo suelta “la verdad”.", "Rada: dystans wobec tego, kto rzuca samą „prawdę”."),
     ]),
     easyBullets: [],
@@ -372,7 +372,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, "친구는 깊게, 직장은 역할이 분명할 때 편해요.", "Amigos, en profundidad. Trabajo, con el rol claro.", "Przyjaciele głęboko. Praca, gdy rola jasna."),
     easy: clean([
       loc(locale, "결론: 사람 수는 적게, 역할은 분명하게.", "Conclusión: menos gente, rol más claro.", "Wniosek: mniej ludzi, jaśniejsza rola."),
-      loc(locale, "이유는 친구와 직장의 결이 다르기 때문이에요.", "Motivo: amigos y trabajo no tienen el mismo temple.", "Powód: przyjaciele i praca to inny temperament."),
+      loc(locale, "이유: 친구와 직장의 결이 달라요.", "Motivo: amigos y trabajo no tienen el mismo temple.", "Powód: przyjaciele i praca to inny temperament."),
       loc(locale, `조언: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`, `Consejo: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`, `Rada: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`),
     ]),
     easyBullets: [],
@@ -491,7 +491,7 @@ export function assembleThemeCards(
     easyHeadline: loc(locale, "몸이 먼저 보내는 신호는 잠과 긴장이에요.", "El cuerpo avisa con sueño y tensión.", "Ciało daje znać snem i napięciem."),
     easy: clean([
       loc(locale, `결론: 약해지기 쉬운 곳은 ${organOf(healthEl, locale)} 쪽 상징이에요.`, `Conclusión: lo que se debilita (símbolo) es ${organOf(healthEl, locale)}.`, `Wniosek: to, co słabnie (symbol), to ${organOf(healthEl, locale)}.`),
-      loc(locale, "이유는 무리가 쌓이면 잠과 긴장이 먼저 말하기 때문이에요.", "Motivo: si se acumula el exceso, avisan sueño y tensión.", "Powód: gdy zbiera się nadmiar, najpierw mówią sen i napięcie."),
+      loc(locale, "이유: 무리가 쌓이면 잠과 긴장이 먼저 말해요.", "Motivo: si se acumula el exceso, avisan sueño y tensión.", "Powód: gdy zbiera się nadmiar, najpierw mówią sen i napięcie."),
       loc(locale, `조언: ${hobby.sport}처럼 과하지 않게 몸을 푸세요.`, `Consejo: muévete sin pasarte, hacia ${hobby.sport}.`, `Rada: ruszaj się bez przesady, ku ${hobby.sport}.`),
     ]),
     easyBullets: [],
@@ -544,7 +544,7 @@ export function assembleThemeCards(
     ),
     easy: clean([
       loc(locale, "결론: 직업·돈·연애를 동시에 갈아엎지 마세요.", "Conclusión: no vuelques trabajo, dinero y amor a la vez.", "Wniosek: nie wywracaj naraz pracy, pieniędzy i miłości."),
-      loc(locale, "이유는 하나만 움직여도 올해는 충분하기 때문이에요.", "Motivo: este año basta con mover una cosa.", "Powód: w tym roku wystarczy ruszyć jedno."),
+      loc(locale, "이유: 하나만 움직여도 올해는 충분해요.", "Motivo: este año basta con mover una cosa.", "Powód: w tym roku wystarczy ruszyć jedno."),
       loc(locale, "조언: 큰 결정은 한 박자 쉬고 하세요.", "Consejo: pause un tiempo antes de lo grande.", "Rada: zaczekaj chwilę przed wielką decyzją."),
     ]),
     easyBullets: [],

@@ -136,6 +136,23 @@ export function helpAction(element: ElementKey, locale: Locale): string {
   return table[element][locale];
 }
 
+export function helpClause(elements: ElementKey[], locale: Locale): string {
+  const unique = [...new Set(elements)];
+  const clause: Record<ElementKey, Record<Locale, string>> = {
+    wood: { ko: "새로운 일을 시작하고", es: "empezar algo nuevo y", pl: "zaczynać nowe sprawy i" },
+    fire: { ko: "생각을 밖으로 표현하고", es: "sacar lo que piensas y", pl: "mówić, co myślisz, i" },
+    earth: { ko: "실속 있는 약속으로 바꾸고", es: "volverlo en lo concreto y", pl: "zamieniać to w konkret i" },
+    metal: { ko: "기준을 세우고", es: "fijar un criterio y", pl: "stawiać kryterium i" },
+    water: { ko: "깊게 쉬고", es: "descansar hondo y", pl: "odpoczywać głęboko i" },
+  };
+  if (!unique.length) return loc(locale, "재능으로 표현하면", "si sacas tu talento,", "jeśli wyjmiesz talent,");
+  const parts = unique.map((key) => clause[key][locale]);
+  const last = parts[parts.length - 1] ?? "";
+  const closed = locale === "ko" ? last.replace(/고$/, "면") : last.replace(/ y$/, ",").replace(/ i$/, ",");
+  const body = [...parts.slice(0, -1), closed].join(" ");
+  return body;
+}
+
 export function cautionTrait(element: ElementKey, locale: Locale): string {
   const table: Record<ElementKey, Record<Locale, string>> = {
     wood: { ko: "고집과 너무 빠른 시작", es: "terquedad y un inicio demasiado rápido", pl: "upór i zbyt szybki start" },

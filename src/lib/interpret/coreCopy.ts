@@ -2,7 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { STRENGTH_NAME, term } from "@/lib/i18n/terms";
 import type { ElementKey, SajuCalculation } from "@/lib/saju/types";
 import { seasonWord, stemNick } from "./glyphs";
-import { helpAction, ira, joinHelp } from "./plainVoice";
+import { helpAction, helpClause, ira } from "./plainVoice";
 import type { ContrastItem, ContrastPair } from "./themes";
 import { loc } from "./themeContext";
 import { yongsinLine } from "./yongsin";
@@ -51,20 +51,20 @@ export function coreHeadline(calculation: SajuCalculation, locale: Locale): stri
   const nick = stemNick(day.gan, locale);
   const season = seasonWord(calculation.pillars.month.zhi, locale);
   const strong = calculation.strength.score >= 55;
-  const help = joinHelp(keysOf(calculation.useGod.yongsin), locale);
+  const help = helpClause(keysOf(calculation.useGod.yongsin), locale);
   if (locale === "es") {
     return strong
-      ? `Naciste en ${season} como un ${nick} con fuerza de sobra. Si canalizas esa fuerza hacia ${help}, todo se abre.`
-      : `Naciste en ${season} como un ${nick} que necesita amparo. Si acercas ${help}, la fuerza alcanza.`;
+      ? `Naciste en ${season} como un ${nick} con fuerza de sobra. ${help} la carta se abre.`
+      : `Naciste en ${season} como un ${nick} que necesita amparo. ${help} la fuerza alcanza.`;
   }
   if (locale === "pl") {
     return strong
-      ? `Urodziłeś się ${season} jak ${nick} z zapasem siły. Jak skierujesz ją ku ${help}, wszystko się otwiera.`
-      : `Urodziłeś się ${season} jak ${nick}, który potrzebuje osłony. Jak zbliżysz ${help}, siły starczy.`;
+      ? `Urodziłeś się ${season} jak ${nick} z zapasem siły. ${help} wszystko się otwiera.`
+      : `Urodziłeś się ${season} jak ${nick}, który potrzebuje osłony. ${help} siły starczy.`;
   }
   const force = strong ? "힘이 충분해요" : "주변의 도움이 힘이 돼요";
   const action = keysOf(calculation.useGod.yongsin).length
-    ? `그 힘을 ${help} 쪽으로 쓰면 잘 풀려요.`
+    ? `그 힘으로 ${help} 잘 풀려요.`
     : "그 힘을 재능으로 표현하면 잘 풀려요.";
   return `${season}에 태어난 ${strong ? "튼튼한 " : ""}${nick}${ira(nick)} ${force}. ${action}`;
 }
