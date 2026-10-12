@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0e0c0a;
+  --ivory: #f3efe6;
+  --gold: #c4a574;
+  --gold-dim: #8c7349;
+  --brown: #1c1814;
+  --muted: #8a7d6e;
+  --line: rgba(196, 165, 116, 0.28);
+  --wood: #6d8a63;
+  --fire: #b4634f;
+  --earth: #c4a574;
+  --metal: #d8d2c6;
+  --water: #6b8498;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ivory: var(--ivory);
+  --color-gold: var(--gold);
+  --color-brown: var(--brown);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--ink);
+  color: var(--ivory);
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans), "Noto Sans KR", sans-serif;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(196, 165, 116, 0.12), transparent 55%),
+    linear-gradient(180deg, #14110e 0%, #0e0c0a 45%, #0a0908 100%);
+}
+
+a {
+  color: inherit;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.pillar-gan {
+  font-family: var(--font-serif), "Noto Serif KR", serif;
+}
