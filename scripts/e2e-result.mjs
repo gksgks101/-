@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import puppeteer from "puppeteer-core";
 
-const BASE = "http://127.0.0.1:3012";
+const BASE = process.env.E2E_BASE ?? "http://127.0.0.1:3013";
 const OUT = "/opt/cursor/artifacts";
 const query =
   "g=m&cal=s&d=2001-03-23&tk=a&t=13:00&ta=about_1h&co=" +

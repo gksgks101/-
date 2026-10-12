@@ -211,7 +211,7 @@ export function ResultView({ locale }: { locale: Locale }) {
               const blob = await makeImage();
               if (!blob) return;
               const file = `saju-${chart.dayMaster.gan}-${chart.birth.solarDate}.png`;
-              await shareOrDownload(blob, file, msg(locale, "shareBrand"), card.title[locale]);
+              await shareOrDownload(blob, file, msg(locale, "shareBrand"), card.motif[locale]);
               setShareState(msg(locale, "shareCopied"));
             }}
             className="rounded-full border border-[var(--line)] px-4 py-2 text-sm"

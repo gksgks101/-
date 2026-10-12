@@ -98,7 +98,7 @@ export async function renderSharePoster(
 
   ctx.fillStyle = "#4a433c";
   ctx.font = "600 32px 'Noto Serif KR', serif";
-  ctx.fillText(card.title[locale], width / 2, cardY + cardH + 64);
+  ctx.fillText(card.motif[locale], width / 2, cardY + cardH + 64);
 
   ctx.fillStyle = "#1c1612";
   ctx.font = "600 36px 'Noto Serif KR', serif";
