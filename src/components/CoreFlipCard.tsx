@@ -4,13 +4,14 @@ import { useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { STRENGTH_NAME, term } from "@/lib/i18n/terms";
-import { coreGlossary, coreHeadline } from "@/lib/interpret/coreCopy";
+import { coreContrast, coreHeadline } from "@/lib/interpret/coreCopy";
 import { yongsinLine, yongsinReason } from "@/lib/interpret/yongsin";
 import type { SajuCalculation } from "@/lib/saju/types";
+import { ContrastPairView } from "./ContrastPair";
 
 export function CoreFlipCard({ locale, chart }: { locale: Locale; chart: SajuCalculation }) {
   const [flipped, setFlipped] = useState(false);
-  const glossary = coreGlossary(chart, locale);
+  const contrast = coreContrast(chart, locale);
   const headline = coreHeadline(chart, locale);
 
   return (
@@ -44,14 +45,7 @@ export function CoreFlipCard({ locale, chart }: { locale: Locale; chart: SajuCal
         <article className="theme-face theme-face-back hanji-panel flex h-full flex-col overflow-y-auto rounded-3xl p-5 sm:p-6">
           <h2 className="mb-3 text-sm tracking-[0.2em] text-[var(--muted)]">{msg(locale, "coreTitle")}</h2>
           <p className="pillar-gan text-2xl leading-snug text-[var(--ink)] sm:text-3xl">{headline}</p>
-          <dl className="mt-5 space-y-3">
-            {glossary.map((row) => (
-              <div key={row.term} className="grid gap-1 border-b border-[var(--line)] pb-3 last:border-0 sm:grid-cols-[minmax(0,8.5rem)_1fr]">
-                <dt className="text-sm font-semibold text-[var(--dancheong)]">{row.term}</dt>
-                <dd className="text-[15px] leading-7 text-[var(--ink)]">{row.line}</dd>
-              </div>
-            ))}
-          </dl>
+          <ContrastPairView pair={contrast} />
           <p className="mt-4 text-sm text-[var(--muted)]">{msg(locale, "tapPro")}</p>
         </article>
       </div>

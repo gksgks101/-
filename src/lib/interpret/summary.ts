@@ -70,5 +70,5 @@ export function buildResultSummary(calculation: SajuCalculation, locale: Locale)
 }
 
 export function youAreLine(typeName: string, locale: Locale): string {
-  return loc(locale, `당신은 ${typeName}`, `Eres ${typeName}`, `Jesteś: ${typeName}`);
+  return loc(locale, `당신은 ${typeName}이에요.`, `Eres ${typeName}.`, `Jesteś ${typeName}.`);
 }

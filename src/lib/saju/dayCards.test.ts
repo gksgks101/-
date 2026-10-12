@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "@/lib/i18n/config";
-import { coreHeadline, coreGlossary } from "@/lib/interpret/coreCopy";
+import { coreHeadline, coreContrast } from "@/lib/interpret/coreCopy";
 import { daeunYearRange } from "@/lib/interpret/fortuneYears";
 import { stemEasy } from "@/lib/interpret/glyphs";
 import { THEME_IDS, buildThemeCards, elementPercents } from "@/lib/interpret/themes";
@@ -36,11 +36,11 @@ describe("해석 카드", () => {
     city: "안산",
   });
 
-  it("세 언어 모두 열여섯 장을 앞면 전문, 뒷면 쉬운 말로 만든다", () => {
+  it("세 언어 모두 열한 장을 앞면 전문, 뒷면 쉬운 말로 만든다", () => {
     for (const locale of LOCALES) {
       const cards = buildThemeCards(calculation, locale);
       expect(cards.map((item) => item.id)).toEqual([...THEME_IDS]);
-      expect(cards).toHaveLength(16);
+      expect(cards).toHaveLength(11);
       for (const card of cards) {
         expect(card.front.length).toBeGreaterThanOrEqual(2);
         expect(card.front.length).toBeLessThanOrEqual(3);
@@ -54,12 +54,13 @@ describe("해석 카드", () => {
       const colors = cards.find((item) => item.id === "colors");
       expect(colors?.luckyColors?.length).toBe(3);
       expect(colors?.avoidColors?.length).toBe(2);
-      const fashion = cards.find((item) => item.id === "fashion");
-      expect(fashion?.disclaimer).toBeTruthy();
+      const lifestyle = cards.find((item) => item.id === "lifestyle");
+      expect(lifestyle?.disclaimer).toBeTruthy();
+      expect(lifestyle?.lifestyleTabs).toHaveLength(5);
       const career = cards.find((item) => item.id === "career");
-      const jobBlock = career?.easySections?.find((item) => item.items.length >= 5);
-      expect(jobBlock?.items[0]).toMatch(/1/);
-      expect(new Set(jobBlock?.items).size).toBe(jobBlock?.items.length);
+      const jobs = career?.contrast?.[0]?.good ?? [];
+      expect(jobs[0]?.label).toMatch(/1/);
+      expect(new Set(jobs.map((item) => item.why)).size).toBe(jobs.length);
     }
   });
 
@@ -75,7 +76,7 @@ describe("해석 카드", () => {
     const yong = yongsinLine(calculation, "ko");
     expect(byId.colors.front.join(" ")).toContain(yong);
     expect(byId.fengshui.front.join(" ")).toContain(yong);
-    expect(byId.fashion.front.join(" ")).toContain(yong);
+    expect(byId.lifestyle.front.join(" ")).toContain(yong);
     expect(byId.character.front.join(" ")).not.toContain(yong);
     expect(byId.character.front.join(" ")).toMatch(/격국|십성|일간/);
     expect(byId.career.front.join(" ")).toMatch(/대운|적성|십성/);
@@ -83,7 +84,7 @@ describe("해석 카드", () => {
     expect(byId.love.front.join(" ")).toMatch(/배우자궁|12운성|일지/);
     expect(byId.year.front.join(" ")).toMatch(/세운|대운/);
     expect(byId.year.front.some((line) => /\d{4}년/.test(line))).toBe(true);
-    expect(byId.character.easySections?.some((item) => item.title.includes("장점"))).toBe(true);
+    expect(byId.character.contrast?.some((item) => item.goodTitle.includes("장점") || item.goodTitle.includes("Dones") || item.goodTitle.includes("Atuty"))).toBe(true);
   });
 
   it("핵심 구조 한 줄과 용어 풀이가 사람마다 달라진다", () => {
@@ -96,7 +97,8 @@ describe("해석 카드", () => {
       city: "서울",
     });
     expect(coreHeadline(calculation, "ko")).not.toBe(coreHeadline(other, "ko"));
-    expect(coreGlossary(calculation, "ko").length).toBeGreaterThanOrEqual(7);
+    expect(coreContrast(calculation, "ko").good.length).toBeGreaterThanOrEqual(2);
+    expect(coreContrast(calculation, "ko").caution.length).toBeGreaterThanOrEqual(2);
     expect(stemEasy("乙", "ko")).toContain("매화");
   });
 

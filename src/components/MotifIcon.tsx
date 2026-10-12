@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import type { ThemeId } from "@/lib/interpret/themes";
+import type { LifestyleTabId, ThemeId } from "@/lib/interpret/themes";
 
-const PATH: Record<ThemeId, ReactNode> = {
+const PATH: Record<ThemeId | LifestyleTabId, ReactNode> = {
   character: (
     <>
       <path d="M20 44c8-18 12-28 12-36 0 8 4 18 12 36" fill="none" stroke="#2f6b3a" strokeWidth="2.4" />
@@ -71,6 +71,13 @@ const PATH: Record<ThemeId, ReactNode> = {
       <circle cx="32" cy="34" r="4" fill="#d4a017" />
     </>
   ),
+  lifestyle: (
+    <>
+      <path d="M20 18l12-8 12 8v6l-8 4v16h-8V28l-8-4z" fill="none" stroke="#2f6b3a" strokeWidth="2" />
+      <circle cx="22" cy="40" r="4" fill="#c43c28" />
+      <circle cx="42" cy="40" r="4" fill="#d4a017" />
+    </>
+  ),
   fashion: (
     <>
       <path d="M20 18l12-8 12 8v6l-8 4v16h-8V28l-8-4z" fill="none" stroke="#2f6b3a" strokeWidth="2" />
@@ -97,13 +104,6 @@ const PATH: Record<ThemeId, ReactNode> = {
       <path d="M28 38V16l18-4v22" fill="none" stroke="#c4a574" strokeWidth="2.2" />
     </>
   ),
-  hobby: (
-    <>
-      <circle cx="32" cy="22" r="8" fill="none" stroke="#2f6b3a" strokeWidth="2" />
-      <path d="M20 42c4-10 20-10 24 0" fill="none" stroke="#c43c28" strokeWidth="2" />
-      <path d="M24 18l16 8M24 26l16-8" stroke="#d4a017" strokeWidth="1.8" />
-    </>
-  ),
   lucky: (
     <>
       <path d="M32 12l4 10 11 1-8 7 3 10-10-6-10 6 3-10-8-7 11-1z" fill="#d4a017" stroke="#8c7349" strokeWidth="1.2" />
@@ -111,7 +111,7 @@ const PATH: Record<ThemeId, ReactNode> = {
   ),
 };
 
-export function MotifIcon({ id }: { id: ThemeId }) {
+export function MotifIcon({ id }: { id: ThemeId | LifestyleTabId }) {
   return (
     <svg viewBox="0 0 64 64" className="h-10 w-10" aria-hidden>
       <rect x="4" y="4" width="56" height="56" rx="8" fill="#efe6d4" stroke="#c4a574" strokeWidth="1.5" />

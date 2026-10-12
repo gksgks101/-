@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import { personCaution, personFit } from "./plainVoice";
 import { loc, type GodGroup, type ThemeCtx } from "./themeContext";
 
 const PROS: Record<string, Record<Locale, string[]>> = {
@@ -204,16 +205,16 @@ export function characterBits(ctx: ThemeCtx) {
 }
 
 export function loveTypes(ctx: ThemeCtx): { fit: string[]; caution: string[] } {
-  const { locale, elName, support, output, pressure, day } = ctx;
+  const { locale, support, output, pressure, day } = ctx;
+  const a = personFit(support, locale, "love");
+  const b = personFit(output, locale, "love");
+  const c = personFit(day.element, locale, "love");
+  const d = personCaution(pressure, locale, "love");
   return {
-    fit: [
-      loc(locale, `${elName(support)} 기운처럼 받아 주고 속도를 맞추는 사람`, `Quien te recibe al ritmo ${elName(support)}`, `Kto przyjmuje cię w rytmie ${elName(support)}`),
-      loc(locale, `${elName(output)}처럼 같이 만들고 노는 사람`, `Quien crea y juega como ${elName(output)}`, `Kto tworzy i bawi się jak ${elName(output)}`),
-      loc(locale, `${elName(day.element)}처럼 결이 비슷한 사람`, `Quien tiene un temple parecido a ${elName(day.element)}`, `Kto ma podobny temper jak ${elName(day.element)}`),
-    ],
+    fit: [a, b, c].map((item) => `${item.label} — ${item.why}`),
     caution: [
-      loc(locale, `${elName(pressure)}처럼 정답만 던지거나 자존심 싸움을 하는 사람`, `Quien suelta “la verdad” como ${elName(pressure)} o pelea el orgullo`, `Kto rzuca „prawdę” jak ${elName(pressure)} albo idzie w honory`),
-      loc(locale, "약속을 흐리고 밀당만 하는 사람", "Quien nubla la cita y solo tira y afloja", "Kto mąci umowę i tylko gra na zwłokę"),
+      `${d.label} — ${d.why}`,
+      loc(locale, "약속을 흐리고 밀당만 하는 사람 — 마음이 먼저 지쳐요.", "Quien nubla la cita y solo tira y afloja: el ánimo se cansa primero.", "Kto mąci umowę i tylko gra na zwłokę — serce męczy się pierwsze."),
     ],
   };
 }

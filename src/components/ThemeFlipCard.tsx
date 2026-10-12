@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
-import type { ColorChip, ThemeCardData } from "@/lib/interpret/themes";
+import type { ColorChip, LifestyleTab, ThemeCardData } from "@/lib/interpret/themes";
+import { ContrastPairView } from "./ContrastPair";
 import { GlossaryTerm } from "./GlossaryTerm";
 import { MotifIcon } from "./MotifIcon";
 
@@ -15,16 +16,52 @@ function ColorRow({ title, items }: { title: string; items: ColorChip[] }) {
       <div className="flex flex-wrap gap-3">
         {items.map((item) => (
           <div key={`${item.hex}-${item.label}`} className="flex items-center gap-2">
-            <span
-              className="h-8 w-8 rounded-full border border-[var(--line)]"
-              style={{ background: item.hex }}
-              aria-hidden
-            />
+            <span className="h-8 w-8 rounded-full border border-[var(--line)]" style={{ background: item.hex }} aria-hidden />
             <span className="text-sm">{item.label}</span>
           </div>
         ))}
       </div>
     </div>
+  );
+}
+
+function EasyBody({
+  theme,
+  tab,
+}: {
+  theme: ThemeCardData;
+  tab?: LifestyleTab;
+}) {
+  const headline = tab ? tab.easy[0] ?? theme.easyHeadline : theme.easyHeadline;
+  const lines = tab ? tab.easy : theme.easy;
+  const contrast = tab?.contrast ? [tab.contrast] : theme.contrast;
+  return (
+    <>
+      <p className="mb-4 text-xl font-semibold leading-8 text-[var(--ink)]">{tab ? theme.easyHeadline : headline}</p>
+      {lines.map((line, index) => (
+        <p key={`${index}-${line.slice(0, 20)}`} className="mb-3 text-[17px] leading-7 text-[var(--ink)]">
+          {index === 0 ? <strong>{line}</strong> : line}
+        </p>
+      ))}
+      {tab?.extra?.map((line) => (
+        <p key={line.slice(0, 24)} className="mb-2 text-[15px] leading-6 text-[var(--muted)]">
+          {line}
+        </p>
+      ))}
+      {contrast?.map((block) => (
+        <ContrastPairView key={block.goodTitle} pair={block} />
+      ))}
+      {theme.easySections?.map((block) => (
+        <div key={block.title} className="mb-4">
+          <p className="mb-2 text-xs tracking-[0.16em] text-[var(--dancheong)]">{block.title}</p>
+          <ul className="space-y-2 text-[16px] leading-7 text-[var(--ink)]">
+            {block.items.map((item) => (
+              <li key={item.slice(0, 28)}>· {item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -39,6 +76,9 @@ export function ThemeFlipCard({
 }) {
   const [flipped, setFlipped] = useState(false);
   const [shake, setShake] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+  const tabs = theme.lifestyleTabs ?? [];
+  const currentTab = tabs[tabIndex];
 
   useEffect(() => {
     if (!hintShake) return;
@@ -98,29 +138,28 @@ export function ThemeFlipCard({
           </div>
           <div className="theme-face theme-face-back hanji-panel flex h-full flex-col overflow-y-auto rounded-3xl p-6">
             <div className="mb-3 flex items-center gap-3">
-              <MotifIcon id={theme.id} />
+              <MotifIcon id={currentTab?.id ?? theme.id} />
               <div>
                 <p className="text-xs tracking-[0.2em] text-[var(--accent)]">{theme.kicker}</p>
                 <h3 className="pillar-gan text-2xl text-[var(--ink)]">{theme.title}</h3>
               </div>
             </div>
             <p className="mb-4 text-sm tracking-wide text-[var(--muted)]">{msg(locale, "tapPro")}</p>
-            <p className="mb-4 text-xl font-semibold leading-8 text-[var(--ink)]">{theme.easyHeadline}</p>
-            {theme.easy.map((line, index) => (
-              <p key={`${index}-${line.slice(0, 20)}`} className="mb-3 text-[17px] leading-7 text-[var(--ink)]">
-                {index === 0 ? <strong>{line}</strong> : line}
-              </p>
-            ))}
-            {theme.easySections?.map((block) => (
-              <div key={block.title} className="mb-4">
-                <p className="mb-2 text-xs tracking-[0.16em] text-[var(--dancheong)]">{block.title}</p>
-                <ul className="space-y-2 text-[16px] leading-7 text-[var(--ink)]">
-                  {block.items.map((item) => (
-                    <li key={item.slice(0, 28)}>· {item}</li>
-                  ))}
-                </ul>
+            {tabs.length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-2" onClick={(event) => event.stopPropagation()}>
+                {tabs.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`rounded-full px-3 py-2 text-sm ${index === tabIndex ? "bg-[var(--dancheong)] text-[var(--ivory)]" : "border border-[var(--line)] bg-white/50"}`}
+                    onClick={() => setTabIndex(index)}
+                  >
+                    {item.title}
+                  </button>
+                ))}
               </div>
-            ))}
+            )}
+            <EasyBody theme={theme} tab={currentTab} />
             {theme.disclaimer && <p className="mt-auto pt-4 text-xs leading-6 text-[var(--dancheong)]">{theme.disclaimer}</p>}
             <ColorRow title={msg(locale, "luckyColors")} items={theme.luckyColors ?? []} />
             <ColorRow title={msg(locale, "avoidColors")} items={theme.avoidColors ?? []} />

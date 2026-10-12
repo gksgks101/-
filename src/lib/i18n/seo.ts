@@ -3,7 +3,26 @@ import type { Locale } from "./config";
 import { LOCALES } from "./config";
 import { msg } from "./messages";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://saju.app").replace(/\/$/, "");
+function withHttps(host: string): string {
+  const trimmed = host.replace(/\/$/, "");
+  return trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
+}
+
+function isPlaceholderHost(url: string): boolean {
+  return /saju\.app$/i.test(url.replace(/^https?:\/\//, "").replace(/\/$/, ""));
+}
+
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (explicit && !isPlaceholderHost(explicit)) return withHttps(explicit);
+  if (vercelProd) return withHttps(vercelProd);
+  if (vercel) return withHttps(vercel);
+  return withHttps(explicit || "https://saju.app");
+}
+
+export const SITE_URL = resolveSiteUrl();
 
 export function localePath(locale: Locale, path = ""): string {
   const rest = path.startsWith("/") ? path : path ? `/${path}` : "";

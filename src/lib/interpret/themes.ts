@@ -14,15 +14,11 @@ export const THEME_IDS = [
   "fengshui",
   "health",
   "year",
-  "fashion",
-  "food",
-  "travel",
-  "music",
-  "hobby",
-  "lucky",
+  "lifestyle",
 ] as const;
 
 export type ThemeId = (typeof THEME_IDS)[number];
+export type LifestyleTabId = "fashion" | "food" | "travel" | "music" | "lucky";
 
 export interface ColorChip {
   hex: string;
@@ -39,6 +35,26 @@ export interface EasySection {
   items: string[];
 }
 
+export interface ContrastItem {
+  label: string;
+  why: string;
+}
+
+export interface ContrastPair {
+  goodTitle: string;
+  cautionTitle: string;
+  good: ContrastItem[];
+  caution: ContrastItem[];
+}
+
+export interface LifestyleTab {
+  id: LifestyleTabId;
+  title: string;
+  easy: string[];
+  contrast?: ContrastPair;
+  extra?: string[];
+}
+
 export interface ThemeCardData {
   id: ThemeId;
   title: string;
@@ -50,6 +66,8 @@ export interface ThemeCardData {
   easy: string[];
   easyBullets: string[];
   easySections?: EasySection[];
+  contrast?: ContrastPair[];
+  lifestyleTabs?: LifestyleTab[];
   luckyColors?: ColorChip[];
   avoidColors?: ColorChip[];
   disclaimer?: string;

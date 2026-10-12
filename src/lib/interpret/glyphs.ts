@@ -1,145 +1,172 @@
 import type { Locale } from "@/lib/i18n/config";
-import { josa } from "@/lib/i18n/josa";
 import { BRANCH_META, STEM_KO, STEM_META } from "@/lib/saju/constants";
 import type { ElementKey, Pillar, PillarKey } from "@/lib/saju/types";
 import { loc } from "./themeContext";
 
 const STEM_EASY: Record<string, Record<Locale, string>> = {
   甲: {
-    ko: "갑(甲) = 큰 소나무, 방향을 정하고 밀어붙이는 사람",
-    es: "Jia (甲) = un pino alto: elige rumbo y empuja sin rodeos",
-    pl: "Gap (甲) = wysoka sosna: najpierw kierunek, potem pęd",
+    ko: "큰 소나무처럼, 방향을 정하고 밀어붙이는 사람이에요.",
+    es: "Como un pino alto: eliges rumbo y empujas sin rodeos.",
+    pl: "Jak wysoka sosna: najpierw kierunek, potem pęd.",
   },
   乙: {
-    ko: "을(乙) = 매화와 버들 같은 작은 나무, 유연하게 버티는 사람",
-    es: "Yi (乙) = ciruelo y sauce: se dobla y aguanta, no se rompe",
-    pl: "Eul (乙) = śliwa i wierzba: giętka, ale niełamliwa",
+    ko: "매화와 버들 같은 작은 나무, 유연하게 버티는 사람이에요.",
+    es: "Como ciruelo y sauce: te doblas y aguantas, no te rompes.",
+    pl: "Jak śliwa i wierzba: giętka, ale niełamliwa.",
   },
   丙: {
-    ko: "병(丙) = 한낮의 태양, 자리를 밝히고 사람을 모으는 사람",
-    es: "Bing (丙) = el sol del mediodía: ilumina el sitio y reúne gente",
-    pl: "Byeong (丙) = słońce w zenicie: rozświetla miejsce i zbiera ludzi",
+    ko: "한낮의 태양처럼, 자리를 밝히고 사람을 모으는 사람이에요.",
+    es: "Como el sol del mediodía: iluminas el sitio y reúnes gente.",
+    pl: "Jak słońce w zenicie: rozświetlasz miejsce i zbierasz ludzi.",
   },
   丁: {
-    ko: "정(丁) = 촛불과 연등, 한 사람과 한 일을 오래 데우는 사람",
-    es: "Ding (丁) = vela y linterna: calienta largo a una persona o una obra",
-    pl: "Jeong (丁) = świeca i latarnia: długo ogrzewa jedną osobę albo jedną sprawę",
+    ko: "촛불과 연등처럼, 한 사람과 한 일을 오래 데우는 사람이에요.",
+    es: "Como vela y linterna: calientas largo a una persona o una obra.",
+    pl: "Jak świeca i latarnia: długo ogrzewasz jedną osobę albo jedną sprawę.",
   },
   戊: {
-    ko: "무(戊) = 산, 한번 맡은 자리를 버티는 사람",
-    es: "Wu (戊) = montaña: si asume un sitio, se queda de pilar",
-    pl: "Mu (戊) = góra: wzięte miejsce staje się podporą",
+    ko: "산처럼, 한번 맡은 자리를 버티는 사람이에요.",
+    es: "Como una montaña: si asumes un sitio, te quedas de pilar.",
+    pl: "Jak góra: wzięte miejsce staje się podporą.",
   },
   己: {
-    ko: "기(己) = 논밭, 빈 곳을 메우고 사람을 기르는 사람",
-    es: "Ji (己) = arrozal: rellena huecos y cría a la gente",
-    pl: "Gi (己) = pole ryżowe: wypełnia luki i hoduje ludzi",
+    ko: "논밭처럼, 빈 곳을 메우고 사람을 기르는 사람이에요.",
+    es: "Como un arrozal: rellenas huecos y crías a la gente.",
+    pl: "Jak pole ryżowe: wypełniasz luki i hodujesz ludzi.",
   },
   庚: {
-    ko: "경(庚) = 쇠와 칼, 옳고 그름을 가르고 결론을 원하는 사람",
-    es: "Geng (庚) = metal y cuchillo: corta lo justo y quiere conclusión",
-    pl: "Gyeong (庚) = metal i nóż: odcina słuszne i chce konkluzji",
+    ko: "칼처럼, 옳고 그름을 가르고 결론을 원하는 사람이에요.",
+    es: "Como un cuchillo: cortas lo justo y quieres una conclusión.",
+    pl: "Jak nóż: odcinasz słuszne i chcesz konkluzji.",
   },
   辛: {
-    ko: "신(辛) = 보석, 품질과 디테일에 자존감이 걸린 사람",
-    es: "Xin (辛) = joya: la autoestima vive en la calidad y el detalle",
-    pl: "Sin (辛) = klejnot: godność wisi na jakości i detalu",
+    ko: "보석처럼, 품질과 디테일에 자존감이 걸린 사람이에요.",
+    es: "Como una joya: la autoestima vive en la calidad y el detalle.",
+    pl: "Jak klejnot: godność wisi na jakości i detalu.",
   },
   壬: {
-    ko: "임(壬) = 큰 바다, 시야가 넓고 한곳에 묶이면 답답한 사람",
-    es: "Ren (壬) = gran mar: mirada ancha; lo demasiado atado le ahoga",
-    pl: "Im (壬) = wielkie morze: szerokie pole; ciasnota dusi",
+    ko: "큰 바다처럼, 시야가 넓고 한곳에 묶이면 답답한 사람이에요.",
+    es: "Como un gran mar: mirada ancha; lo demasiado atado te ahoga.",
+    pl: "Jak wielkie morze: szerokie pole; ciasnota dusi.",
   },
   癸: {
-    ko: "계(癸) = 이슬과 샘물, 말보다 먼저 분위기를 읽는 사람",
-    es: "Gui (癸) = rocío y manantial: lee el ambiente antes que las palabras",
-    pl: "Gye (癸) = rosa i źródło: czyta nastrój wcześniej niż słowa",
+    ko: "이슬과 샘물처럼, 말보다 먼저 분위기를 읽는 사람이에요.",
+    es: "Como rocío y manantial: lees el ambiente antes que las palabras.",
+    pl: "Jak rosa i źródło: czytasz nastrój wcześniej niż słowa.",
   },
 };
 
 const BRANCH_EASY: Record<string, Record<Locale, string>> = {
   子: {
-    ko: "자(子) = 쥐·깊은 물, 지혜와 밤의 기운",
-    es: "Zi (子) = rata y agua honda: sabiduría y ritmo nocturno",
-    pl: "Ja (子) = szczur i głęboka woda: mądrość i nocny rytm",
+    ko: "깊은 밤의 물처럼, 지혜와 쉼이 바탕이에요.",
+    es: "Como agua honda de noche: sabiduría y descanso.",
+    pl: "Jak głęboka nocna woda: mądrość i odpoczynek.",
   },
   丑: {
-    ko: "축(丑) = 소·차가운 흙, 참을성과 저장의 기운",
-    es: "Chou (丑) = buey y tierra fría: paciencia y almacén",
-    pl: "Chuk (丑) = wół i zimna ziemia: cierpliwość i magazyn",
+    ko: "차가운 흙처럼, 참을성과 저장이 바탕이에요.",
+    es: "Como tierra fría: paciencia y almacén.",
+    pl: "Jak zimna ziemia: cierpliwość i zapas.",
   },
   寅: {
-    ko: "인(寅) = 호랑이·큰 나무, 시작과 용기의 기운",
-    es: "Yin (寅) = tigre y árbol grande: inicio y coraje",
-    pl: "In (寅) = tygrys i wielkie drzewo: start i odwaga",
+    ko: "큰 나무처럼, 시작과 용기가 바탕이에요.",
+    es: "Como un árbol grande: inicio y coraje.",
+    pl: "Jak wielkie drzewo: start i odwaga.",
   },
   卯: {
-    ko: "묘(卯) = 토끼·부드러운 나무, 감각과 성장의 기운",
-    es: "Mao (卯) = conejo y madera suave: sentido y crecimiento",
-    pl: "Myo (卯) = królik i miękkie drewno: zmysł i wzrost",
+    ko: "부드러운 나무처럼, 감각과 성장이 바탕이에요.",
+    es: "Como madera suave: sentido y crecimiento.",
+    pl: "Jak miękkie drewno: zmysł i wzrost.",
   },
   辰: {
-    ko: "진(辰) = 용·습기 있는 흙, 전환과 저장의 기운",
-    es: "Chen (辰) = dragón y tierra húmeda: giro y reserva",
-    pl: "Jin (辰) = smok i wilgotna ziemia: zwrot i zapas",
+    ko: "습기 있는 흙처럼, 전환과 저장이 바탕이에요.",
+    es: "Como tierra húmeda: giro y reserva.",
+    pl: "Jak wilgotna ziemia: zwrot i zapas.",
   },
   巳: {
-    ko: "사(巳) = 뱀·촛불, 집중과 지혜의 기운",
-    es: "Si (巳) = serpiente y llama: foco y sagacidad",
-    pl: "Sa (巳) = wąż i płomień: skupienie i bystrość",
+    ko: "촛불처럼, 집중과 지혜가 바탕이에요.",
+    es: "Como una llama chica: foco y sagacidad.",
+    pl: "Jak mały płomień: skupienie i bystrość.",
   },
   午: {
-    ko: "오(午) = 말·한낮의 불, 표현과 속도의 기운",
-    es: "Wu (午) = caballo y fuego del mediodía: expresión y velocidad",
-    pl: "O (午) = koń i ogień południa: wyraz i tempo",
+    ko: "한낮의 불처럼, 표현과 속도가 바탕이에요.",
+    es: "Como el fuego del mediodía: expresión y velocidad.",
+    pl: "Jak ogień południa: wyraz i tempo.",
   },
   未: {
-    ko: "미(未) = 양·따뜻한 흙, 돌봄과 안정의 기운",
-    es: "Wei (未) = cabra y tierra tibia: cuidado y calma",
-    pl: "Mi (未) = koza i ciepła ziemia: troska i spokój",
+    ko: "따뜻한 흙처럼, 돌봄과 안정이 바탕이에요.",
+    es: "Como tierra tibia: cuidado y calma.",
+    pl: "Jak ciepła ziemia: troska i spokój.",
   },
   申: {
-    ko: "신(申) = 원숭이·쇠, 손재주와 변통의 기운",
-    es: "Shen (申) = mono y metal: maña y recurso",
-    pl: "Sin (申) = małpa i metal: zręczność i kombinacja",
+    ko: "손재주처럼, 변통과 기민함이 바탕이에요.",
+    es: "Como una mano lista: maña y recurso.",
+    pl: "Jak zręczna ręka: kombinacja i czujność.",
   },
   酉: {
-    ko: "유(酉) = 닭·잘 벼린 쇠, 정리와 결단의 기운",
-    es: "You (酉) = gallo y metal afilado: orden y corte",
-    pl: "Yu (酉) = kogut i ostry metal: ład i decyzja",
+    ko: "잘 벼린 칼처럼, 정리와 결단이 바탕이에요.",
+    es: "Como un filo limpio: orden y corte.",
+    pl: "Jak czyste ostrze: ład i decyzja.",
   },
   戌: {
-    ko: "술(戌) = 개·마른 흙, 지킴과 경계의 기운",
-    es: "Xu (戌) = perro y tierra seca: guarda y frontera",
-    pl: "Sul (戌) = pies i sucha ziemia: straż i granica",
+    ko: "마른 흙처럼, 지킴과 경계가 바탕이에요.",
+    es: "Como tierra seca: guarda y frontera.",
+    pl: "Jak sucha ziemia: straż i granica.",
   },
   亥: {
-    ko: "해(亥) = 돼지·큰 물, 포용과 휴식의 기운",
-    es: "Hai (亥) = cerdo y gran agua: acogida y descanso",
-    pl: "Hae (亥) = świnia i wielka woda: objęcie i odpoczynek",
+    ko: "큰 물처럼, 포용과 휴식이 바탕이에요.",
+    es: "Como un gran agua: acogida y descanso.",
+    pl: "Jak wielka woda: objęcie i odpoczynek.",
   },
 };
 
 const PILLAR_ROLE: Record<PillarKey, Record<Locale, { title: string; meaning: string }>> = {
   year: {
-    ko: { title: "년주", meaning: "태어난 해 · 집안과 어린 시절" },
-    es: { title: "Pilar del año", meaning: "El año de nacimiento · familia e infancia" },
-    pl: { title: "Filar roku", meaning: "Rok urodzenia · dom i dzieciństwo" },
+    ko: { title: "년주", meaning: "태어난 해예요. 집안과 어린 시절의 자리예요." },
+    es: { title: "Pilar del año", meaning: "Es el año de nacimiento. Habla de la casa y de la infancia." },
+    pl: { title: "Filar roku", meaning: "To rok urodzenia. Mówi o domu i dzieciństwie." },
   },
   month: {
-    ko: { title: "월주", meaning: "태어난 달 · 사회생활과 타고난 힘" },
-    es: { title: "Pilar del mes", meaning: "El mes de nacimiento · vida social y fuerza innata" },
-    pl: { title: "Filar miesiąca", meaning: "Miesiąc urodzenia · życie społeczne i wrodzona siła" },
+    ko: { title: "월주", meaning: "태어난 달이에요. 사회생활과 타고난 힘의 자리예요." },
+    es: { title: "Pilar del mes", meaning: "Es el mes de nacimiento. Habla de la vida social y de la fuerza innata." },
+    pl: { title: "Filar miesiąca", meaning: "To miesiąc urodzenia. Mówi o życiu społecznym i wrodzonej sile." },
   },
   day: {
-    ko: { title: "일주", meaning: "태어난 날 · 나 자신과 배우자 자리" },
-    es: { title: "Pilar del día", meaning: "El día de nacimiento · tú mismo y el lugar de pareja" },
-    pl: { title: "Filar dnia", meaning: "Dzień urodzenia · ty sam i miejsce partnera" },
+    ko: { title: "일주", meaning: "태어난 날이에요. 나 자신과 배우자 자리예요." },
+    es: { title: "Pilar del día", meaning: "Es el día de nacimiento. Habla de ti y del lugar de pareja." },
+    pl: { title: "Filar dnia", meaning: "To dzień urodzenia. Mówi o tobie i o miejscu partnera." },
   },
   hour: {
-    ko: { title: "시주", meaning: "태어난 시간 · 노년과 자녀와 속마음" },
-    es: { title: "Pilar de la hora", meaning: "La hora de nacimiento · vejez, hijos y el fuero interno" },
-    pl: { title: "Filar godziny", meaning: "Godzina urodzenia · późne lata, dzieci i to, co w środku" },
+    ko: { title: "시주", meaning: "태어난 시간이에요. 노년·자녀·속마음의 자리예요." },
+    es: { title: "Pilar de la hora", meaning: "Es la hora de nacimiento. Habla de la vejez, los hijos y el fuero interno." },
+    pl: { title: "Filar godziny", meaning: "To godzina urodzenia. Mówi o późnych latach, dzieciach i tym, co w środku." },
+  },
+};
+
+const SKY_GROUND: Record<ElementKey, Record<Locale, { sky: string; ground: string }>> = {
+  wood: {
+    ko: { sky: "방향을 먼저 잡는 성격", ground: "자라고 버티는 바탕" },
+    es: { sky: "un carácter que elige rumbo pronto", ground: "un fondo que crece y aguanta" },
+    pl: { sky: "charakter, który szybko bierze kurs", ground: "podłoże, które rośnie i trwa" },
+  },
+  fire: {
+    ko: { sky: "마음을 밖으로 밝히는 성격", ground: "온기와 속도의 바탕" },
+    es: { sky: "un carácter que saca el ánimo", ground: "un fondo de calor y ritmo" },
+    pl: { sky: "charakter, który wyjmuje serce", ground: "podłoże ciepła i tempa" },
+  },
+  earth: {
+    ko: { sky: "약속을 붙드는 성격", ground: "일상과 신뢰의 바탕" },
+    es: { sky: "un carácter que sujeta lo pactado", ground: "un fondo de día a día y fe" },
+    pl: { sky: "charakter, który trzyma umowę", ground: "podłoże codzienności i zaufania" },
+  },
+  metal: {
+    ko: { sky: "결론을 원하는 성격", ground: "정리와 결단의 바탕" },
+    es: { sky: "un carácter que quiere conclusión", ground: "un fondo de orden y corte" },
+    pl: { sky: "charakter, który chce konkluzji", ground: "podłoże ładu i decyzji" },
+  },
+  water: {
+    ko: { sky: "넓게 흘러가는 성격", ground: "쉼과 깊이의 바탕" },
+    es: { sky: "un carácter que fluye ancho", ground: "un fondo de calma y hondura" },
+    pl: { sky: "charakter, który płynie szeroko", ground: "podłoże spokoju i głębi" },
   },
 };
 
@@ -215,26 +242,17 @@ export function pillarEasyLines(pillar: Pillar, key: PillarKey, locale: Locale):
   const role = pillarRole(key, locale);
   const ganEl = STEM_META[pillar.gan]?.element ?? "wood";
   const zhiEl = BRANCH_META[pillar.zhi]?.element ?? "earth";
+  const sky = SKY_GROUND[ganEl][locale].sky;
+  const ground = SKY_GROUND[zhiEl][locale].ground;
   return [
     role.meaning,
     stemEasy(pillar.gan, locale),
     branchEasy(pillar.zhi, locale),
     loc(
       locale,
-      `하늘 글자 ${josa(ganLabel(pillar.gan), "은/는")} ${elWord(ganEl, locale)}, 땅 글자 ${josa(`${pillar.zhiKorean}(${pillar.zhi})`, "은/는")} ${elWord(zhiEl, locale)} 기운입니다.`,
-      `Letra del cielo ${ganLabel(pillar.gan)}: ${elWord(ganEl, locale)}. Letra de la tierra ${pillar.zhi}: ${elWord(zhiEl, locale)}.`,
-      `Znak nieba ${ganLabel(pillar.gan)}: ${elWord(ganEl, locale)}. Znak ziemi ${pillar.zhi}: ${elWord(zhiEl, locale)}.`,
+      `위쪽 글자는 ${sky}이에요. 아래쪽 글자는 ${ground}이에요.`,
+      `Arriba: ${sky}. Abajo: ${ground}.`,
+      `U góry: ${sky}. Na dole: ${ground}.`,
     ),
   ];
-}
-
-function elWord(element: ElementKey, locale: Locale): string {
-  const table: Record<ElementKey, Record<Locale, string>> = {
-    wood: { ko: "나무", es: "madera", pl: "drewno" },
-    fire: { ko: "불", es: "fuego", pl: "ogień" },
-    earth: { ko: "흙", es: "tierra", pl: "ziemia" },
-    metal: { ko: "쇠", es: "metal", pl: "metal" },
-    water: { ko: "물", es: "agua", pl: "woda" },
-  };
-  return table[element][locale];
 }

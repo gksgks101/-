@@ -3,8 +3,9 @@
 import { useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
-import { ELEMENT_COLOR, ELEMENT_NAME } from "@/lib/i18n/terms";
+import { ELEMENT_COLOR } from "@/lib/i18n/terms";
 import { amountLevel, elementBalloon, strongestMetaphor } from "@/lib/interpret/elementGuide";
+import { easyElementName } from "@/lib/interpret/plainVoice";
 import { elementPercents } from "@/lib/interpret/themes";
 import type { ElementCount, ElementKey, ElementStrength } from "@/lib/saju/types";
 import { ElementGlyph } from "./MotifIcon";
@@ -84,7 +85,7 @@ export function ElementChart({
             />
           ))}
           <text x={CX} y={CY - 8} textAnchor="middle" className="pillar-gan" fill="#1c1612" fontSize="18">
-            {ELEMENT_NAME[locale][strongest]}
+            {easyElementName(strongest, locale)}
           </text>
           <text x={CX} y={CY + 16} textAnchor="middle" fill="#4a433c" fontSize="13">
             {percents[strongest]}%
@@ -105,7 +106,7 @@ export function ElementChart({
             <span className="mx-auto mb-1 flex h-7 w-7 items-center justify-center">
               <ElementGlyph element={key} />
             </span>
-            <span className="block text-[var(--ink)]">{ELEMENT_NAME[locale][key]}</span>
+            <span className="block text-[var(--ink)]">{easyElementName(key, locale)}</span>
             <span className="block font-semibold">{percents[key]}%</span>
           </button>
         ))}
@@ -130,7 +131,7 @@ export function ElementChart({
       )}
       <p className="mt-4 text-xs text-[var(--muted)]">
         {msg(locale, "simpleCount")}
-        {ORDER.map((key) => ` ${ELEMENT_NAME[locale][key]}${simple[key]}`).join("")}
+        {ORDER.map((key) => ` ${easyElementName(key, locale)}${simple[key]}`).join("")}
       </p>
     </article>
   );

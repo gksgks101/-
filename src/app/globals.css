@@ -202,3 +202,13 @@ textarea {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+.contrast-good {
+  background: color-mix(in srgb, #2f6b3a 11%, var(--hanji));
+  border: 1px solid color-mix(in srgb, #2f6b3a 24%, var(--line));
+}
+
+.contrast-caution {
+  background: color-mix(in srgb, #c41e3a 9%, var(--hanji));
+  border: 1px solid color-mix(in srgb, #c41e3a 22%, var(--line));
+}

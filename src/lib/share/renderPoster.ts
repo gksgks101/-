@@ -1,9 +1,11 @@
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
-import { ELEMENT_COLOR, ELEMENT_NAME, GENDER_NAME, PILLAR_NAME } from "@/lib/i18n/terms";
-import { elementPercents, type ThemeCardData } from "@/lib/interpret/themes";
+import { GENDER_NAME } from "@/lib/i18n/terms";
+import { coreHeadline } from "@/lib/interpret/coreCopy";
+import { youAreLine, buildResultSummary } from "@/lib/interpret/summary";
+import { stemEasyLine, type ThemeCardData } from "@/lib/interpret/themes";
 import { dayMasterCard } from "@/lib/saju/dayCards";
-import type { ElementKey, SajuCalculation } from "@/lib/saju/types";
+import type { SajuCalculation } from "@/lib/saju/types";
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -28,7 +30,17 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): st
     }
   }
   if (current) lines.push(current);
-  return lines.slice(0, 3);
+  return lines.slice(0, 4);
+}
+
+export function sharePosterCopy(calculation: SajuCalculation, locale: Locale, themes: ThemeCardData[]): string[] {
+  const summary = buildResultSummary(calculation, locale);
+  return [
+    youAreLine(summary.typeName, locale),
+    coreHeadline(calculation, locale),
+    stemEasyLine(calculation.dayMaster.gan, locale),
+    themes[0]?.easyHeadline ?? "",
+  ];
 }
 
 export async function renderSharePoster(
@@ -45,21 +57,21 @@ export async function renderSharePoster(
   if (!ctx) throw new Error("canvas");
   await document.fonts.ready;
 
-  ctx.fillStyle = "#1a140e";
+  ctx.fillStyle = "#f7f2e8";
   ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = "#f3efe6";
-  ctx.globalAlpha = 0.06;
-  for (let i = 0; i < 80; i += 1) {
-    ctx.fillRect(Math.random() * width, Math.random() * height, 3, 3);
+  ctx.fillStyle = "#c41e3a";
+  ctx.globalAlpha = 0.05;
+  for (let i = 0; i < 60; i += 1) {
+    ctx.fillRect(Math.random() * width, Math.random() * height, 4, 4);
   }
   ctx.globalAlpha = 1;
 
   const card = dayMasterCard(calculation.dayMaster.gan);
   const image = await loadImage(card.image);
-  const cardW = 480;
+  const cardW = 520;
   const cardH = Math.round((cardW * 4) / 3);
   const cardX = (width - cardW) / 2;
-  const cardY = 180;
+  const cardY = 220;
   ctx.save();
   ctx.beginPath();
   ctx.roundRect(cardX, cardY, cardW, cardH, 28);
@@ -72,89 +84,43 @@ export async function renderSharePoster(
   ctx.roundRect(cardX, cardY, cardW, cardH, 28);
   ctx.stroke();
 
-  ctx.fillStyle = "#c4a574";
+  ctx.fillStyle = "#c41e3a";
   ctx.font = "600 28px 'Noto Sans', 'Noto Sans KR', sans-serif";
   ctx.textAlign = "center";
   ctx.fillText(msg(locale, "shareBrand"), width / 2, 90);
-  ctx.fillStyle = "#f3efe6";
-  ctx.font = "700 54px 'Noto Serif KR', 'Noto Serif', serif";
-  const name =
-    !calculation.birth.displayName || calculation.birth.displayName === "익명"
-      ? msg(locale, "anonymous")
-      : calculation.birth.displayName;
-  ctx.fillText(msg(locale, "resultTitle", { name }), width / 2, 155);
-  ctx.fillStyle = "#c4a574";
+
+  const copy = sharePosterCopy(calculation, locale, themes);
+  ctx.fillStyle = "#1c1612";
+  ctx.font = "700 48px 'Noto Serif KR', 'Noto Serif', serif";
+  let y = 150;
+  for (const line of wrap(ctx, copy[0] ?? "", width - 120)) {
+    ctx.fillText(line, width / 2, y);
+    y += 56;
+  }
+
+  ctx.fillStyle = "#4a433c";
+  ctx.font = "600 32px 'Noto Serif KR', serif";
+  ctx.fillText(card.title[locale], width / 2, cardY + cardH + 64);
+
+  ctx.fillStyle = "#1c1612";
   ctx.font = "600 36px 'Noto Serif KR', serif";
-  ctx.fillText(card.title[locale], width / 2, cardY + cardH + 58);
-
-  const pillars = [
-    ["year", calculation.pillars.year] as const,
-    ["month", calculation.pillars.month] as const,
-    ["day", calculation.pillars.day] as const,
-    ["hour", calculation.pillars.hour] as const,
-  ];
-  const boxW = 220;
-  const gap = 18;
-  const rowY = cardY + cardH + 80;
-  const totalW = boxW * 4 + gap * 3;
-  let x = (width - totalW) / 2;
-  for (const [key, pillar] of pillars) {
-    ctx.strokeStyle = "rgba(196,165,116,0.4)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(x, rowY, boxW, 120, 16);
-    ctx.stroke();
-    ctx.fillStyle = "#8a7d6e";
-    ctx.font = "500 20px 'Noto Sans', 'Noto Sans KR', sans-serif";
-    ctx.fillText(PILLAR_NAME[key][locale], x + boxW / 2, rowY + 32);
-    ctx.fillStyle = "#f3efe6";
-    ctx.font = "700 36px 'Noto Serif KR', serif";
-    ctx.fillText(pillar ? pillar.ganzhi : "—", x + boxW / 2, rowY + 82);
-    x += boxW + gap;
+  ctx.textAlign = "left";
+  y = cardY + cardH + 130;
+  for (const line of wrap(ctx, copy[1] ?? "", width - 160)) {
+    ctx.fillText(line, 80, y);
+    y += 48;
   }
 
-  const percents = elementPercents(calculation.elements.powerScore);
-  const keys = Object.keys(percents) as ElementKey[];
-  let barX = 80;
-  const barY = rowY + 155;
-  ctx.textAlign = "left";
-  for (const key of keys) {
-    const w = ((width - 160) * percents[key]) / 100;
-    ctx.fillStyle = ELEMENT_COLOR[key];
-    ctx.fillRect(barX, barY, w, 28);
-    barX += w;
-  }
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#8a7d6e";
-  ctx.font = "500 22px 'Noto Sans', 'Noto Sans KR', sans-serif";
-  ctx.fillText(
-    keys.map((key) => `${ELEMENT_NAME[locale][key]} ${percents[key]}%`).join("   "),
-    width / 2,
-    barY + 64,
-  );
-
-  let ty = barY + 100;
-  ctx.textAlign = "left";
-  const limit = height - 140;
-  for (const theme of themes) {
-    if (ty > limit) break;
-    ctx.fillStyle = "#c4a574";
-    ctx.font = "700 26px 'Noto Serif KR', serif";
-    ctx.fillText(theme.title, 80, ty);
-    ctx.fillStyle = "#ddd6c8";
-    ctx.font = "400 24px 'Noto Sans', 'Noto Sans KR', sans-serif";
-    const lines = wrap(ctx, theme.easyHeadline || theme.easy[0] || theme.front[0] || "", width - 160);
-    ty += 34;
-    for (const line of lines.slice(0, 1)) {
-      if (ty > limit) break;
-      ctx.fillText(line, 80, ty);
-      ty += 32;
-    }
-    ty += 14;
+  ctx.fillStyle = "#c41e3a";
+  ctx.font = "600 30px 'Noto Sans', 'Noto Sans KR', sans-serif";
+  y += 24;
+  for (const line of wrap(ctx, copy[2] ?? "", width - 160)) {
+    ctx.fillText(line, 80, y);
+    y += 42;
   }
 
   ctx.textAlign = "center";
-  ctx.fillStyle = "#8a7d6e";
+  ctx.fillStyle = "#8c7349";
   ctx.font = "400 22px 'Noto Sans', 'Noto Sans KR', sans-serif";
   const meta = `${calculation.birth.solarDate} · ${calculation.birth.time ?? msg(locale, "timeUnknownLabel")} · ${GENDER_NAME[calculation.birth.gender][locale]}`;
   ctx.fillText(meta, width / 2, height - 90);

@@ -317,17 +317,70 @@ export function rankedJobs(types: TypeScore[], locale: Locale): RankedJob[] {
   return ranked;
 }
 
+const UNFIT_WHY: Record<string, Record<Locale, string>> = {
+  조직형: {
+    ko: "역할이 잘게 나뉜 큰 조직은 숨이 막혀요.",
+    es: "Una organización grande con roles muy partidos te ahoga.",
+    pl: "Wielka organizacja z drobno podzielonymi rolami dusi.",
+  },
+  공무원형: {
+    ko: "시험과 규율만 있는 자리는 금방 답답해져요.",
+    es: "Un puesto solo de examen y norma te ahoga pronto.",
+    pl: "Stanowisko z samym egzaminem i normą szybko dusi.",
+  },
+  전문직형: {
+    ko: "자격만 쌓는 깊이는 실행이 늦어져요.",
+    es: "Solo acumular título atrasa el hacer.",
+    pl: "Samo zbieranie kwalifikacji spóźnia wykonanie.",
+  },
+  기술직형: {
+    ko: "말 없이 기계만 보는 리듬은 온기가 떨어져요.",
+    es: "Mirar solo la máquina, sin palabra, baja el calor.",
+    pl: "Samo patrzenie w maszynę, bez słowa, ścina ciepło.",
+  },
+  창업형: {
+    ko: "모든 걸 내 이름으로 쥐는 자리는 금방 지쳐요.",
+    es: "Agarrarlo todo con tu nombre te cansa pronto.",
+    pl: "Chwytanie wszystkiego własnym nazwiskiem szybko męczy.",
+  },
+  기획형: {
+    ko: "계획만 쌓이고 결과가 안 보이면 속이 비어요.",
+    es: "Si solo se apila el plan y no se ve resultado, quedas hueco.",
+    pl: "Gdy sterta planów bez wyniku — pustka w środku.",
+  },
+  영업형: {
+    ko: "거절을 매일 일로 듣는 자리는 마음이 닳아요.",
+    es: "Oír el no cada día como oficio desgasta el ánimo.",
+    pl: "Słyszeć „nie” codziennie jako fach ściera serce.",
+  },
+  연구형: {
+    ko: "사람 없이 숫자만 파는 자리는 고립되기 쉬워요.",
+    es: "Cavar solo cifras, sin gente, te aísla fácil.",
+    pl: "Kopanie samych cyfr, bez ludzi, łatwo izoluje.",
+  },
+  콘텐츠형: {
+    ko: "매일 보여 줘야 하는 무대는 불을 너무 오래 켜요.",
+    es: "Un escenario que pide mostrar cada día deja la luz demasiado tiempo.",
+    pl: "Scena, która każe pokazywać codziennie, za długo trzyma światło.",
+  },
+  투자형: {
+    ko: "한 방에 기대는 숫자는 잠을 얕게 만들어요.",
+    es: "Una cifra que espera el golpe grande vuelve fino el sueño.",
+    pl: "Cyfra czekająca na jeden strzał płytko kładzie sen.",
+  },
+};
+
 export function unfitJobs(types: TypeScore[], locale: Locale): { name: string; why: string }[] {
   const bottom = [...types].slice(-3).reverse();
   return bottom.map((item) => {
     const name = JOBS[item.type]?.[locale]?.[0] ?? item.type;
     return {
       name,
-      why: loc(
+      why: UNFIT_WHY[item.type]?.[locale] ?? loc(
         locale,
-        `${item.type} 점수가 낮아 ${name} 리듬과 원국이 어긋납니다.`,
-        `La puntuación de este tipo es baja: el ritmo de ${name} no encaja con tu carta.`,
-        `Niski wynik tego typu: rytm „${name}” nie zgadza się z kartą.`,
+        `${name} 리듬은 이 결이랑 잘 안 맞아요.`,
+        `El ritmo de ${name} no encaja con tu temple.`,
+        `Rytm „${name}” nie zgadza się z twoim temperamentem.`,
       ),
     };
   });
@@ -430,34 +483,34 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
   wood: {
     ko: {
       trips: [
-        ["교토", "나무와 정원, 동쪽 기운이 숨을 트이게 해요."],
-        ["제주 서귀포", "초록과 바람이 목 기운을 살려 줘요."],
-        ["밴쿠버", "숲과 바다가 시작의 리듬을 열어 줘요."],
+        ["교토", "나무와 정원이 마음을 열어 줘요."],
+        ["제주 서귀포", "초록과 바람이 시작의 리듬을 살려 줘요."],
+        ["밴쿠버", "숲과 바다가 새 일의 숨을 트이게 해요."],
       ],
       live: [
-        ["서울 북촌·성북", "산책로와 나무가 일상에 목을 보태요."],
+        ["서울 북촌·성북", "산책로와 나무가 일상에 숨을 보태요."],
         ["베를린", "창작과 공원이 공존해 기획형 리듬이 살아요."],
       ],
     },
     es: {
       trips: [
-        ["Kioto", "Árboles y jardín: el este abre el pecho."],
-        ["Seogwipo, Jeju", "Verde y viento nutren la madera."],
+        ["Kioto", "Árboles y jardín te abren el pecho."],
+        ["Seogwipo, Jeju", "Verde y viento nutren el ritmo de empezar."],
         ["Vancouver", "Bosque y mar abren el ritmo de empezar."],
       ],
       live: [
-        ["Bukchon / Seongbuk, Seúl", "Caminos y árboles suman madera al día."],
+        ["Bukchon / Seongbuk, Seúl", "Caminos y árboles suman aire al día."],
         ["Berlín", "Creación y parques: vive el ritmo de plan."],
       ],
     },
     pl: {
       trips: [
-        ["Kioto", "Drzewa i ogród: wschód otwiera oddech."],
-        ["Seogwipo na Jeju", "Zieleń i wiatr karmią drewno."],
+        ["Kioto", "Drzewa i ogród otwierają oddech."],
+        ["Seogwipo na Jeju", "Zieleń i wiatr karmią rytm startu."],
         ["Vancouver", "Las i morze otwierają rytm startu."],
       ],
       live: [
-        ["Bukchon / Seongbuk w Seulu", "Ścieżki i drzewa dokładają drewno do dnia."],
+        ["Bukchon / Seongbuk w Seulu", "Ścieżki i drzewa dokładają oddech do dnia."],
         ["Berlin", "Twórczość i parki: żyje rytm planu."],
       ],
     },
@@ -465,7 +518,7 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
   fire: {
     ko: {
       trips: [
-        ["바르셀로나", "남쪽 빛과 거리의 온기가 화를 살려 줘요."],
+        ["바르셀로나", "남쪽 빛과 거리의 온기가 마음을 열어 줘요."],
         ["시칠리아", "태양과 식탁이 표현 리듬을 열어 줘요."],
         ["부산", "바다와 밤거리가 사람을 모아요."],
       ],
@@ -476,18 +529,18 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
     },
     es: {
       trips: [
-        ["Barcelona", "Luz del sur y calor de calle nutren el fuego."],
+        ["Barcelona", "Luz del sur y calor de calle te abren el pecho."],
         ["Sicilia", "Sol y mesa abren el ritmo de expresar."],
         ["Busán", "Mar y noche reúnen gente."],
       ],
       live: [
         ["Madrid", "Días largos y trato cotidiano."],
-        ["Itaewon / Hannam, Seúl", "Gente y comida no apagan el fuego."],
+        ["Itaewon / Hannam, Seúl", "Gente y comida no apagan el ánimo."],
       ],
     },
     pl: {
       trips: [
-        ["Barcelona", "Południowe światło i ciepło ulicy karmią ogień."],
+        ["Barcelona", "Południowe światło i ciepło ulicy otwierają oddech."],
         ["Sycylia", "Słońce i stół otwierają rytm wyrazu."],
         ["Busan", "Morze i noc zbierają ludzi."],
       ],
@@ -501,29 +554,29 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
     ko: {
       trips: [
         ["전주", "밥상과 한옥의 흙 기운이 중심을 잡아 줘요."],
-        ["토스카나", "언덕과 식탁이 토를 안정시켜 줘요."],
+        ["토스카나", "언덕과 식탁이 마음을 가라앉혀 줘요."],
         ["크라쿠프", "돌과 광장이 일상을 가라앉혀 줘요."],
       ],
       live: [
-        ["수원·화성", "평지와 생활권이 토의 안정과 맞아요."],
+        ["수원·화성", "평지와 생활권이 일상의 안정과 맞아요."],
         ["리옹", "식문화와 중간 규모의 도시가 과열을 줄여요."],
       ],
     },
     es: {
       trips: [
-        ["Jeonju", "Mesa y hanok: la tierra sujeta el centro."],
-        ["Toscana", "Colina y mesa asientan la tierra."],
+        ["Jeonju", "Mesa y hanok sujetan el centro."],
+        ["Toscana", "Colina y mesa asientan el día."],
         ["Cracovia", "Piedra y plaza calman el día."],
       ],
       live: [
-        ["Suwon / Hwaseong", "Llano y vida cotidiana encajan con la tierra."],
+        ["Suwon / Hwaseong", "Llano y vida cotidiana te asientan."],
         ["Lyon", "Cultura de mesa y ciudad mediana bajan el sobrecalor."],
       ],
     },
     pl: {
       trips: [
         ["Jeonju", "Stół i hanok: ziemia trzyma środek."],
-        ["Toskania", "Wzgórze i stół uspokajają ziemię."],
+        ["Toskania", "Wzgórze i stół uspokajają dzień."],
         ["Kraków", "Kamień i rynek uspokajają dzień."],
       ],
       live: [
@@ -535,34 +588,34 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
   metal: {
     ko: {
       trips: [
-        ["교토 서부·금각", "정리된 선과 흰빛이 금을 살려 줘요."],
+        ["교토 서부", "정리된 선과 흰빛이 판단을 맑게 해요."],
         ["빈", "음악과 질서가 결단의 리듬과 맞아요."],
-        ["헬싱키", "여백과 디자인이 금을 맑게 해요."],
+        ["헬싱키", "여백과 디자인이 머리를 맑게 해요."],
       ],
       live: [
-        ["서울 광화문·시청", "공공의 선과 기록이 금 기운과 맞아요."],
+        ["서울 광화문·시청", "공공의 선과 기록이 정리된 리듬과 맞아요."],
         ["취리히", "정확함과 깔끔한 도시 결이 오래 가요."],
       ],
     },
     es: {
       trips: [
-        ["Oeste de Kioto / Kinkaku", "Línea limpia y blanco nutren el metal."],
+        ["Oeste de Kioto / Kinkaku", "Línea limpia y blanco aclaran la cabeza."],
         ["Viena", "Música y orden encajan con el ritmo de corte."],
-        ["Helsinki", "Aire y diseño aclaran el metal."],
+        ["Helsinki", "Aire y diseño aclaran la cabeza."],
       ],
       live: [
-        ["Gwanghwamun / Ayuntamiento, Seúl", "Línea pública y registro encajan con el metal."],
+        ["Gwanghwamun / Ayuntamiento, Seúl", "Línea pública y registro encajan con tu ritmo de orden."],
         ["Zúrich", "Precisión y ciudad nítida duran."],
       ],
     },
     pl: {
       trips: [
-        ["Zachód Kioto / Kinkaku", "Czysta linia i biel karmią metal."],
+        ["Zachód Kioto / Kinkaku", "Czysta linia i biel czyszczą głowę."],
         ["Wiedeń", "Muzyka i ład pasują do rytmu decyzji."],
-        ["Helsinki", "Oddech i dizajn czyszczą metal."],
+        ["Helsinki", "Oddech i dizajn czyszczą głowę."],
       ],
       live: [
-        ["Gwanghwamun / ratusz w Seulu", "Publiczna linia i zapis pasują do metalu."],
+        ["Gwanghwamun / ratusz w Seulu", "Publiczna linia i zapis pasują do rytmu porządku."],
         ["Zurych", "Precyzja i czyste miasto trzymają długo."],
       ],
     },
@@ -570,34 +623,34 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
   water: {
     ko: {
       trips: [
-        ["리스본", "강과 언덕, 남색 타일이 수 기운을 열어 줘요."],
+        ["리스본", "강과 언덕, 남색 타일이 생각을 열어 줘요."],
         ["그단스크", "항구와 벽돌이 물의 시야를 넓혀 줘요."],
         ["강릉", "동해와 커피 골목이 휴식을 줘요."],
       ],
       live: [
-        ["인천 송도·월미", "물가와 곡선 동선이 수와 맞아요."],
+        ["인천 송도·월미", "물가와 곡선 동선이 쉼의 리듬과 맞아요."],
         ["암스테르담", "운하와 자전거가 생각을 흐르게 해요."],
       ],
     },
     es: {
       trips: [
-        ["Lisboa", "Río, colina y azulejo índigo abren el agua."],
-        ["Gdańsk", "Puerto y ladrillo ensanchan la mirada del agua."],
+        ["Lisboa", "Río, colina y azulejo índigo abren el pensamiento."],
+        ["Gdańsk", "Puerto y ladrillo ensanchan la mirada."],
         ["Gangneung", "Mar del Este y cafés dan descanso."],
       ],
       live: [
-        ["Songdo / Wolmi, Incheon", "Orilla y curva encajan con el agua."],
+        ["Songdo / Wolmi, Incheon", "Orilla y curva encajan con el descanso."],
         ["Ámsterdam", "Canal y bici dejan fluir el pensamiento."],
       ],
     },
     pl: {
       trips: [
-        ["Lizbona", "Rzeka, wzgórze i granatowy kafelek otwierają wodę."],
-        ["Gdańsk", "Port i cegła poszerzają pole wody."],
+        ["Lizbona", "Rzeka, wzgórze i granatowy kafelek otwierają myśl."],
+        ["Gdańsk", "Port i cegła poszerzają pole widzenia."],
         ["Gangneung", "Morze Wschodnie i kawiarnie dają odpoczynek."],
       ],
       live: [
-        ["Songdo / Wolmi w Incheonie", "Brzeg i łuk pasują do wody."],
+        ["Songdo / Wolmi w Incheonie", "Brzeg i łuk pasują do odpoczynku."],
         ["Amsterdam", "Kanał i rower puszczają myśl w ruch."],
       ],
     },
