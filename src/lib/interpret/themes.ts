@@ -14,6 +14,12 @@ export const THEME_IDS = [
   "fengshui",
   "health",
   "year",
+  "fashion",
+  "food",
+  "travel",
+  "music",
+  "hobby",
+  "lucky",
 ] as const;
 
 export type ThemeId = (typeof THEME_IDS)[number];
@@ -28,6 +34,11 @@ export interface GlossChip {
   gloss: string;
 }
 
+export interface EasySection {
+  title: string;
+  items: string[];
+}
+
 export interface ThemeCardData {
   id: ThemeId;
   title: string;
@@ -38,6 +49,7 @@ export interface ThemeCardData {
   easyHeadline: string;
   easy: string[];
   easyBullets: string[];
+  easySections?: EasySection[];
   luckyColors?: ColorChip[];
   avoidColors?: ColorChip[];
   disclaimer?: string;

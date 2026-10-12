@@ -27,7 +27,7 @@ export function ThemeDeck({ themes, locale }: { themes: ThemeCardData[]; locale:
     <>
       <div className="mt-6 hidden grid-cols-2 gap-4 md:grid md:auto-rows-fr">
         {themes.map((theme, themeIndex) => (
-          <div key={theme.id} className="min-h-[420px]">
+          <div key={theme.id} className="min-h-[560px]">
             <ThemeFlipCard theme={theme} locale={locale} hintShake={themeIndex === 0} />
           </div>
         ))}
@@ -35,7 +35,7 @@ export function ThemeDeck({ themes, locale }: { themes: ThemeCardData[]; locale:
 
       <div className="mt-6 md:hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <p className="mb-3 text-center text-base font-medium text-[var(--ink)]">{msg(locale, "swipeHint")}</p>
-        <div className="min-h-[460px]">{current && <ThemeFlipCard theme={current} locale={locale} hintShake={index === 0} />}</div>
+        <div className="min-h-[620px]">{current && <ThemeFlipCard theme={current} locale={locale} hintShake={index === 0} />}</div>
         <div className="mt-4 flex items-center justify-between gap-3">
           <button
             type="button"

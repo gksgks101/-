@@ -71,12 +71,50 @@ const PATH: Record<ThemeId, ReactNode> = {
       <circle cx="32" cy="34" r="4" fill="#d4a017" />
     </>
   ),
+  fashion: (
+    <>
+      <path d="M20 18l12-8 12 8v6l-8 4v16h-8V28l-8-4z" fill="none" stroke="#2f6b3a" strokeWidth="2" />
+      <circle cx="32" cy="22" r="3" fill="#c43c28" />
+    </>
+  ),
+  food: (
+    <>
+      <ellipse cx="32" cy="36" rx="14" ry="5" fill="none" stroke="#8c7349" strokeWidth="2" />
+      <path d="M18 36c2-12 8-18 14-18s12 6 14 18" fill="none" stroke="#c43c28" strokeWidth="2" />
+      <circle cx="32" cy="22" r="3" fill="#2f6b3a" />
+    </>
+  ),
+  travel: (
+    <>
+      <circle cx="32" cy="28" r="14" fill="none" stroke="#1d4e89" strokeWidth="2" />
+      <path d="M18 28h28M32 14c6 6 8 18 0 28-8-10-6-22 0-28z" fill="none" stroke="#1d4e89" strokeWidth="1.8" />
+    </>
+  ),
+  music: (
+    <>
+      <circle cx="22" cy="38" r="6" fill="#c43c28" />
+      <circle cx="40" cy="34" r="5" fill="#1d4e89" />
+      <path d="M28 38V16l18-4v22" fill="none" stroke="#c4a574" strokeWidth="2.2" />
+    </>
+  ),
+  hobby: (
+    <>
+      <circle cx="32" cy="22" r="8" fill="none" stroke="#2f6b3a" strokeWidth="2" />
+      <path d="M20 42c4-10 20-10 24 0" fill="none" stroke="#c43c28" strokeWidth="2" />
+      <path d="M24 18l16 8M24 26l16-8" stroke="#d4a017" strokeWidth="1.8" />
+    </>
+  ),
+  lucky: (
+    <>
+      <path d="M32 12l4 10 11 1-8 7 3 10-10-6-10 6 3-10-8-7 11-1z" fill="#d4a017" stroke="#8c7349" strokeWidth="1.2" />
+    </>
+  ),
 };
 
 export function MotifIcon({ id }: { id: ThemeId }) {
   return (
     <svg viewBox="0 0 64 64" className="h-10 w-10" aria-hidden>
-      <rect x="4" y="4" width="56" height="56" rx="8" fill="#1a140e" stroke="#c4a574" strokeWidth="1.5" />
+      <rect x="4" y="4" width="56" height="56" rx="8" fill="#efe6d4" stroke="#c4a574" strokeWidth="1.5" />
       <rect x="10" y="10" width="44" height="44" rx="4" fill="none" stroke="#8c1c12" strokeWidth="1" />
       {PATH[id]}
     </svg>

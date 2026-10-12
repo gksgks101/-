@@ -71,7 +71,7 @@ export function ThemeFlipCard({
         className="h-full w-full cursor-pointer text-left"
       >
         <div className={`theme-flip-inner h-full ${flipped ? "is-flipped" : ""}`}>
-          <div className="theme-face theme-face-front hanji-panel flex h-full flex-col rounded-3xl p-6">
+          <div className="theme-face theme-face-front hanji-panel flex h-full flex-col overflow-y-auto rounded-3xl p-6">
             <div className="mb-3 flex items-center gap-3">
               <MotifIcon id={theme.id} />
               <div>
@@ -96,7 +96,7 @@ export function ThemeFlipCard({
             <ColorRow title={msg(locale, "avoidColors")} items={theme.avoidColors ?? []} />
             {theme.disclaimer && <p className="mt-4 text-xs leading-6 text-[var(--dancheong)]">{theme.disclaimer}</p>}
           </div>
-          <div className="theme-face theme-face-back hanji-panel flex h-full flex-col rounded-3xl p-6">
+          <div className="theme-face theme-face-back hanji-panel flex h-full flex-col overflow-y-auto rounded-3xl p-6">
             <div className="mb-3 flex items-center gap-3">
               <MotifIcon id={theme.id} />
               <div>
@@ -110,6 +110,16 @@ export function ThemeFlipCard({
               <p key={`${index}-${line.slice(0, 20)}`} className="mb-3 text-[17px] leading-7 text-[var(--ink)]">
                 {index === 0 ? <strong>{line}</strong> : line}
               </p>
+            ))}
+            {theme.easySections?.map((block) => (
+              <div key={block.title} className="mb-4">
+                <p className="mb-2 text-xs tracking-[0.16em] text-[var(--dancheong)]">{block.title}</p>
+                <ul className="space-y-2 text-[16px] leading-7 text-[var(--ink)]">
+                  {block.items.map((item) => (
+                    <li key={item.slice(0, 28)}>· {item}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
             {theme.disclaimer && <p className="mt-auto pt-4 text-xs leading-6 text-[var(--dancheong)]">{theme.disclaimer}</p>}
             <ColorRow title={msg(locale, "luckyColors")} items={theme.luckyColors ?? []} />

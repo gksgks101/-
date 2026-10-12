@@ -5,55 +5,28 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
-import { prose } from "@/lib/i18n/prose";
-import { GENDER_NAME, PILLAR_NAME, STRENGTH_NAME, placeName, tenGod, term } from "@/lib/i18n/terms";
+import { GENDER_NAME, placeName } from "@/lib/i18n/terms";
 import { currentDaeun } from "@/lib/interpret/themeContext";
 import { buildThemeCards } from "@/lib/interpret/themes";
 import { buildResultSummary, youAreLine } from "@/lib/interpret/summary";
 import { buildTodayMonth } from "@/lib/interpret/today";
-import { accentFromYongsin, yongsinLine, yongsinReason } from "@/lib/interpret/yongsin";
+import { accentFromYongsin } from "@/lib/interpret/yongsin";
 import { dayMasterCard } from "@/lib/saju/dayCards";
 import { decodeShareQuery, encodeShareQuery } from "@/lib/share/resultUrl";
 import { downloadBlob, renderSharePoster, shareOrDownload } from "@/lib/share/renderPoster";
-import type { AnalyzeResponse, Pillar, SajuCalculation } from "@/lib/saju/types";
+import type { AnalyzeResponse, SajuCalculation } from "@/lib/saju/types";
+import { CoreFlipCard } from "./CoreFlipCard";
 import { DayMasterCard } from "./DayMasterCard";
 import { ElementChart } from "./ElementChart";
+import { LifeFlow } from "./LifeFlow";
 import { MatchPanel } from "./MatchPanel";
+import { PillarFlipCard } from "./PillarFlipCard";
 import { SeasonDaeun } from "./SeasonDaeun";
+import { SeunTimeline } from "./SeunTimeline";
 import { ThemeDeck } from "./ThemeDeck";
 
 function stars(count: number) {
   return "★".repeat(count) + "☆".repeat(Math.max(0, 5 - count));
-}
-
-function PillarCard({ title, pillar, locale }: { title: string; pillar: Pillar | null; locale: Locale }) {
-  if (!pillar) {
-    return (
-      <article className="hanji-panel rounded-2xl p-4 text-center">
-        <p className="text-xs tracking-[0.2em] text-[var(--muted)]">{title}</p>
-        <p className="mt-6 text-[var(--muted)]">{msg(locale, "unknown")}</p>
-      </article>
-    );
-  }
-  return (
-    <article className="hanji-panel rounded-2xl p-4 text-center">
-      <p className="text-xs tracking-[0.2em] text-[var(--muted)]">{title}</p>
-      <p className="pillar-gan mt-3 text-3xl text-[var(--accent)]">{pillar.gan}</p>
-      <p className="text-sm text-[var(--muted)]">
-        {pillar.ganKorean} · {tenGod(pillar.ganTenGodKorean, locale)}
-      </p>
-      <div className="gold-line my-3" />
-      <p className="pillar-gan text-3xl">{pillar.zhi}</p>
-      <p className="text-sm text-[var(--muted)]">
-        {pillar.zhiKorean} · {pillar.twelveStageKorean}
-      </p>
-      <p className="mt-3 text-xs leading-6 text-[var(--muted)]">
-        {msg(locale, "hiddenStem")}
-        <br />
-        {pillar.hiddenStems.map((item) => `${item.ganKorean}${item.roleKorean}`).join(" · ")}
-      </p>
-    </article>
-  );
 }
 
 const SCORE_LABEL: Record<string, string> = {
@@ -72,7 +45,6 @@ export function ResultView({ locale }: { locale: Locale }) {
   const [compareIndex, setCompareIndex] = useState(0);
   const [cleared, setCleared] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const [showSeunMore, setShowSeunMore] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
   const [shareState, setShareState] = useState("");
 
@@ -176,9 +148,6 @@ export function ResultView({ locale }: { locale: Locale }) {
     );
   }
 
-  const currentYear = new Date().getFullYear();
-  const nearSeun = chart.seun.filter((item) => item.year >= currentYear - 2 && item.year <= currentYear + 2);
-  const extraSeun = chart.seun.filter((item) => item.year < currentYear - 2 || item.year > currentYear + 2);
   const displayName =
     !chart.birth.displayName || chart.birth.displayName === "익명" ? msg(locale, "anonymous") : chart.birth.displayName;
   const location = chart.birth.location
@@ -332,11 +301,14 @@ export function ResultView({ locale }: { locale: Locale }) {
         <DayMasterCard card={card} locale={locale} gan={chart.dayMaster.gan} ganKorean={chart.dayMaster.ganKorean} />
       </section>
 
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <PillarCard title={PILLAR_NAME.year[locale]} pillar={chart.pillars.year} locale={locale} />
-        <PillarCard title={PILLAR_NAME.month[locale]} pillar={chart.pillars.month} locale={locale} />
-        <PillarCard title={PILLAR_NAME.day[locale]} pillar={chart.pillars.day} locale={locale} />
-        <PillarCard title={PILLAR_NAME.hour[locale]} pillar={chart.pillars.hour} locale={locale} />
+      <section className="mt-2">
+        <p className="mb-3 text-sm leading-7 text-[var(--muted)]">{msg(locale, "pillarsLead")}</p>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <PillarFlipCard pillarKey="year" pillar={chart.pillars.year} locale={locale} />
+          <PillarFlipCard pillarKey="month" pillar={chart.pillars.month} locale={locale} />
+          <PillarFlipCard pillarKey="day" pillar={chart.pillars.day} locale={locale} />
+          <PillarFlipCard pillarKey="hour" pillar={chart.pillars.hour} locale={locale} />
+        </div>
       </section>
 
       <section className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
@@ -346,18 +318,7 @@ export function ResultView({ locale }: { locale: Locale }) {
           simple={chart.elements.simpleCount}
           labels={chart.elements.powerLabel}
         />
-        <article className="hanji-panel rounded-3xl p-5 sm:p-6">
-          <h2 className="mb-3 text-sm tracking-[0.2em] text-[var(--muted)]">{msg(locale, "coreTitle")}</h2>
-          <p className="pillar-gan text-2xl">{term(STRENGTH_NAME, chart.strength.classification, locale)}</p>
-          <p className="mt-2 text-sm text-[var(--muted)]">{chart.pattern.name}</p>
-          <p className="mt-4 text-sm">{yongsinLine(chart, locale)}</p>
-          <p className="mt-2 text-sm text-[var(--muted)]">{yongsinReason(chart, locale)}</p>
-          <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
-            {chart.strength.reasons.slice(0, 4).map((item) => (
-              <li key={item}>· {item}</li>
-            ))}
-          </ul>
-        </article>
+        <CoreFlipCard locale={locale} chart={chart} />
       </section>
 
       <section className="mt-12">
@@ -366,55 +327,9 @@ export function ResultView({ locale }: { locale: Locale }) {
         <ThemeDeck themes={themes} locale={locale} />
       </section>
 
+      <LifeFlow locale={locale} chart={chart} />
       <SeasonDaeun locale={locale} chart={chart} selected={daeunIndex} onSelect={setSelectedDaeun} />
-
-      <section className="mt-6 hanji-panel rounded-3xl p-6">
-        <h3 className="pillar-gan text-2xl">{msg(locale, "seunTitle")}</h3>
-        <p className="mt-2 text-sm text-[var(--muted)]">{msg(locale, "seunHint")}</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {nearSeun.map((item) => (
-            <article
-              key={item.year}
-              className={`rounded-xl border p-4 ${item.year === currentYear ? "border-[var(--accent)] bg-white/50" : "border-[var(--line)]"}`}
-            >
-              <p className="text-lg">{item.year}</p>
-              <p className="text-[var(--dancheong)]">{stars(item.stars)}</p>
-              <p className="mt-2 text-sm">
-                {item.ganzhi} · {tenGod(item.tenGodKorean, locale)}
-              </p>
-              <p className="mt-2 text-xs text-[var(--muted)]">
-                {msg(locale, "career")} {prose(item.career, locale)}
-              </p>
-              <p className="text-xs text-[var(--muted)]">
-                {msg(locale, "money")} {prose(item.money, locale)}
-              </p>
-              <p className="text-xs text-[var(--muted)]">
-                {msg(locale, "love")} {prose(item.love, locale)}
-              </p>
-            </article>
-          ))}
-        </div>
-        {extraSeun.length > 0 && (
-          <div className="mt-4 text-center">
-            <button type="button" onClick={() => setShowSeunMore((value) => !value)} className="text-sm text-[var(--dancheong)] underline-offset-4 hover:underline">
-              {showSeunMore ? msg(locale, "hideSeun") : msg(locale, "moreSeun")}
-            </button>
-          </div>
-        )}
-        {showSeunMore && (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {extraSeun.map((item) => (
-              <article key={item.year} className="rounded-xl border border-[var(--line)] p-4">
-                <p className="text-lg">{item.year}</p>
-                <p className="text-[var(--dancheong)]">{stars(item.stars)}</p>
-                <p className="mt-2 text-sm">
-                  {item.ganzhi} · {tenGod(item.tenGodKorean, locale)}
-                </p>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
+      <SeunTimeline locale={locale} chart={chart} />
 
       <MatchPanel locale={locale} self={data} />
 

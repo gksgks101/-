@@ -142,6 +142,7 @@ textarea {
   height: 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  overflow-y: auto;
 }
 
 .theme-face-front {

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "@/lib/i18n/config";
+import { coreHeadline, coreGlossary } from "@/lib/interpret/coreCopy";
+import { daeunYearRange } from "@/lib/interpret/fortuneYears";
+import { stemEasy } from "@/lib/interpret/glyphs";
 import { THEME_IDS, buildThemeCards, elementPercents } from "@/lib/interpret/themes";
 import { yongsinLine } from "@/lib/interpret/yongsin";
 import { calculateSaju } from "./engine";
@@ -33,24 +36,30 @@ describe("해석 카드", () => {
     city: "안산",
   });
 
-  it("세 언어 모두 열 장을 앞 2~3줄, 뒤 결론+문장으로 만든다", () => {
+  it("세 언어 모두 열여섯 장을 앞면 전문, 뒷면 쉬운 말로 만든다", () => {
     for (const locale of LOCALES) {
       const cards = buildThemeCards(calculation, locale);
       expect(cards.map((item) => item.id)).toEqual([...THEME_IDS]);
+      expect(cards).toHaveLength(16);
       for (const card of cards) {
         expect(card.front.length).toBeGreaterThanOrEqual(2);
         expect(card.front.length).toBeLessThanOrEqual(3);
         expect(card.frontTerms.length).toBeLessThanOrEqual(3);
         expect(card.easyHeadline.length).toBeGreaterThan(4);
         expect(card.easy.length).toBeGreaterThanOrEqual(2);
-        expect(card.easy.length).toBeLessThanOrEqual(4);
         expect(card.title.length).toBeGreaterThan(1);
       }
       const wealth = cards.find((item) => item.id === "wealth");
       expect(wealth?.disclaimer).toContain(locale === "ko" ? "재미로" : locale === "es" ? "entretenimiento" : "rozrywkowa");
       const colors = cards.find((item) => item.id === "colors");
-      expect(colors?.luckyColors?.length).toBeGreaterThan(0);
-      expect(colors?.avoidColors?.length).toBeGreaterThan(0);
+      expect(colors?.luckyColors?.length).toBe(3);
+      expect(colors?.avoidColors?.length).toBe(2);
+      const fashion = cards.find((item) => item.id === "fashion");
+      expect(fashion?.disclaimer).toBeTruthy();
+      const career = cards.find((item) => item.id === "career");
+      const jobBlock = career?.easySections?.find((item) => item.items.length >= 5);
+      expect(jobBlock?.items[0]).toMatch(/1/);
+      expect(jobBlock?.items.join(" ")).not.toMatch(/조직형|콘텐츠형/);
     }
   });
 
@@ -66,6 +75,7 @@ describe("해석 카드", () => {
     const yong = yongsinLine(calculation, "ko");
     expect(byId.colors.front.join(" ")).toContain(yong);
     expect(byId.fengshui.front.join(" ")).toContain(yong);
+    expect(byId.fashion.front.join(" ")).toContain(yong);
     expect(byId.character.front.join(" ")).not.toContain(yong);
     expect(byId.character.front.join(" ")).toMatch(/격국|십성|일간/);
     expect(byId.career.front.join(" ")).toMatch(/대운|적성|십성/);
@@ -73,5 +83,24 @@ describe("해석 카드", () => {
     expect(byId.love.front.join(" ")).toMatch(/배우자궁|12운성|일지/);
     expect(byId.year.front.join(" ")).toMatch(/세운|대운/);
     expect(byId.year.front.some((line) => /\d{4}년/.test(line))).toBe(true);
+    expect(byId.character.easySections?.some((item) => item.title.includes("장점"))).toBe(true);
+  });
+
+  it("핵심 구조 한 줄과 용어 풀이가 사람마다 달라진다", () => {
+    const other = calculateSaju({
+      gender: "female",
+      calendar: "solar",
+      date: "1998-08-08",
+      timeKnowledge: "unknown",
+      country: "대한민국",
+      city: "서울",
+    });
+    expect(coreHeadline(calculation, "ko")).not.toBe(coreHeadline(other, "ko"));
+    expect(coreGlossary(calculation, "ko").length).toBeGreaterThanOrEqual(7);
+    expect(stemEasy("乙", "ko")).toContain("매화");
+  });
+
+  it("대운 연도는 한국 나이로 환산한다", () => {
+    expect(daeunYearRange(2001, 7, 16)).toEqual({ from: 2007, to: 2016 });
   });
 });

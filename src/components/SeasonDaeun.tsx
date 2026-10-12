@@ -2,22 +2,11 @@ import type { Locale } from "@/lib/i18n/config";
 import { msg } from "@/lib/i18n/messages";
 import { tenGod } from "@/lib/i18n/terms";
 import { prose } from "@/lib/i18n/prose";
-import { BRANCH_META } from "@/lib/saju/constants";
-import type { DaeunItem, ElementKey } from "@/lib/saju/types";
+import type { DaeunItem, SajuCalculation } from "@/lib/saju/types";
 import { currentDaeun } from "@/lib/interpret/themeContext";
-import type { SajuCalculation } from "@/lib/saju/types";
+import { birthYearOf, daeunEasy, daeunSeason, daeunYearRange, type SeasonKey } from "@/lib/interpret/fortuneYears";
 
-type Season = "spring" | "summer" | "earth" | "autumn" | "winter";
-
-function seasonOf(element: ElementKey): Season {
-  if (element === "wood") return "spring";
-  if (element === "fire") return "summer";
-  if (element === "earth") return "earth";
-  if (element === "metal") return "autumn";
-  return "winter";
-}
-
-function SeasonArt({ season }: { season: Season }) {
+function SeasonArt({ season }: { season: SeasonKey }) {
   if (season === "spring") {
     return (
       <svg viewBox="0 0 64 48" className="h-12 w-16" aria-hidden>
@@ -61,7 +50,7 @@ function SeasonArt({ season }: { season: Season }) {
   );
 }
 
-const SEASON_KEY: Record<Season, string> = {
+const SEASON_KEY: Record<SeasonKey, string> = {
   spring: "seasonSpring",
   summer: "seasonSummer",
   earth: "seasonEarth",
@@ -82,29 +71,42 @@ export function SeasonDaeun({
 }) {
   const now = currentDaeun(chart);
   const daeun = chart.daeun[selected] ?? chart.daeun[0];
+  const birthYear = birthYearOf(chart);
 
   return (
     <section className="mt-10 hanji-panel rounded-3xl p-6">
       <h3 className="pillar-gan text-2xl">{msg(locale, "daeunTitle")}</h3>
       <div className="mt-5 flex gap-2 overflow-x-auto pb-3">
         {chart.daeun.map((item, index) => {
-          const element = (BRANCH_META[item.zhi]?.element ?? "earth") as ElementKey;
-          const season = seasonOf(element);
+          const season = daeunSeason(item);
           const isNow = now?.ganzhi === item.ganzhi && now?.startAge === item.startAge;
           const isSelected = selected === index;
+          const years = daeunYearRange(birthYear, item.startAge, item.endAge);
+          const easy = daeunEasy(item, locale);
           return (
             <button
               key={item.ganzhi + item.startAge}
               type="button"
               onClick={() => onSelect(index)}
-              className={`min-w-28 rounded-2xl border px-3 py-3 text-left ${
+              className={`min-w-40 rounded-2xl border px-3 py-3 text-left ${
                 isSelected ? "border-[var(--accent)] bg-white/40" : "border-[var(--line)]"
               } ${isNow ? "season-current" : ""}`}
             >
               <SeasonArt season={season} />
               <p className="mt-1 text-xs text-[var(--muted)]">{msg(locale, SEASON_KEY[season])}</p>
-              {isNow && <p className="text-xs font-semibold text-[var(--dancheong)]">{msg(locale, "currentLuck")}</p>}
+              {isNow && <p className="text-xs font-semibold text-[var(--dancheong)]">{msg(locale, "nowLabel")}</p>}
               <p className="pillar-gan text-lg">{item.ganzhi}</p>
+              <p className="mt-1 text-xs leading-5 text-[var(--ink)]">
+                {item.startAge}~{item.endAge}
+                {locale === "ko" ? "세" : locale === "es" ? " años" : " lat"} · {years.from}~{years.to}
+                {locale === "ko" ? "년" : ""}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[var(--dancheong)]">{easy.keyword}</p>
+              {easy.lines.map((line) => (
+                <p key={line.slice(0, 18)} className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                  {line}
+                </p>
+              ))}
             </button>
           );
         })}
@@ -116,7 +118,7 @@ export function SeasonDaeun({
 
 function DaeunDetail({ locale, daeun }: { locale: Locale; daeun: DaeunItem }) {
   return (
-    <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+    <div className="mt-4 grid gap-3 rounded-2xl border border-[var(--line)] bg-white/40 p-4 text-sm sm:grid-cols-2">
       <p>
         {daeun.ganzhiKorean} · {tenGod(daeun.tenGodKorean, locale)}
       </p>
@@ -124,10 +126,10 @@ function DaeunDetail({ locale, daeun }: { locale: Locale; daeun: DaeunItem }) {
         {msg(locale, "keywords")} {daeun.keywords.join(" · ")}
       </p>
       <p>
-        {msg(locale, "money")} {prose(daeun.money, locale)}
+        {msg(locale, "career")} {prose(daeun.career, locale)}
       </p>
       <p>
-        {msg(locale, "career")} {prose(daeun.career, locale)}
+        {msg(locale, "money")} {prose(daeun.money, locale)}
       </p>
       <p>
         {msg(locale, "love")} {prose(daeun.love, locale)}
