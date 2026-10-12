@@ -258,7 +258,7 @@ const STEM_HEAD: Record<string, Record<Locale, string>> = {
     pl: "Gniesz się, ale nie łamiesz.",
   },
   丙: {
-    ko: "자리를 밝히는 사람이에요. 숨기는 타입이 아니에요.",
+    ko: "자리를 밝히는 사람이에요. 숨기는 편이 아니에요.",
     es: "Iluminas la sala. No eres de esconderte.",
     pl: "Rozświetlasz miejsce. Nie chowasz się.",
   },

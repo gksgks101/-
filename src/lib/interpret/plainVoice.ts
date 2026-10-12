@@ -27,18 +27,30 @@ export function luckOpensWhen(element: ElementKey, locale: Locale, seed = 0): st
         "방향을 먼저 정할 때 길이 보여요.",
         "산책을 하며 계획을 적을 때 숨이 트여요.",
         "작은 첫 발을 뗄 때 하루가 움직여요.",
+        "창문을 열고 아침을 맞을 때 기운이 돌아요.",
+        "한 줄 목표를 적으면 발이 가벼워져요.",
+        "미뤄 둔 시작을 오늘 열면 길이 열려요.",
+        "짧은 산책만으로도 생각이 정리돼요.",
       ],
       es: [
         "La suerte se abre cuando empiezas algo nuevo.",
         "El camino se ve cuando eliges rumbo pronto.",
         "Respiras si paseas y anotas un plan.",
         "Un primer paso chico mueve el día.",
+        "Si abres la ventana a la mañana, vuelve el ánimo.",
+        "Una línea de meta aligera el paso.",
+        "Si hoy abres lo aplazado, sale el camino.",
+        "Un paseo corto ya ordena el pensamiento.",
       ],
       pl: [
         "Szczęście się otwiera, gdy zaczynasz coś nowego.",
         "Droga widać, gdy szybko bierzesz kurs.",
         "Łapiesz oddech, gdy spacerujesz i zapisujesz plan.",
         "Mały pierwszy krok rusza dzień.",
+        "Jak otworzysz okno na poranek, wraca siła.",
+        "Jedna linijka celu robi lżejszy krok.",
+        "Jak dziś otworzysz odłożone, wychodzi droga.",
+        "Krótki spacer już porządkuje myśl.",
       ],
     },
     fire: {
@@ -47,18 +59,30 @@ export function luckOpensWhen(element: ElementKey, locale: Locale, seed = 0): st
         "마음을 말과 온기로 나눌 때 길이 보여요.",
         "사람을 따뜻하게 부를 때 자리가 밝아져요.",
         "감정을 한 줄로 말할 때 관계가 풀려요.",
+        "작은 칭찬을 먼저 건네면 하루가 밝아져요.",
+        "얼굴을 보고 말하면 오해가 줄어요.",
+        "따뜻한 한 끼가 말을 부드럽게 해요.",
+        "저녁엔 기기보다 사람 쪽을 보세요.",
       ],
       es: [
         "La suerte se abre cuando sacas lo que piensas.",
         "El camino se ve cuando compartes calor y palabras.",
         "El sitio se ilumina si llamas a la gente con calor.",
         "Si dices el ánimo en una línea, el vínculo se abre.",
+        "Un elogio chico primero ilumina el día.",
+        "Si hablas cara a cara, baja el malentendido.",
+        "Una comida tibia suaviza la palabra.",
+        "De noche mira más a la gente que a la pantalla.",
       ],
       pl: [
         "Szczęście się otwiera, gdy mówisz, co myślisz.",
         "Droga widać, gdy dzielisz ciepło i słowa.",
         "Miejsce się świeci, gdy wołasz ludzi ciepłem.",
         "Jak powiesz serce jedną linijką, relacja się otwiera.",
+        "Mała pochwała najpierw rozświetla dzień.",
+        "Jak mówisz twarzą w twarz, mniej nieporozumień.",
+        "Ciepły posiłek zmiękcza słowo.",
+        "Wieczorem patrz bardziej na ludzi niż na ekran.",
       ],
     },
     earth: {
@@ -67,18 +91,30 @@ export function luckOpensWhen(element: ElementKey, locale: Locale, seed = 0): st
         "일상을 차근히 붙들 때 길이 보여요.",
         "밥을 따뜻하게 챙길 때 마음이 가라앉아요.",
         "바닥을 정리하면 하루가 붙어 있어요.",
+        "작은 심부름을 끝내면 마음이 놓여요.",
+        "같은 시간에 밥 먹으면 리듬이 붙어요.",
+        "약속 시간을 지키면 신뢰가 쌓여요.",
+        "집을 따뜻하게 두면 몸이 먼저 고마워해요.",
       ],
       es: [
         "La suerte se abre cuando cumples y cuidas lo concreto.",
         "El camino se ve cuando sujetas el día a día.",
         "El ánimo se asienta si cuidas una comida tibia.",
         "Si recoges el suelo, el día se pega.",
+        "Un recado chico cerrado te deja el pecho quieto.",
+        "Comer a la misma hora pega el ritmo.",
+        "Si cumples la hora, se acumula la fe.",
+        "Una casa tibia agradece el cuerpo primero.",
       ],
       pl: [
         "Szczęście się otwiera, gdy dotrzymujesz i dbasz o konkret.",
         "Droga widać, gdy trzymasz codzienność.",
         "Serce siada, gdy dbasz o ciepły posiłek.",
         "Jak posprzątasz podłogę, dzień się klei.",
+        "Mała załatwiona sprawa uspokaja serce.",
+        "Jedzenie o tej samej porze klei rytm.",
+        "Jak dotrzymasz godziny, składa się zaufanie.",
+        "Ciepły dom dziękuje ciałem najpierw.",
       ],
     },
     metal: {
@@ -87,18 +123,30 @@ export function luckOpensWhen(element: ElementKey, locale: Locale, seed = 0): st
         "한 줄을 분명히 자를 때 길이 보여요.",
         "할 일을 끝내 두면 머리가 맑아져요.",
         "여백을 남기는 선택이 품격을 지켜요.",
+        "필요 없는 알림을 끄면 판단이 빨라져요.",
+        "오늘 할 일 세 개만 적으면 돼요.",
+        "거절 한 줄을 연습하면 하루가 가벼워져요.",
+        "책상을 비우면 결정이 또렷해져요.",
       ],
       es: [
         "La suerte se abre cuando fijas un criterio y decides.",
         "El camino se ve cuando cortas una línea clara.",
         "La cabeza se aclara si cierras una tarea.",
         "Dejar aire en la elección guarda el tono.",
+        "Si apagas avisos de más, el criterio acelera.",
+        "Basta anotar tres tareas de hoy.",
+        "Una línea de no aligera el día.",
+        "Si vacías el escritorio, la decisión se ve.",
       ],
       pl: [
         "Szczęście się otwiera, gdy stawiasz kryterium i decydujesz.",
         "Droga widać, gdy tniesz jedną jasną linijkę.",
         "Głowa się czyszczy, gdy domykasz zadanie.",
         "Zostawienie oddechu w wyborze broni klasy.",
+        "Jak wyłączysz zbędne powiadomienia, osąd przyspiesza.",
+        "Wystarczą trzy zadania na dziś.",
+        "Jedna linijka odmowy robi lżejszy dzień.",
+        "Jak opróżnisz biurko, decyzja się wyostrza.",
       ],
     },
     water: {
@@ -107,18 +155,30 @@ export function luckOpensWhen(element: ElementKey, locale: Locale, seed = 0): st
         "혼자 있는 아침을 지킬 때 길이 보여요.",
         "물을 가까이 두면 생각이 맑아져요.",
         "밤을 조금 일찍 닫으면 직관이 돌아와요.",
+        "짧은 일기가 속을 가라앉혀 줘요.",
+        "산책길에 말없이 걸으면 답이 떠요.",
+        "잠들기 전 화면을 끄면 꿈이 덜 어지러워요.",
+        "혼자 있는 20분이 하루를 지켜 줘요.",
       ],
       es: [
         "La suerte se abre cuando descansas y piensas hondo.",
         "El camino se ve cuando guardas una mañana a solas.",
         "El pensamiento se aclara si acercas el agua.",
         "Si cierras la noche un poco antes, vuelve la intuición.",
+        "Un diario corto asienta el pecho.",
+        "Si caminas en silencio, aparece la respuesta.",
+        "Apagar la pantalla antes de dormir aclara el sueño.",
+        "Veinte minutos a solas guardan el día.",
       ],
       pl: [
         "Szczęście się otwiera, gdy odpoczywasz i myślisz głęboko.",
         "Droga widać, gdy strzeżesz samotnego poranka.",
         "Myśl się czyszczy, gdy trzymasz wodę blisko.",
         "Jak wcześniej zamkniesz noc, wraca intuicja.",
+        "Krótki dziennik uspokaja serce.",
+        "Jak idziesz milcząc, pojawia się odpowiedź.",
+        "Wyłączenie ekranu przed snem czyści marzenia.",
+        "Dwadzieścia minut samemu strzeże dnia.",
       ],
     },
   };
@@ -139,18 +199,29 @@ export function helpAction(element: ElementKey, locale: Locale): string {
 export function helpClause(elements: ElementKey[], locale: Locale): string {
   const unique = [...new Set(elements)];
   const clause: Record<ElementKey, Record<Locale, string>> = {
-    wood: { ko: "새로운 일을 시작하고", es: "empezar algo nuevo y", pl: "zaczynać nowe sprawy i" },
-    fire: { ko: "생각을 밖으로 표현하고", es: "sacar lo que piensas y", pl: "mówić, co myślisz, i" },
-    earth: { ko: "실속 있는 약속으로 바꾸고", es: "volverlo en lo concreto y", pl: "zamieniać to w konkret i" },
-    metal: { ko: "기준을 세우고", es: "fijar un criterio y", pl: "stawiać kryterium i" },
-    water: { ko: "깊게 쉬고", es: "descansar hondo y", pl: "odpoczywać głęboko i" },
+    wood: { ko: "새로운 일을 시작하고", es: "empiezas algo nuevo", pl: "zaczynasz nowe sprawy" },
+    fire: { ko: "생각을 밖으로 표현하고", es: "sacas lo que piensas", pl: "mówisz, co myślisz" },
+    earth: { ko: "실속 있는 약속으로 바꾸고", es: "lo vuelves concreto", pl: "zamieniasz to w konkret" },
+    metal: { ko: "기준을 세우고", es: "fijas un criterio", pl: "stawiasz kryterium" },
+    water: { ko: "깊게 쉬고", es: "descansas hondo", pl: "odpoczywasz głęboko" },
   };
-  if (!unique.length) return loc(locale, "재능으로 표현하면", "si sacas tu talento,", "jeśli wyjmiesz talent,");
+  if (!unique.length) {
+    return loc(locale, "재능으로 표현하면", "Si sacas tu talento,", "Jeśli wyjmiesz talent,");
+  }
+  if (locale === "ko") {
+    const parts = unique.map((key) => clause[key].ko);
+    const last = parts[parts.length - 1] ?? "";
+    return [...parts.slice(0, -1), last.replace(/고$/, "면")].join(" ");
+  }
   const parts = unique.map((key) => clause[key][locale]);
   const last = parts[parts.length - 1] ?? "";
-  const closed = locale === "ko" ? last.replace(/고$/, "면") : last.replace(/ y$/, ",").replace(/ i$/, ",");
-  const body = [...parts.slice(0, -1), closed].join(" ");
-  return body;
+  const head = parts.slice(0, -1);
+  if (locale === "es") {
+    const joined = head.length ? `${head.join(", ")} y ${last}` : last;
+    return `Si ${joined},`;
+  }
+  const joined = head.length ? `${head.join(", ")} i ${last}` : last;
+  return `Jeśli ${joined},`;
 }
 
 export function cautionTrait(element: ElementKey, locale: Locale): string {
@@ -166,7 +237,7 @@ export function cautionTrait(element: ElementKey, locale: Locale): string {
 
 export function muchTrait(element: ElementKey, locale: Locale): string {
   const table: Record<ElementKey, Record<Locale, string>> = {
-    wood: { ko: "시작이 빠르고 의가 분명해요.", es: "Empiezas pronto y se ve el rumbo.", pl: "Zaczynasz szybko i widać kurs." },
+    wood: { ko: "시작이 빠르고 방향이 분명해요.", es: "Empiezas pronto y se ve el rumbo.", pl: "Zaczynasz szybko i widać kurs." },
     fire: { ko: "자리를 밝히고 사람이 모여요.", es: "Iluminas el sitio y se junta gente.", pl: "Rozświetlasz miejsce i zbierają się ludzie." },
     earth: { ko: "신뢰를 주고 일상을 붙들어요.", es: "Das confianza y sujetas el día.", pl: "Dajesz zaufanie i trzymasz dzień." },
     metal: { ko: "판단이 빠르고 원칙을 중요하게 여겨요.", es: "El criterio es rápido y te importa la norma.", pl: "Osąd jest szybki i ważna jest zasada." },
@@ -216,15 +287,34 @@ export function personFit(element: ElementKey, locale: Locale, flavor: "love" | 
   };
   const base = table[element][locale];
   if (flavor === "love") {
-    return {
-      label: base.label,
-      why: loc(
-        locale,
-        "연애에서는 그 속도가 마음을 편하게 해요.",
-        "En el amor ese ritmo te deja el pecho tranquilo.",
-        "W miłości to tempo uspokaja serce.",
-      ),
+    const why: Record<ElementKey, Record<Locale, string>> = {
+      wood: {
+        ko: "연애에서는 응원이 시작을 열어 줘요.",
+        es: "En el amor, el ánimo abre el inicio.",
+        pl: "W miłości doping otwiera start.",
+      },
+      fire: {
+        ko: "연애에서는 감정을 받아 줘야 오래 가요.",
+        es: "En el amor dura si reciben tu emoción.",
+        pl: "W miłości trwa, gdy przyjmą emocję.",
+      },
+      earth: {
+        ko: "연애에서는 일상이 맞아야 마음이 놓여요.",
+        es: "En el amor te calmas si encaja el día a día.",
+        pl: "W miłości serce siada, gdy zgadza się codzienność.",
+      },
+      metal: {
+        ko: "연애에서는 한 줄이 밀당보다 편해요.",
+        es: "En el amor te sienta una línea más que el tira y afloja.",
+        pl: "W miłości wygodniejsza jest linijka niż gra na zwłokę.",
+      },
+      water: {
+        ko: "연애에서는 서두르지 않는 속도가 맞아요.",
+        es: "En el amor te sienta un ritmo sin prisa.",
+        pl: "W miłości pasuje tempo bez pędu.",
+      },
     };
+    return { label: base.label, why: why[element][locale] };
   }
   return base;
 }
@@ -259,15 +349,34 @@ export function personCaution(element: ElementKey, locale: Locale, flavor: "love
   };
   const base = table[element][locale];
   if (flavor === "love") {
-    return {
-      label: base.label,
-      why: loc(
-        locale,
-        "가까워질수록 마음이 먼저 지쳐요.",
-        "Cuanto más cerca, el ánimo se cansa primero.",
-        "Im bliżej, tym serce męczy się pierwsze.",
-      ),
+    const why: Record<ElementKey, Record<Locale, string>> = {
+      wood: {
+        ko: "밀어붙이면 연애에서 마음이 닫혀요.",
+        es: "Si empuja, el amor se cierra.",
+        pl: "Jak pcha, miłość się zamyka.",
+      },
+      fire: {
+        ko: "온기를 무시하면 연애가 식어요.",
+        es: "Si ignora el calor, el amor se enfría.",
+        pl: "Jak zignoruje ciepło, miłość stygnie.",
+      },
+      earth: {
+        ko: "말이 바뀌면 연애 신뢰가 먼저 깨져요.",
+        es: "Si cambia de palabra, cae la fe en el amor.",
+        pl: "Jak zmieni zdanie, pęka zaufanie w miłości.",
+      },
+      metal: {
+        ko: "자르기만 하면 연애가 자존심 싸움이 돼요.",
+        es: "Si solo corta, el amor se vuelve pelea de orgullo.",
+        pl: "Jak tylko tnie, miłość staje się sporem o honor.",
+      },
+      water: {
+        ko: "생각할 틈을 안 주면 연애에서 거리를 둬요.",
+        es: "Si no deja pensar, pones distancia en el amor.",
+        pl: "Jak nie da pomyśleć, w miłości stawiasz dystans.",
+      },
     };
+    return { label: base.label, why: why[element][locale] };
   }
   return base;
 }

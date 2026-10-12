@@ -41,7 +41,7 @@ export function daeunEasy(item: DaeunItem, locale: Locale): { keyword: string; l
           : `${item.startAge}~${item.endAge}세에는 ${keyword} 쪽으로 길이 열려요. 그 결을 일로 붙이면 돼요.`,
         clash
           ? `Entre los ${item.startAge} y ${item.endAge} años el tablero se mueve. No cambies trabajo y casa a la vez.`
-          : `Entre los ${item.startAge} y ${item.endAge} años se abre el camino hacia ${keyword}. Pegalo al oficio.`,
+          : `Entre los ${item.startAge} y ${item.endAge} años se abre el camino hacia ${keyword}. Pégalo al oficio.`,
         clash
           ? `Między ${item.startAge}. a ${item.endAge}. rokiem plansza często się rusza. Nie zmieniaj pracy i domu naraz.`
           : `Między ${item.startAge}. a ${item.endAge}. rokiem droga idzie ku ${keyword}. Przyklej to do fachu.`,
@@ -50,9 +50,9 @@ export function daeunEasy(item: DaeunItem, locale: Locale): { keyword: string; l
         locale,
         clash
           ? "마음은 속도가 빨라져요. 큰 약속은 한 박자 쉬고 하세요."
-          : "일상 리듬만 지키면 몸도 마음이 덜 흔들려요.",
+          : "일상 리듬만 지키면 몸과 마음이 덜 흔들려요.",
         clash
-          ? "El ánimo se acelera. Pause un tiempo antes de un pacto grande."
+          ? "El ánimo se acelera. Espera un poco antes de un pacto grande."
           : "Si guardas el ritmo del día, cuerpo y corazón tiemblan menos.",
         clash
           ? "Serce przyspiesza. Zaczekaj chwilę przed wielką obietnicą."
@@ -115,15 +115,27 @@ export function lifeStages(calculation: SajuCalculation, locale: Locale): LifeSt
             ),
             loc(
               locale,
-              high
-                ? "사람과 기회를 한 번에 넓히지 말고, 한 줄만 깊게 가세요."
-                : "서두르면 몸부터 반응해요. 하루 리듬을 먼저 지키세요.",
-              high
-                ? "No diversifiques gente y oportunidad a la vez. Ve hondo en una sola línea."
-                : "Si te prisas, responde el cuerpo. Guarda primero el ritmo del día.",
-              high
-                ? "Nie mieszaj ludzi i okazji naraz. Idź głęboko jedną linijką."
-                : "Jak się spieszysz, reaguje ciało. Najpierw rytm dnia.",
+              {
+                child: "어른 눈치보다 내가 좋아하는 놀이를 지키세요.",
+                youth: "한 분야의 실력을 깊게 쌓으면 돼요.",
+                adult: high ? "집과 일을 한 번에 키우지 마세요." : "서두르면 몸부터 반응해요. 하루 리듬을 먼저 지키세요.",
+                mid: "사람을 늘리기보다 남는 관계를 지키세요.",
+                elder: "가르치는 한 줄이 다음을 남겨요.",
+              }[range.id],
+              {
+                child: "Más que el ojo adulto, guarda el juego que te gusta.",
+                youth: "Basta con criar hondo un solo oficio.",
+                adult: high ? "No agrandes casa y trabajo a la vez." : "Si te prisas, responde el cuerpo. Guarda primero el ritmo del día.",
+                mid: "Más que sumar gente, guarda el vínculo que queda.",
+                elder: "Una línea que enseñas deja lo que sigue.",
+              }[range.id],
+              {
+                child: "Raczej niż oko dorosłych, strzeż zabawy, którą lubisz.",
+                youth: "Wystarczy głęboko ułożyć jeden fach.",
+                adult: high ? "Nie powiększaj domu i pracy naraz." : "Jak się spieszysz, reaguje ciało. Najpierw rytm dnia.",
+                mid: "Raczej niż mnożyć ludzi, strzeż więzi, która zostaje.",
+                elder: "Jedna linijka nauki zostawia to, co dalej.",
+              }[range.id],
             ),
           ]
         : [],

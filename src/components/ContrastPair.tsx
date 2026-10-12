@@ -14,7 +14,7 @@ export function ContrastPairView({ pair }: { pair: ContrastPair }) {
           {pair.good.map((item) => (
             <li key={`${item.label}-${item.why.slice(0, 12)}`}>
               <p className="text-[16px] font-medium leading-6 text-[var(--ink)]">{item.label}</p>
-              <p className="mt-0.5 text-[13px] leading-5 text-[var(--muted)]">{item.why}</p>
+              <p className="mt-0.5 text-[15px] leading-6 text-[var(--muted)]">{item.why}</p>
             </li>
           ))}
         </ul>
@@ -30,7 +30,7 @@ export function ContrastPairView({ pair }: { pair: ContrastPair }) {
           {pair.caution.map((item) => (
             <li key={`${item.label}-${item.why.slice(0, 12)}`}>
               <p className="text-[16px] font-medium leading-6 text-[var(--ink)]">{item.label}</p>
-              <p className="mt-0.5 text-[13px] leading-5 text-[var(--muted)]">{item.why}</p>
+              <p className="mt-0.5 text-[15px] leading-6 text-[var(--muted)]">{item.why}</p>
             </li>
           ))}
         </ul>

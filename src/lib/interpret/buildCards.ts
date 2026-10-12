@@ -20,7 +20,8 @@ import {
   workEnv,
 } from "./lifeTables";
 import { careerWorkEasy, groupEasy, loveStyle } from "./sectorTables";
-import { cautionTrait, easyElementName, luckOpensWhen, personCaution, personFit } from "./plainVoice";
+import { seunKeyword } from "./fortuneYears";
+import { cautionTrait, easyElementName, helpAction, luckOpensWhen, personCaution, personFit } from "./plainVoice";
 import { buildThemeCtx, clean, loc, type ThemeCtx } from "./themeContext";
 import type { ColorChip, ContrastItem, ContrastPair, GlossChip, LifestyleTab, ThemeCardData } from "./themes";
 import { yongsinLine } from "./yongsin";
@@ -249,7 +250,7 @@ export function assembleThemeCards(
         ctx.style === "aggressive" ? "Motivo: el cuerpo responde a la oportunidad." : "Motivo: los años de tapar fugas suman más que un golpe.",
         ctx.style === "aggressive" ? "Powód: ciało reaguje na okazję." : "Powód: lata zatykania wycieków składają się na większe pieniądze.",
       ),
-      loc(locale, "조언: 자동이체를 월급날에 붙이세요. 종목은 찍지 않아요.", "Consejo: una transferencia el día de cobro. No elegimos acciones.", "Rada: przelew w dzień wypłaty. Nie wybieramy spółek."),
+      loc(locale, "조언: 월급날에 자동이체를 걸어 두세요. 어디에 넣을지는 직접 결정하세요.", "Consejo: una transferencia el día de cobro. Dónde invertirlo lo decides tú.", "Rada: przelew w dzień wypłaty. Gdzie to włożyć, decydujesz sam."),
     ]),
     easyBullets: [],
     contrast: [
@@ -306,10 +307,20 @@ export function assembleThemeCards(
       ["12운성", loc(locale, "12운성", "12 etapas", "12 etapów")],
     ]),
     frontBullets: [],
-    easyHeadline: loc(locale, "좋아하는 티는 작게, 약속은 분명하게.", "El gusto, en bajo; la cita, clara.", "Sympatia cicho, umowa jasno."),
+    easyHeadline: loc(
+      locale,
+      `${josa(loveFit[0]?.label ?? "마음을 받아 주는 사람", "이/가")} 마음을 편하게 해요.`,
+      `${loveFit[0]?.label ?? "Quien te recibe"} te deja el pecho tranquilo.`,
+      `${loveFit[0]?.label ?? "Kto cię przyjmuje"} uspokaja serce.`,
+    ),
     easy: clean([
-      loc(locale, "결론: 좋아하는 티는 작게, 약속은 분명하게.", "Conclusión: el gusto en bajo, la cita clara.", "Wniosek: sympatia cicho, umowa jasno."),
-      loc(locale, "이유: 속도가 맞아야 마음이 오래 가요.", "Motivo: el vínculo dura si encaja el ritmo.", "Powód: relacja trwa, gdy zgadza się tempo."),
+      loc(
+        locale,
+        `결론: ${josa(loveFit[0]?.label ?? "마음을 받아 주는 사람", "과/와")} 오래 가요.`,
+        `Conclusión: con ${loveFit[0]?.label ?? "quien te recibe"} el amor dura.`,
+        `Wniosek: z osobą jak ${loveFit[0]?.label ?? "kto cię przyjmuje"} miłość trwa.`,
+      ),
+      loc(locale, `이유: ${loveFit[0]?.why ?? ""}`, `Motivo: ${loveFit[0]?.why ?? ""}`, `Powód: ${loveFit[0]?.why ?? ""}`),
       loc(locale, "조언: 밀당보다 한 줄을 먼저 정하세요.", "Consejo: antes que el tira y afloja, una línea clara.", "Rada: zamiast gry na zwłokę — jedna jasna linijka."),
     ]),
     easyBullets: [],
@@ -334,11 +345,26 @@ export function assembleThemeCards(
       ["관성", loc(locale, "관성", "autoridad", "autorytet")],
     ]),
     frontBullets: [],
-    easyHeadline: loc(locale, "받아 주고 속도를 맞추는 사람이 오래 가요.", "Quien te recibe al ritmo dura.", "Kto przyjmuje twoje tempo — zostaje."),
+    easyHeadline: loc(
+      locale,
+      `${josa(personFit(ctx.support, locale).label, "이/가")} 친구·동료로 오래 가요.`,
+      `${personFit(ctx.support, locale).label} dura como amigo o colega.`,
+      `${personFit(ctx.support, locale).label} zostaje jako przyjaciel albo kolega.`,
+    ),
     easy: clean([
-      loc(locale, "결론: 받아 주고 속도를 맞추는 사람이 오래 가요.", "Conclusión: quien te recibe al ritmo dura.", "Wniosek: kto przyjmuje tempo — zostaje."),
-      loc(locale, "이유: 결이 같으면 자존심 싸움이 적어요.", "Motivo: si el temple encaja, hay menos pelea de orgullo.", "Powód: gdy temperament się zgadza, mniej sporu o honor."),
-      loc(locale, "조언: 정답만 던지는 사람과는 거리를 두세요.", "Consejo: distancia con quien solo suelta “la verdad”.", "Rada: dystans wobec tego, kto rzuca samą „prawdę”."),
+      loc(
+        locale,
+        `결론: ${josa(personFit(ctx.support, locale).label, "이/가")} 오래 가요.`,
+        `Conclusión: ${personFit(ctx.support, locale).label} dura a tu lado.`,
+        `Wniosek: ${personFit(ctx.support, locale).label} zostaje przy tobie.`,
+      ),
+      loc(locale, `이유: ${personFit(ctx.support, locale).why}`, `Motivo: ${personFit(ctx.support, locale).why}`, `Powód: ${personFit(ctx.support, locale).why}`),
+      loc(
+        locale,
+        `조언: ${josa(personCaution(ctx.pressure, locale).label, "과/와")}는 거리를 두세요.`,
+        `Consejo: distancia con ${personCaution(ctx.pressure, locale).label}.`,
+        `Rada: dystans wobec: ${personCaution(ctx.pressure, locale).label}.`,
+      ),
     ]),
     easyBullets: [],
     contrast: [
@@ -369,10 +395,10 @@ export function assembleThemeCards(
       ["비겁", loc(locale, "비겁", "compañeros", "towarzysze")],
     ]),
     frontBullets: [],
-    easyHeadline: loc(locale, "친구는 깊게, 직장은 역할이 분명할 때 편해요.", "Amigos, en profundidad. Trabajo, con el rol claro.", "Przyjaciele głęboko. Praca, gdy rola jasna."),
+    easyHeadline: loc(locale, `직장은 ${env.style}일 때 편해요.`, `El trabajo te sienta si es: ${env.style}.`, `Praca leży, gdy jest: ${env.style}.`),
     easy: clean([
-      loc(locale, "결론: 사람 수는 적게, 역할은 분명하게.", "Conclusión: menos gente, rol más claro.", "Wniosek: mniej ludzi, jaśniejsza rola."),
-      loc(locale, "이유: 친구와 직장의 결이 달라요.", "Motivo: amigos y trabajo no tienen el mismo temple.", "Powód: przyjaciele i praca to inny temperament."),
+      loc(locale, `결론: 직장은 ${env.style}일 때 편해요.`, `Conclusión: te sienta un trabajo de ${env.style}.`, `Wniosek: praca leży, gdy jest ${env.style}.`),
+      loc(locale, "이유: 친구는 깊게, 일은 역할이 보여야 해요.", "Motivo: los amigos, hondo; el oficio, con rol visible.", "Powód: przyjaciele głęboko, praca z widoczną rolą."),
       loc(locale, `조언: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`, `Consejo: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`, `Rada: ${groupEasy(ctx.dominantGroup, locale).split(/[.。]/)[0] ?? ""}.`),
     ]),
     easyBullets: [],
@@ -451,7 +477,7 @@ export function assembleThemeCards(
     easy: clean([
       loc(locale, "결론: 방향 하나와 소품 하나면 돼요.", "Conclusión: basta una dirección y un objeto.", "Wniosek: wystarczy jeden kierunek i jeden przedmiot."),
       loc(locale, `이유: ${openAt(1)}`, `Motivo: ${openAt(1)}`, `Powód: ${openAt(1)}`),
-      loc(locale, `조언: 머리와 등받이가 ${directionOf(yongKey, locale)} 반대가 되지 않게 하세요.`, `Consejo: que cabecera y respaldo no queden de espaldas al ${directionOf(yongKey, locale)}.`, `Rada: wezgłowie i oparcie niech nie stoją plecami do ${directionOf(yongKey, locale)}.`),
+      loc(locale, `조언: 머리맡이 ${directionOf(yongKey, locale)}쪽을 등지지 않게 하세요.`, `Consejo: que la cabecera no dé la espalda al ${directionOf(yongKey, locale)}.`, `Rada: wezgłowie niech nie stoi plecami do ${directionOf(yongKey, locale)}.`),
     ]),
     easyBullets: [],
     contrast: [
@@ -490,7 +516,7 @@ export function assembleThemeCards(
     frontBullets: [],
     easyHeadline: loc(locale, "몸이 먼저 보내는 신호는 잠과 긴장이에요.", "El cuerpo avisa con sueño y tensión.", "Ciało daje znać snem i napięciem."),
     easy: clean([
-      loc(locale, `결론: 약해지기 쉬운 곳은 ${organOf(healthEl, locale)} 쪽 상징이에요.`, `Conclusión: lo que se debilita (símbolo) es ${organOf(healthEl, locale)}.`, `Wniosek: to, co słabnie (symbol), to ${organOf(healthEl, locale)}.`),
+      loc(locale, `결론: ${organOf(healthEl, locale)} 쪽을 자주 풀어 주세요.`, `Conclusión: suelta a menudo ${organOf(healthEl, locale)}.`, `Wniosek: często rozruszaj ${organOf(healthEl, locale)}.`),
       loc(locale, "이유: 무리가 쌓이면 잠과 긴장이 먼저 말해요.", "Motivo: si se acumula el exceso, avisan sueño y tensión.", "Powód: gdy zbiera się nadmiar, najpierw mówią sen i napięcie."),
       loc(locale, `조언: ${hobby.sport}처럼 과하지 않게 몸을 푸세요.`, `Consejo: muévete sin pasarte, hacia ${hobby.sport}.`, `Rada: ruszaj się bez przesady, ku ${hobby.sport}.`),
     ]),
@@ -538,23 +564,37 @@ export function assembleThemeCards(
     frontBullets: [],
     easyHeadline: loc(
       locale,
-      seun?.relationsWithNatal.length ? "올해는 판이 움직이는 해예요. 한 번에 결정하지 마세요." : "올해는 있는 판을 다지는 해에 가까워요.",
-      seun?.relationsWithNatal.length ? "Este año mueve el tablero. No decidas todo a la vez." : "Este año asienta lo que ya tienes.",
-      seun?.relationsWithNatal.length ? "Ten rok rusza planszę. Nie decyduj wszystkiego naraz." : "Ten rok raczej utrwala planszę.",
+      `${josa(seun ? seunKeyword(seun, locale) : "올해 흐름", "을/를")} 한 가지만 움직이세요.`,
+      `Mueve solo ${seun ? seunKeyword(seun, locale) : "el ritmo del año"} este año.`,
+      `W tym roku rusz tylko ${seun ? seunKeyword(seun, locale) : "rytm roku"}.`,
     ),
     easy: clean([
-      loc(locale, "결론: 직업·돈·연애를 동시에 갈아엎지 마세요.", "Conclusión: no vuelques trabajo, dinero y amor a la vez.", "Wniosek: nie wywracaj naraz pracy, pieniędzy i miłości."),
-      loc(locale, "이유: 하나만 움직여도 올해는 충분해요.", "Motivo: este año basta con mover una cosa.", "Powód: w tym roku wystarczy ruszyć jedno."),
-      loc(locale, "조언: 큰 결정은 한 박자 쉬고 하세요.", "Consejo: pause un tiempo antes de lo grande.", "Rada: zaczekaj chwilę przed wielką decyzją."),
+      loc(
+        locale,
+        `결론: ${josa(seun ? seunKeyword(seun, locale) : "올해 흐름", "을/를")} 한 가지만 움직이세요.`,
+        `Conclusión: este año basta con mover ${seun ? seunKeyword(seun, locale) : "el ritmo"}.`,
+        `Wniosek: w tym roku wystarczy ruszyć ${seun ? seunKeyword(seun, locale) : "rytm"}.`,
+      ),
+      loc(
+        locale,
+        seun?.relationsWithNatal.length ? "이유: 판이 움직이는 해라, 한 번에 다 바꾸면 몸이 먼저 반응해요." : "이유: 있는 판을 다지는 해라, 하나만 움직여도 충분해요.",
+        seun?.relationsWithNatal.length ? "Motivo: el tablero se mueve; si lo cambias todo, responde el cuerpo." : "Motivo: este año asienta lo que ya tienes; basta una cosa.",
+        seun?.relationsWithNatal.length ? "Powód: plansza się rusza; jak zmienisz wszystko, reaguje ciało." : "Powód: ten rok utrwala planszę; wystarczy jedno.",
+      ),
+      loc(locale, "조언: 큰 결정은 한 박자 쉬고 하세요.", "Consejo: espera un poco antes de lo grande.", "Rada: zaczekaj chwilę przed wielką decyzją."),
     ]),
     easyBullets: [],
     contrast: [
       pair(
         t.goodMonth,
         t.careMonth,
-        (ctx.yongsinKeys.length ? ctx.yongsinKeys : [yongKey]).slice(0, 3).map((key) => ({
+        (ctx.yongsinKeys.length ? ctx.yongsinKeys : [yongKey]).slice(0, 3).map((key, index) => ({
           label: monthAdvice([key], locale, true).replace(/^좋은 달:\s*/, "").replace(/^Meses buenos:\s*/, "").replace(/^Dobre miesiące:\s*/, ""),
-          why: loc(locale, "이달에는 작은 결정을 밀어 보세요.", "Este mes empuja una decisión chica.", "W tym miesiącu pchnij małą decyzję."),
+          why: [
+            loc(locale, "이달에는 작은 결정을 밀어 보세요.", "Este mes empuja una decisión chica.", "W tym miesiącu pchnij małą decyzję."),
+            loc(locale, "이달에는 사람을 먼저 만나 보세요.", "Este mes ve primero a la gente.", "W tym miesiącu najpierw spotkaj ludzi."),
+            loc(locale, "이달에는 정산을 한 줄로 닫아 보세요.", "Este mes cierra una liquidación.", "W tym miesiącu domknij jedno rozliczenie."),
+          ][index] ?? loc(locale, "이달에는 작은 결정을 밀어 보세요.", "Este mes empuja una decisión chica.", "W tym miesiącu pchnij małą decyzję."),
         })),
         (ctx.gisinKeys.length ? ctx.gisinKeys : [ctx.pressure]).slice(0, 3).map((key) => ({
           label: monthAdvice([key], locale, false).replace(/^조심할 달:\s*/, "").replace(/^Meses de cuidado:\s*/, "").replace(/^Miesiące ostrożności:\s*/, ""),
@@ -570,7 +610,7 @@ export function assembleThemeCards(
     easy: clean([
       loc(locale, `결론: ${fashion.style}.`, `Conclusión: ${fashion.style}.`, `Wniosek: ${fashion.style}.`),
       loc(locale, `이유: ${openAt(3)}`, `Motivo: ${openAt(3)}`, `Powód: ${openAt(3)}`),
-      loc(locale, `조언: ${josa(fashion.color, "을/를")} 포인트로만 쓰세요.`, `Consejo: usa ${fashion.color} solo de acento.`, `Rada: ${fashion.color} tylko jako akcent.`),
+      loc(locale, `조언: ${josa(fashion.color.replace(/\s*포인트$/, ""), "을/를")} 옷에 조금만 넣으세요.`, `Consejo: pon ${fashion.color} solo un poco en la ropa.`, `Rada: ${fashion.color} tylko trochę w ubraniu.`),
     ]),
     contrast: pair(
       loc(locale, "잘 맞는 스타일", "Estilo que te va", "Styl, który pasuje"),
@@ -673,9 +713,19 @@ export function assembleThemeCards(
     ]),
     frontTerms: terms(locale, [["용신", loc(locale, "용신", "yongsin", "yongsin")]]),
     frontBullets: [],
-    easyHeadline: loc(locale, "옷·밥·여행·음악·숫자를 한 장에서 고르면 돼요.", "Elige ropa, comida, viaje, música y número en una sola carta.", "Wybierz ubranie, jedzenie, podróż, muzykę i liczbę na jednej karcie."),
+    easyHeadline: loc(
+      locale,
+      `${josa(helpAction(yongKey, locale), "이/가")} 생활에서도 맞아요.`,
+      `${helpAction(yongKey, locale)} también te sienta en el día a día.`,
+      `${helpAction(yongKey, locale)} leży ci też na co dzień.`,
+    ),
     easy: clean([
-      loc(locale, "결론: 나를 편하게 하는 쪽을 탭으로 보면 돼요.", "Conclusión: mira en pestañas lo que te sienta.", "Wniosek: w kartach zobacz, co ci leży."),
+      loc(
+        locale,
+        `결론: ${josa(helpAction(yongKey, locale), "이/가")} 생활에서도 맞아요.`,
+        `Conclusión: ${helpAction(yongKey, locale)} también te sienta en el día.`,
+        `Wniosek: ${helpAction(yongKey, locale)} leży ci też na co dzień.`,
+      ),
       loc(locale, `이유: ${openAt(2)}`, `Motivo: ${openAt(2)}`, `Powód: ${openAt(2)}`),
       loc(locale, "조언: 재미로 고르고, 큰 결정은 따로 하세요.", "Consejo: elige de juego; lo grande, aparte.", "Rada: wybieraj dla zabawy; wielkie decyzje osobno."),
     ]),

@@ -119,26 +119,26 @@ const BRANCH_EASY: Record<string, Record<Locale, string>> = {
   },
 };
 
-const PILLAR_ROLE: Record<PillarKey, Record<Locale, { title: string; meaning: string }>> = {
+const PILLAR_ROLE: Record<PillarKey, Record<Locale, { title: string; easyTitle: string; meaning: string }>> = {
   year: {
-    ko: { title: "년주", meaning: "태어난 해예요. 집안과 어린 시절의 자리예요." },
-    es: { title: "Pilar del año", meaning: "Es el año de nacimiento. Habla de la casa y de la infancia." },
-    pl: { title: "Filar roku", meaning: "To rok urodzenia. Mówi o domu i dzieciństwie." },
+    ko: { title: "년주", easyTitle: "태어난 해", meaning: "태어난 해예요. 집안과 어린 시절의 자리예요." },
+    es: { title: "Pilar del año", easyTitle: "Año de nacimiento", meaning: "Es el año de nacimiento. Habla de la casa y de la infancia." },
+    pl: { title: "Filar roku", easyTitle: "Rok urodzenia", meaning: "To rok urodzenia. Mówi o domu i dzieciństwie." },
   },
   month: {
-    ko: { title: "월주", meaning: "태어난 달이에요. 사회생활과 타고난 힘의 자리예요." },
-    es: { title: "Pilar del mes", meaning: "Es el mes de nacimiento. Habla de la vida social y de la fuerza innata." },
-    pl: { title: "Filar miesiąca", meaning: "To miesiąc urodzenia. Mówi o życiu społecznym i wrodzonej sile." },
+    ko: { title: "월주", easyTitle: "태어난 달", meaning: "태어난 달이에요. 사회생활과 타고난 힘의 자리예요." },
+    es: { title: "Pilar del mes", easyTitle: "Mes de nacimiento", meaning: "Es el mes de nacimiento. Habla de la vida social y de la fuerza innata." },
+    pl: { title: "Filar miesiąca", easyTitle: "Miesiąc urodzenia", meaning: "To miesiąc urodzenia. Mówi o życiu społecznym i wrodzonej sile." },
   },
   day: {
-    ko: { title: "일주", meaning: "태어난 날이에요. 나 자신과 배우자 자리예요." },
-    es: { title: "Pilar del día", meaning: "Es el día de nacimiento. Habla de ti y del lugar de pareja." },
-    pl: { title: "Filar dnia", meaning: "To dzień urodzenia. Mówi o tobie i o miejscu partnera." },
+    ko: { title: "일주", easyTitle: "태어난 날", meaning: "태어난 날이에요. 나 자신과 배우자 자리예요." },
+    es: { title: "Pilar del día", easyTitle: "Día de nacimiento", meaning: "Es el día de nacimiento. Habla de ti y del lugar de pareja." },
+    pl: { title: "Filar dnia", easyTitle: "Dzień urodzenia", meaning: "To dzień urodzenia. Mówi o tobie i o miejscu partnera." },
   },
   hour: {
-    ko: { title: "시주", meaning: "태어난 시간이에요. 노년·자녀·속마음의 자리예요." },
-    es: { title: "Pilar de la hora", meaning: "Es la hora de nacimiento. Habla de la vejez, los hijos y el fuero interno." },
-    pl: { title: "Filar godziny", meaning: "To godzina urodzenia. Mówi o późnych latach, dzieciach i tym, co w środku." },
+    ko: { title: "시주", easyTitle: "태어난 시간", meaning: "태어난 시간이에요. 노년·자녀·속마음의 자리예요." },
+    es: { title: "Pilar de la hora", easyTitle: "Hora de nacimiento", meaning: "Es la hora de nacimiento. Habla de la vejez, los hijos y el fuero interno." },
+    pl: { title: "Filar godziny", easyTitle: "Godzina urodzenia", meaning: "To godzina urodzenia. Mówi o późnych latach, dzieciach i tym, co w środku." },
   },
 };
 
@@ -178,7 +178,7 @@ export function branchEasy(zhi: string, locale: Locale): string {
   return BRANCH_EASY[zhi]?.[locale] ?? BRANCH_EASY["子"][locale];
 }
 
-export function pillarRole(key: PillarKey, locale: Locale): { title: string; meaning: string } {
+export function pillarRole(key: PillarKey, locale: Locale): { title: string; easyTitle: string; meaning: string } {
   return PILLAR_ROLE[key][locale];
 }
 
@@ -245,6 +245,7 @@ export function pillarEasyLines(pillar: Pillar, key: PillarKey, locale: Locale):
   const sky = SKY_GROUND[ganEl][locale].sky;
   const ground = SKY_GROUND[zhiEl][locale].ground;
   return [
+    role.easyTitle,
     role.meaning,
     stemEasy(pillar.gan, locale),
     branchEasy(pillar.zhi, locale),

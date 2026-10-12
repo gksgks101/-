@@ -659,27 +659,27 @@ const TRAVEL: Record<ElementKey, Record<Locale, { trips: [string, string][]; liv
 
 const MUSIC: Record<ElementKey, Record<Locale, { genre: string; mood: string; when: string }>> = {
   wood: {
-    ko: { genre: "어쿠스틱, 포크, 잔잔한 재즈", mood: "아침처럼 열리는 분위기", when: "공부·산책·기획할 때" },
+    ko: { genre: "어쿠스틱, 포크, 잔잔한 재즈", mood: "아침처럼 열리는 분위기가 맞아요.", when: "공부·산책·기획할 때" },
     es: { genre: "Acústico, folk, jazz suave", mood: "Como una mañana que se abre", when: "Estudiar, pasear, planear" },
     pl: { genre: "Akustyk, folk, łagodny jazz", mood: "Jak otwierający się poranek", when: "Nauka, spacer, planowanie" },
   },
   fire: {
-    ko: { genre: "소울, 라틴, 신나는 팝", mood: "자리를 밝히는 온기", when: "운동·모임·창작 워밍업" },
+    ko: { genre: "소울, 라틴, 신나는 팝", mood: "자리를 밝히는 온기가 맞아요.", when: "운동·모임·창작 워밍업" },
     es: { genre: "Soul, latino, pop alegre", mood: "Calor que ilumina el sitio", when: "Deporte, reunión, calentar la creación" },
     pl: { genre: "Soul, latino, radosny pop", mood: "Ciepło, które rozświetla miejsce", when: "Sport, spotkanie, rozgrzewka twórcza" },
   },
   earth: {
-    ko: { genre: "발라드, 클래식 현악, 로파이", mood: "발이 땅에 붙는 안정", when: "식사·휴식·정리할 때" },
+    ko: { genre: "발라드, 클래식 현악, 로파이", mood: "발이 땅에 붙는 안정이 맞아요.", when: "식사·휴식·정리할 때" },
     es: { genre: "Balada, cuerda clásica, lo-fi", mood: "Estabilidad con los pies en el suelo", when: "Comer, descansar, ordenar" },
     pl: { genre: "Ballada, smyczki klasyczne, lo-fi", mood: "Stabilność z nogami na ziemi", when: "Jedzenie, odpoczynek, porządki" },
   },
   metal: {
-    ko: { genre: "미니멀 피아노, 앰비언트, 바로크", mood: "선이 맑고 여백이 있는 소리", when: "집중 업무·마감·명상" },
+    ko: { genre: "미니멀 피아노, 앰비언트, 바로크", mood: "선이 맑고 여백이 있는 소리가 맞아요.", when: "집중 업무·마감·명상" },
     es: { genre: "Piano minimal, ambient, barroco", mood: "Línea nítida y aire", when: "Trabajo de foco, cierre, meditación" },
     pl: { genre: "Minimalne piano, ambient, barok", mood: "Czysta linia i oddech", when: "Praca w skupieniu, deadline, medytacja" },
   },
   water: {
-    ko: { genre: "드림팝, 잔잔한 일렉, 비 소리", mood: "밤에 흐르는 물", when: "잠들기 전·혼자 있는 아침" },
+    ko: { genre: "드림팝, 잔잔한 일렉, 비 소리", mood: "밤에 흐르는 물 같은 소리가 맞아요.", when: "잠들기 전·혼자 있는 아침" },
     es: { genre: "Dreampop, electrónica suave, lluvia", mood: "Agua que corre de noche", when: "Antes de dormir, mañana a solas" },
     pl: { genre: "Dreampop, łagodna elektronika, deszcz", mood: "Woda płynąca nocą", when: "Przed snem, samotny poranek" },
   },

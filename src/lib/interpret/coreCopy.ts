@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { STRENGTH_NAME, term } from "@/lib/i18n/terms";
 import type { ElementKey, SajuCalculation } from "@/lib/saju/types";
 import { seasonWord, stemNick } from "./glyphs";
+import { josa } from "@/lib/i18n/josa";
 import { helpAction, helpClause, ira } from "./plainVoice";
 import type { ContrastItem, ContrastPair } from "./themes";
 import { loc } from "./themeContext";
@@ -52,6 +53,7 @@ export function coreHeadline(calculation: SajuCalculation, locale: Locale): stri
   const season = seasonWord(calculation.pillars.month.zhi, locale);
   const strong = calculation.strength.score >= 55;
   const help = helpClause(keysOf(calculation.useGod.yongsin), locale);
+  const bornPl = calculation.birth.gender === "female" ? "Urodziłaś się" : "Urodziłeś się";
   if (locale === "es") {
     return strong
       ? `Naciste en ${season} como un ${nick} con fuerza de sobra. ${help} la carta se abre.`
@@ -59,8 +61,8 @@ export function coreHeadline(calculation: SajuCalculation, locale: Locale): stri
   }
   if (locale === "pl") {
     return strong
-      ? `Urodziłeś się ${season} jak ${nick} z zapasem siły. ${help} wszystko się otwiera.`
-      : `Urodziłeś się ${season} jak ${nick}, który potrzebuje osłony. ${help} siły starczy.`;
+      ? `${bornPl} ${season} jak ${nick} z zapasem siły. ${help} wszystko się otwiera.`
+      : `${bornPl} ${season} jak ${nick}, który potrzebuje osłony. ${help} siły starczy.`;
   }
   const force = strong ? "힘이 충분해요" : "주변의 도움이 힘이 돼요";
   const action = keysOf(calculation.useGod.yongsin).length
@@ -94,18 +96,18 @@ export function coreContrast(calculation: SajuCalculation, locale: Locale): Cont
       label: helpAction(key, locale),
       why: loc(
         locale,
-        "나를 가장 돕는 흐름이에요. 이쪽을 가까이 두면 숨이 트여요.",
-        "Es lo que más te ayuda. Si lo acercas, respiras.",
-        "To najbardziej ci pomaga. Jak zbliżysz, łapiesz oddech.",
+        `${josa(helpAction(key, locale), "을/를")} 가까이 두면 숨이 트여요.`,
+        `Si acercas ${helpAction(key, locale)}, respiras.`,
+        `Jak zbliżysz ${helpAction(key, locale)}, łapiesz oddech.`,
       ),
     })),
     ...hee.map((key) => ({
       label: helpAction(key, locale),
       why: loc(
         locale,
-        "적당히 있으면 도움이 돼요. 과하게 쥐지 마세요.",
-        "Ayuda si no se pasa. No lo agarres de más.",
-        "Pomaga, gdy nie przesadza. Nie chwytaj za dużo.",
+        `${josa(helpAction(key, locale), "은/는")} 적당히 있으면 도움이 돼요.`,
+        `${helpAction(key, locale)} ayuda si no se pasa.`,
+        `${helpAction(key, locale)} pomaga, gdy nie przesadza.`,
       ),
     })),
     {
@@ -127,9 +129,9 @@ export function coreContrast(calculation: SajuCalculation, locale: Locale): Cont
       label: helpAction(key, locale),
       why: loc(
         locale,
-        "이미 충분해요. 더 많아지면 고집이 세지거나 생각이 많아져요.",
-        "Ya está de más. Si crece, aparece terquedad o exceso de pensamiento.",
-        "Już wystarcza. Jak przybędzie, rośnie upór albo nadmiar myśli.",
+        `${josa(helpAction(key, locale), "이/가")} 더 많아지면 고집이 세져요.`,
+        `Si crece ${helpAction(key, locale)}, aparece terquedad.`,
+        `Jak przybędzie ${helpAction(key, locale)}, rośnie upór.`,
       ),
     })),
     {

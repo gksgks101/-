@@ -35,12 +35,10 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): st
 
 export function sharePosterCopy(calculation: SajuCalculation, locale: Locale, themes: ThemeCardData[]): string[] {
   const summary = buildResultSummary(calculation, locale);
-  return [
-    youAreLine(summary.typeName, locale),
-    coreHeadline(calculation, locale),
-    stemEasyLine(calculation.dayMaster.gan, locale),
-    themes[0]?.easyHeadline ?? "",
-  ];
+  const typeLine = youAreLine(summary.typeName, locale);
+  const headline = coreHeadline(calculation, locale);
+  const stemLine = stemEasyLine(calculation.dayMaster.gan, locale);
+  return [typeLine, headline, stemLine === typeLine ? "" : stemLine].filter(Boolean);
 }
 
 export async function renderSharePoster(

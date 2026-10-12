@@ -12,14 +12,13 @@ function isPlaceholderHost(url: string): boolean {
   return /saju\.app$/i.test(url.replace(/^https?:\/\//, "").replace(/\/$/, ""));
 }
 
-function resolveSiteUrl(): string {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
-  const vercel = process.env.VERCEL_URL?.trim();
-  if (explicit && !isPlaceholderHost(explicit)) return withHttps(explicit);
-  if (vercelProd) return withHttps(vercelProd);
-  if (vercel) return withHttps(vercel);
-  return withHttps(explicit || "https://saju.app");
+export function resolveSiteUrl(env: NodeJS.ProcessEnv = process.env): string {
+  const candidates = [env.NEXT_PUBLIC_SITE_URL, env.VERCEL_PROJECT_PRODUCTION_URL, env.VERCEL_URL];
+  for (const raw of candidates) {
+    const trimmed = raw?.trim();
+    if (trimmed && !isPlaceholderHost(trimmed)) return withHttps(trimmed);
+  }
+  return "https://pi-lilac-36.vercel.app";
 }
 
 export const SITE_URL = resolveSiteUrl();

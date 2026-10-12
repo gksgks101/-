@@ -32,12 +32,15 @@ function EasyBody({
   theme: ThemeCardData;
   tab?: LifestyleTab;
 }) {
-  const headline = tab ? tab.easy[0] ?? theme.easyHeadline : theme.easyHeadline;
   const lines = tab ? tab.easy : theme.easy;
   const contrast = tab?.contrast ? [tab.contrast] : theme.contrast;
+  const first = lines[0] ?? "";
+  const hasLabeledLead = /^(결론|Conclusión|Wniosek)/.test(first);
   return (
     <>
-      <p className="mb-4 text-xl font-semibold leading-8 text-[var(--ink)]">{tab ? theme.easyHeadline : headline}</p>
+      {!tab && !hasLabeledLead && (
+        <p className="mb-4 text-xl font-semibold leading-8 text-[var(--ink)]">{theme.easyHeadline}</p>
+      )}
       {lines.map((line, index) => (
         <p key={`${index}-${line.slice(0, 20)}`} className="mb-3 text-[17px] leading-7 text-[var(--ink)]">
           {index === 0 ? <strong>{line}</strong> : line}
@@ -160,9 +163,7 @@ export function ThemeFlipCard({
               </div>
             )}
             <EasyBody theme={theme} tab={currentTab} />
-            {theme.disclaimer && <p className="mt-auto pt-4 text-xs leading-6 text-[var(--dancheong)]">{theme.disclaimer}</p>}
-            <ColorRow title={msg(locale, "luckyColors")} items={theme.luckyColors ?? []} />
-            <ColorRow title={msg(locale, "avoidColors")} items={theme.avoidColors ?? []} />
+            {theme.disclaimer && <p className="mt-auto pt-4 text-sm leading-6 text-[var(--dancheong)]">{theme.disclaimer}</p>}
           </div>
         </div>
       </div>

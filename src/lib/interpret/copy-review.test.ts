@@ -89,6 +89,7 @@ describe("테스트 생일 카피", () => {
           ...card.easy,
           ...(card.easySections ?? []).flatMap((item) => item.items),
           ...(card.contrast ?? []).flatMap((block) => [...block.good, ...block.caution].map((item) => item.why)),
+          ...(card.lifestyleTabs ?? []).flatMap((tab) => tab.easy),
         ];
         for (const line of blobs) {
           const key = line.replace(/\s+/g, " ").trim();
@@ -115,7 +116,14 @@ describe("테스트 생일 카피", () => {
     const blob = easyLines(sample, "ko").join("\n");
     expect(blob).not.toMatch(/화을|수과|목과/);
     expect(coreHeadline(sample, "ko")).toContain("매화라");
+    expect(blob).toContain("태어난 해");
+    expect(blob).not.toMatch(/(^|[^가-힣])년주([^가-힣]|$)/);
     expect(cards.find((item) => item.id === "lifestyle")?.lifestyleTabs).toHaveLength(5);
+  });
+
+  it("생일 10개의 뒷면 전체가 서로 다르다", () => {
+    const blobs = BIRTHS.map((birth) => easyLines(calculateSaju(birth), "ko").join("\n"));
+    expect(new Set(blobs).size).toBe(10);
   });
 });
 
